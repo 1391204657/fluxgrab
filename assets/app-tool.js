@@ -119,7 +119,8 @@
           '<div class="yt-thumb"><img src="' + esc(thumb) + '" alt="video thumbnail" onerror="this.style.display=\'none\'"/><span class="yt-badge">✓ 已找到视频</span></div>' +
           '<div class="yt-meta">' +
             (title ? '<div class="yt-title">' + esc(title) + '</div>' : '') +
-            '<div class="yt-quals"><span>360p</span><span>720p</span><span class="pro">1080p</span><span class="pro">1440p</span><span class="pro">4K</span></div>' +
+            '<div class="yt-quals-label">🖥️ 桌面版可下载：</div>' +
+            '<div class="yt-quals"><span>720p<i>免费版</i></span><span class="pro">1080p<i>专业版</i></span><span class="pro">1440p<i>专业版</i></span><span class="pro">4K<i>专业版</i></span></div>' +
           '</div>' +
         '</div>' +
         '<p class="yt-reason">YouTube 高清采用<strong>音视频分离(DASH)</strong>传输,需在本地用 FluxGrab <strong>完美合成</strong>为无损 4K 文件。<br>为保证画质与隐私,请用桌面版下载。<strong>免费版每天 2 次</strong>,专业版无限制。</p>' +

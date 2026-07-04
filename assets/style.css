@@ -241,9 +241,12 @@ footer.site { border-top: 1px solid var(--line); padding: 46px 0 60px; color: va
 .yt-badge { position: absolute; top: 8px; left: 8px; background: rgba(11,15,30,.82); color: var(--ok); font-size: 12px; font-weight: 700; padding: 4px 9px; border-radius: 999px; }
 .yt-meta { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 12px; min-width: 0; }
 .yt-title { font-size: 17px; font-weight: 700; line-height: 1.35; }
+.yt-quals-label { font-size: 13px; color: var(--muted); }
 .yt-quals { display: flex; gap: 8px; flex-wrap: wrap; }
-.yt-quals span { font-size: 13px; font-weight: 600; padding: 5px 11px; border-radius: 8px; border: 1px solid var(--line); background: #10162c; color: var(--muted); }
+.yt-quals span { display: inline-flex; flex-direction: column; align-items: center; gap: 1px; font-size: 14px; font-weight: 700; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--line); background: #10162c; color: var(--text); }
+.yt-quals span i { font-style: normal; font-size: 10px; font-weight: 600; color: var(--muted); }
 .yt-quals span.pro { border-color: rgba(168,85,247,.55); color: #d8b4fe; }
+.yt-quals span.pro i { color: #b98fe0; }
 .yt-reason { color: var(--muted); font-size: 14px; margin: 0 0 18px; }
 @media (max-width: 560px) {
   .yt-card { flex-direction: column; }
