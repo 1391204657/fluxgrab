@@ -6,9 +6,13 @@
  *   DOWNLOAD_WIN_URL—— Windows 安装包下载地址（如 GitHub Releases）
  */
 window.FLUXGRAB_CONFIG = {
-  WEB_APP_URL: "#",          // e.g. "https://app.fluxgrab.com"
+  WEB_APP_URL: "app.html",   // 在线下载页（X/TikTok/IG）
   BUY_URL: "#",              // e.g. "https://fluxgrab.lemonsqueezy.com/buy/xxxx"
   DOWNLOAD_WIN_URL: "#",     // e.g. "https://github.com/<you>/fluxgrab/releases/latest"
+
+  // 在线解析后端（部署 cobalt 后填它的地址，例如 "https://api.fluxgrab.com/")。
+  // 留空时，X/TikTok/IG 会显示“在线解析即将上线”，其余流程照常演示。
+  COBALT_API_URL: "",
 };
 
 (function () {

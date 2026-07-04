@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FluxGrab — 在线下载 (X / TikTok / Instagram)</title>
+  <meta name="description" content="粘贴 X (Twitter)、TikTok、Instagram 链接，在线免费下载视频。YouTube 与更高清晰度请使用桌面版。" />
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="/">
+        <img class="logo" src="assets/logo.svg" alt="FluxGrab logo" />
+        <span>Flux<b>Grab</b></span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html#features">功能</a>
+        <a href="index.html#pricing">价格</a>
+        <a href="index.html#faq">FAQ</a>
+      </nav>
+      <div class="nav-cta">
+        <a class="btn btn-primary" href="index.html#download">获取桌面版</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="tool-hero">
+      <div class="container">
+        <span class="badge"><span class="dot"></span> 免费在线下载 · 支持 X / TikTok / Instagram</span>
+        <h1>粘贴链接，<span class="grad">立即下载</span></h1>
+        <p class="lead">支持 X (Twitter)、TikTok、Instagram 等平台的视频在线下载。YouTube、成人站及 1080p/4K 请使用更快、更稳的桌面版。</p>
+
+        <div class="tool">
+          <div class="tool-input">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
+            <input id="url" type="text" placeholder="粘贴 X / TikTok / Instagram 视频链接…" autocomplete="off" spellcheck="false" />
+            <button id="clearBtn" type="button" aria-label="清除" title="清除">×</button>
+          </div>
+          <button id="goBtn" class="btn btn-primary btn-lg" type="button">下载</button>
+        </div>
+        <div id="platformHint" class="platform-hint"></div>
+
+        <div id="result" class="result" hidden></div>
+
+        <div class="tool-note">
+          仅用于下载你<strong>拥有或已获授权</strong>的内容。请遵守各平台服务条款与版权法。
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site">
+    <div class="container">
+      <div class="foot-bottom" style="border:0;margin:0;padding:0">
+        <span>© <span id="year">2026</span> FluxGrab</span>
+        <span><a href="index.html">返回首页</a> · <a href="terms.html">条款</a> · <a href="privacy.html">隐私</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/app.js"></script>
+  <script src="assets/app-tool.js"></script>
+</body>
+</html>
