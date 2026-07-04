@@ -10,9 +10,8 @@ window.FLUXGRAB_CONFIG = {
   BUY_URL: "#",              // e.g. "https://fluxgrab.lemonsqueezy.com/buy/xxxx"
   DOWNLOAD_WIN_URL: "#",     // e.g. "https://github.com/<you>/fluxgrab/releases/latest"
 
-  // 在线解析后端（部署 cobalt 后填它的地址，例如 "https://api.fluxgrab.com/")。
-  // 留空时，X/TikTok/IG 会显示“在线解析即将上线”，其余流程照常演示。
-  COBALT_API_URL: "",
+  // 在线解析后端（cobalt 实例）。
+  COBALT_API_URL: "https://api.fluxgrab.com/",
 };
 
 (function () {
