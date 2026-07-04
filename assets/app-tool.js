@@ -18,6 +18,8 @@
   var result = document.getElementById("result");
 
   // 平台识别：host 关键字 -> 分类
+  // 在线解析“白名单”：只有这些明确、安全的主流平台会发到我们的服务器解析。
+  // 其余任何站点（含成人站、未知站）一律走桌面版提示，服务器永不触碰。
   var ONLINE = [
     { k: ["twitter.com", "x.com", "t.co"], name: "X (Twitter)" },
     { k: ["tiktok.com"], name: "TikTok" },
@@ -26,7 +28,13 @@
     { k: ["reddit.com", "redd.it"], name: "Reddit" },
     { k: ["twitch.tv"], name: "Twitch" },
     { k: ["tumblr.com"], name: "Tumblr" },
-    { k: ["vimeo.com"], name: "Vimeo" }
+    { k: ["vimeo.com"], name: "Vimeo" },
+    { k: ["dailymotion.com", "dai.ly"], name: "Dailymotion" },
+    { k: ["streamable.com"], name: "Streamable" },
+    { k: ["soundcloud.com"], name: "SoundCloud" },
+    { k: ["bsky.app"], name: "Bluesky" },
+    { k: ["snapchat.com"], name: "Snapchat" },
+    { k: ["pinterest.com", "pin.it"], name: "Pinterest" }
   ];
   var DESKTOP = [
     { k: ["youtube.com", "youtu.be"], name: "YouTube" },
@@ -76,8 +84,8 @@
       hint.textContent = "请输入有效的视频链接";
       hint.className = "platform-hint warn";
     } else {
-      hint.textContent = "未知平台，会尝试在线解析";
-      hint.className = "platform-hint";
+      hint.textContent = "此站点需用桌面版下载";
+      hint.className = "platform-hint warn";
     }
   }
 
@@ -217,12 +225,10 @@
     if (!u) { urlInput.focus(); return; }
     var c = classify(u);
     if (c.type === "invalid") { showError("请输入有效的视频链接"); return; }
-    if (c.type === "desktop") {
-      if (ytId(u)) { showYouTubePreview(u); }
-      else { showDesktopGate(c.name); }
-      return;
-    }
-    parseOnline(u, c.name || "链接");
+    // 只有白名单内的平台走在线解析；其余（含成人站、未知站）一律走桌面版。
+    if (c.type === "online") { parseOnline(u, c.name || "链接"); return; }
+    if (ytId(u)) { showYouTubePreview(u); return; }
+    showDesktopGate(c.name && c.type === "desktop" ? c.name : "该站点");
   }
 
   urlInput.addEventListener("input", setHint);
