@@ -39,6 +39,12 @@
     catch (e) { return ""; }
   }
 
+  // 从各种 YouTube 链接里抠出 11 位视频 ID
+  function ytId(u) {
+    var m = u.match(/(?:youtu\.be\/|[?&]v=|\/shorts\/|\/embed\/|\/live\/)([\w-]{11})/);
+    return m ? m[1] : "";
+  }
+
   function classify(u) {
     var host = hostOf(u);
     if (!host) return { type: "invalid" };
@@ -96,6 +102,40 @@
     result.hidden = false;
     result.className = "result loading";
     result.innerHTML = '<div class="spinner"></div><p>正在解析 ' + esc(name || "链接") + '…</p>';
+  }
+
+  // YouTube：真实预览（缩略图 + 标题）+ 诚实的“用桌面版做 4K 完美合成”引导
+  function showYouTubePreview(u) {
+    var id = ytId(u);
+    var dl = (cfg.DOWNLOAD_WIN_URL && cfg.DOWNLOAD_WIN_URL !== "#") ? cfg.DOWNLOAD_WIN_URL : "index.html#download";
+    showLoading("YouTube 视频");
+
+    function render(title) {
+      result.hidden = false;
+      result.className = "result gate yt";
+      var thumb = "https://i.ytimg.com/vi/" + id + "/hqdefault.jpg";
+      result.innerHTML =
+        '<div class="yt-card">' +
+          '<div class="yt-thumb"><img src="' + esc(thumb) + '" alt="video thumbnail" onerror="this.style.display=\'none\'"/><span class="yt-badge">✓ 已找到视频</span></div>' +
+          '<div class="yt-meta">' +
+            (title ? '<div class="yt-title">' + esc(title) + '</div>' : '') +
+            '<div class="yt-quals"><span>360p</span><span>720p</span><span class="pro">1080p</span><span class="pro">1440p</span><span class="pro">4K</span></div>' +
+          '</div>' +
+        '</div>' +
+        '<p class="yt-reason">YouTube 高清采用<strong>音视频分离(DASH)</strong>传输,需在本地用 FluxGrab <strong>完美合成</strong>为无损 4K 文件。<br>为保证画质与隐私,请用桌面版下载。<strong>免费版每天 2 次</strong>,专业版无限制。</p>' +
+        '<div class="gate-actions">' +
+          '<a class="btn btn-primary btn-lg" href="' + dl + '">⬇ 用桌面版下载(最高 4K)</a>' +
+          '<a class="btn btn-ghost btn-lg" href="index.html#pricing">查看价格</a>' +
+        '</div>';
+    }
+
+    // 缩略图用 <img> 直接显示（无跨域限制）；标题尝试 oEmbed，失败则仅显示缩略图
+    var done = false;
+    var timer = setTimeout(function () { if (!done) { done = true; render(""); } }, 2500);
+    fetch("https://www.youtube.com/oembed?format=json&url=" + encodeURIComponent(u))
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (!done) { done = true; clearTimeout(timer); render(d && d.title ? d.title : ""); } })
+      .catch(function () { if (!done) { done = true; clearTimeout(timer); render(""); } });
   }
 
   function showError(msg) {
@@ -176,7 +216,11 @@
     if (!u) { urlInput.focus(); return; }
     var c = classify(u);
     if (c.type === "invalid") { showError("请输入有效的视频链接"); return; }
-    if (c.type === "desktop") { showDesktopGate(c.name); return; }
+    if (c.type === "desktop") {
+      if (ytId(u)) { showYouTubePreview(u); }
+      else { showDesktopGate(c.name); }
+      return;
+    }
     parseOnline(u, c.name || "链接");
   }
 
