@@ -7,7 +7,7 @@
  */
 window.FLUXGRAB_CONFIG = {
   WEB_APP_URL: "app.html",   // 在线下载页（X/TikTok/IG）
-  BUY_URL: "#",              // e.g. "https://fluxgrab.lemonsqueezy.com/buy/xxxx"
+  BUY_URL: "https://buy.stripe.com/6oU9AUb9Z1DRd0U5dv0x201",
   DOWNLOAD_WIN_URL: "#",     // e.g. "https://github.com/<you>/fluxgrab/releases/latest"
 
   // 在线解析后端（cobalt 实例）。
