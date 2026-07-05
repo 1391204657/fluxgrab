@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" font-family="Segoe UI, Inter, system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b0f1e"/>
+      <stop offset="1" stop-color="#141a30"/>
+    </linearGradient>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="0.5" stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#a855f7"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1050" cy="90" r="360" fill="#6366f1" opacity="0.12"/>
+  <circle cx="120" cy="560" r="300" fill="#22d3ee" opacity="0.10"/>
+  <g transform="translate(90,150)">
+    <rect x="0" y="0" width="96" height="96" rx="22" fill="url(#brand)"/>
+    <path d="M48 24 V60 M30 46 L48 64 L66 46 M28 76 H68" stroke="#0b0f1e" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="120" y="70" font-size="70" font-weight="800" fill="#e9edff">Flux<tspan fill="url(#brand)">Grab</tspan></text>
+  </g>
+  <text x="90" y="360" font-size="66" font-weight="800" fill="#e9edff">Download videos in one click.</text>
+  <text x="90" y="430" font-size="34" fill="#97a0c2">TikTok · X (Twitter) · Instagram · 1,000+ sites</text>
+  <text x="90" y="480" font-size="34" fill="#97a0c2">Up to 4K · MP3 · Windows &amp; macOS</text>
+  <text x="90" y="580" font-size="28" fill="#22d3ee" font-weight="700">fluxgrab.com</text>
+</svg>

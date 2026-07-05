@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fluxgrab.com/sitemap.xml
