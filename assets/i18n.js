@@ -45,6 +45,12 @@ window.FluxGrabI18n = (function () {
       "faq.a1": "The tool is legal. Only download content you have the right to keep.",
       "faq.q2": "YouTube / 4K?",
       "faq.a2": "Use the desktop app — free tier 2/day, Pro unlimited.",
+      "faq.q3": "Is FluxGrab free?",
+      "faq.a3": "Yes. Online downloads and the desktop app include a free tier (2 downloads/day, up to 720p). Pro is a one-time $19.9 upgrade for unlimited 4K.",
+      "faq.q4": "TikTok without watermark?",
+      "faq.a4": "Paste a TikTok link on this page to download the best available MP4. Quality depends on what the platform provides.",
+      "foot.downloaders": "Downloaders",
+      "foot.guides": "Guides",
       "tool.hint.online": "✓ Online download: {name}",
       "tool.hint.desktop": "{name} requires the desktop app (faster & more stable)",
       "tool.hint.invalid": "Please enter a valid video link",
@@ -120,6 +126,12 @@ window.FluxGrabI18n = (function () {
       "faq.a1": "工具本身合法，请只下载你有权保存的内容。",
       "faq.q2": "YouTube / 4K？",
       "faq.a2": "请用桌面版 — 免费版每天 2 次，Pro 无限制。",
+      "faq.q3": "FluxGrab 免费吗？",
+      "faq.a3": "是的。在线下载和桌面版都有免费额度（每天 2 次、最高 720p）。Pro 一次性 $19.9 可无限 4K 下载。",
+      "faq.q4": "TikTok 无水印下载？",
+      "faq.a4": "在本页粘贴 TikTok 链接即可下载最佳可用 MP4，清晰度取决于平台提供的源。",
+      "foot.downloaders": "下载工具",
+      "foot.guides": "使用指南",
       "tool.hint.online": "✓ 支持在线下载：{name}",
       "tool.hint.desktop": "{name} 需要桌面版下载（更快更稳）",
       "tool.hint.invalid": "请输入有效的视频链接",
@@ -195,6 +207,12 @@ window.FluxGrabI18n = (function () {
       "faq.a1": "工具本身合法，請只下載你有權保存的內容。",
       "faq.q2": "YouTube / 4K？",
       "faq.a2": "請用桌面版 — 免費版每天 2 次，Pro 無限制。",
+      "faq.q3": "FluxGrab 免費嗎？",
+      "faq.a3": "是的。線上下載與桌面版皆有免費額度（每天 2 次、最高 720p）。Pro 一次性 $19.9 可無限 4K。",
+      "faq.q4": "TikTok 無浮水印下載？",
+      "faq.a4": "在本頁貼上 TikTok 連結即可下載最佳可用 MP4，畫質取決於平台來源。",
+      "foot.downloaders": "下載工具",
+      "foot.guides": "使用指南",
       "tool.hint.online": "✓ 支援線上下載：{name}",
       "tool.hint.desktop": "{name} 需用桌面版下載（更快更穩）",
       "tool.hint.invalid": "請輸入有效的影片連結",
@@ -270,6 +288,12 @@ window.FluxGrabI18n = (function () {
       "faq.a1": "La herramienta es legal. Solo descarga contenido que tengas derecho a guardar.",
       "faq.q2": "¿YouTube / 4K?",
       "faq.a2": "Usa la app de escritorio — gratis 2/día, Pro ilimitado.",
+      "faq.q3": "¿FluxGrab es gratis?",
+      "faq.a3": "Sí. Descargas online y app de escritorio incluyen plan gratis (2/día, hasta 720p). Pro es pago único de $19.9 para 4K ilimitado.",
+      "faq.q4": "¿TikTok sin marca de agua?",
+      "faq.a4": "Pega un enlace de TikTok aquí para descargar el mejor MP4 disponible.",
+      "foot.downloaders": "Descargadores",
+      "foot.guides": "Guías",
       "tool.hint.online": "✓ Descarga online: {name}",
       "tool.hint.desktop": "{name} requiere la app de escritorio (más rápida y estable)",
       "tool.hint.invalid": "Introduce un enlace de video válido",
@@ -345,6 +369,12 @@ window.FluxGrabI18n = (function () {
       "faq.a1": "ツール自体は合法です。保存する権利があるコンテンツのみダウンロードしてください。",
       "faq.q2": "YouTube / 4K？",
       "faq.a2": "デスクトップ版をご利用ください — 無料版は1日2回、Pro は無制限。",
+      "faq.q3": "FluxGrab は無料ですか？",
+      "faq.a3": "はい。オンラインとデスクトップ版に無料枠（1日2回・720pまで）があります。Pro は $19.9 の買い切りで 4K 無制限。",
+      "faq.q4": "TikTok を透かしなしで？",
+      "faq.a4": "このページに TikTok リンクを貼ると、利用可能な最高画質の MP4 をダウンロードできます。",
+      "foot.downloaders": "ダウンローダー",
+      "foot.guides": "ガイド",
       "tool.hint.online": "✓ オンライン対応：{name}",
       "tool.hint.desktop": "{name} はデスクトップ版が必要です（より高速・安定）",
       "tool.hint.invalid": "有効な動画リンクを入力してください",
@@ -420,6 +450,12 @@ window.FluxGrabI18n = (function () {
       "faq.a1": "Das Tool ist legal. Lade nur Inhalte herunter, die du behalten darfst.",
       "faq.q2": "YouTube / 4K?",
       "faq.a2": "Nutze die Desktop-App — kostenlos 2/Tag, Pro unbegrenzt.",
+      "faq.q3": "Ist FluxGrab kostenlos?",
+      "faq.a3": "Ja. Online- und Desktop-Downloads haben ein Gratis-Kontingent (2/Tag, bis 720p). Pro kostet einmalig $19.9 für unbegrenzt 4K.",
+      "faq.q4": "TikTok ohne Wasserzeichen?",
+      "faq.a4": "Füge hier einen TikTok-Link ein, um das bestmögliche MP4 herunterzuladen.",
+      "foot.downloaders": "Downloader",
+      "foot.guides": "Anleitungen",
       "tool.hint.online": "✓ Online-Download: {name}",
       "tool.hint.desktop": "{name} erfordert die Desktop-App (schneller & stabiler)",
       "tool.hint.invalid": "Bitte gültigen Video-Link eingeben",
@@ -495,6 +531,12 @@ window.FluxGrabI18n = (function () {
       "faq.a1": "L'outil est légal. Ne téléchargez que le contenu que vous avez le droit de garder.",
       "faq.q2": "YouTube / 4K ?",
       "faq.a2": "Utilisez l'app bureau — gratuit 2/jour, Pro illimité.",
+      "faq.q3": "FluxGrab est-il gratuit ?",
+      "faq.a3": "Oui. Téléchargements en ligne et app bureau : offre gratuite (2/jour, 720p max). Pro à $19.9 une fois pour 4K illimité.",
+      "faq.q4": "TikTok sans filigrane ?",
+      "faq.a4": "Collez un lien TikTok ici pour télécharger le meilleur MP4 disponible.",
+      "foot.downloaders": "Téléchargeurs",
+      "foot.guides": "Guides",
       "tool.hint.online": "✓ Téléchargement en ligne : {name}",
       "tool.hint.desktop": "{name} nécessite l'app bureau (plus rapide et stable)",
       "tool.hint.invalid": "Entrez un lien vidéo valide",
@@ -570,6 +612,12 @@ window.FluxGrabI18n = (function () {
       "faq.a1": "A ferramenta é legal. Baixe apenas conteúdo que você tem direito de guardar.",
       "faq.q2": "YouTube / 4K?",
       "faq.a2": "Use o app desktop — grátis 2/dia, Pro ilimitado.",
+      "faq.q3": "O FluxGrab é grátis?",
+      "faq.a3": "Sim. Downloads online e app desktop têm plano grátis (2/dia, até 720p). Pro é pagamento único de $19.9 para 4K ilimitado.",
+      "faq.q4": "TikTok sem marca d'água?",
+      "faq.a4": "Cole um link do TikTok aqui para baixar o melhor MP4 disponível.",
+      "foot.downloaders": "Baixadores",
+      "foot.guides": "Guias",
       "tool.hint.online": "✓ Download online: {name}",
       "tool.hint.desktop": "{name} requer o app desktop (mais rápido e estável)",
       "tool.hint.invalid": "Digite um link de vídeo válido",
@@ -664,6 +712,10 @@ window.FluxGrabI18n = (function () {
     document.querySelectorAll("[data-i18n-placeholder]").forEach(function (el) {
       el.placeholder = t(lang, el.getAttribute("data-i18n-placeholder"));
     });
+    if (window.FluxGrabSEO && document.body.classList.contains("page-home-tool")) {
+      FluxGrabSEO.applyHomeMeta(lang);
+      FluxGrabSEO.syncUrlLang(lang);
+    }
     updateActiveLang(lang);
     document.dispatchEvent(new CustomEvent("fluxgrab:lang", { detail: { lang: lang } }));
   }
@@ -710,8 +762,10 @@ window.FluxGrabI18n = (function () {
 
   function init() {
     buildSelect();
+    var fromUrl = window.FluxGrabSEO && FluxGrabSEO.langFromUrl();
     var saved = localStorage.getItem(STORE);
-    apply(saved && T[saved] ? saved : guessLang());
+    var lang = fromUrl || (saved && T[saved] ? saved : guessLang());
+    apply(lang);
 
     var btn = document.getElementById("langBtn");
     var wrap = btn && btn.closest(".lang-icon-wrap");

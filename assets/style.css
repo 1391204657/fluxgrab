@@ -320,6 +320,46 @@ footer.site { border-top: 1px solid var(--line); padding: 46px 0 60px; color: va
   .yt-thumb { width: 100%; height: 180px; }
 }
 
+/* ---------- SEO pages & footer ---------- */
+.foot-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: 32px 0 16px;
+  border-top: 1px solid var(--line);
+}
+.foot-col { display: flex; flex-direction: column; gap: 8px; }
+.foot-col strong { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+.foot-col a { color: var(--muted); font-size: 14px; }
+.foot-col a:hover { color: var(--text); }
+.foot-bottom { border-top: 1px solid var(--line); padding: 20px 0 28px; color: var(--muted); font-size: 14px; }
+
+.seo-land .breadcrumb { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+.seo-land .breadcrumb a { color: var(--brand); }
+.seo-land .seo-lead { font-size: 18px; color: var(--muted); max-width: 640px; margin: 0 auto 28px; }
+.seo-steps { text-align: left; max-width: 520px; margin: 32px auto 0; padding: 0; }
+.seo-steps li { margin-bottom: 10px; color: var(--muted); }
+.seo-related { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 28px; }
+.seo-related a { font-size: 14px; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+.seo-related a:hover { color: var(--text); border-color: var(--brand); }
+.seo-faq { max-width: 720px; margin: 40px auto 0; text-align: left; }
+
+.guide-index { max-width: 720px; margin: 0 auto; padding: 48px 0; }
+.guide-index h1 { font-size: 36px; margin-bottom: 12px; }
+.guide-list { list-style: none; padding: 0; margin: 24px 0 0; }
+.guide-list li { margin-bottom: 16px; padding: 16px 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); }
+.guide-list a { font-weight: 600; font-size: 17px; }
+.guide-list p { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
+article.guide { max-width: 720px; margin: 0 auto; padding: 40px 0 64px; }
+article.guide h1 { font-size: 34px; line-height: 1.2; }
+article.guide h2 { font-size: 22px; margin-top: 32px; }
+article.guide p, article.guide li { color: var(--muted); }
+article.guide .updated { font-size: 14px; color: var(--muted); }
+
+@media (max-width: 860px) {
+  .foot-grid { grid-template-columns: 1fr; }
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 860px) {
   .nav-links { display: none; }

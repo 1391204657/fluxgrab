@@ -26,8 +26,8 @@ jobs:
       - name: Prepare static site
         run: |
           mkdir -p _site
-          cp -r assets _site/
-          cp index.html app.html terms.html privacy.html refund.html thanks.html _site/
+          cp -r assets guides _site/
+          cp *.html _site/
           cp CNAME .nojekyll robots.txt sitemap.xml _site/
 
       - name: Publish gh-pages branch (fallback)
@@ -52,18 +52,19 @@ jobs:
     steps:
       - uses: actions/deploy-pages@v4
         id: deployment
+        continue-on-error: true
         with:
           timeout: 900000
           error_count: 15
           reporting_interval: 10000
 
       - name: Wait before retry
-        if: failure() && steps.deployment.outcome == 'failure'
+        if: steps.deployment.outcome == 'failure'
         run: sleep 60
 
       - uses: actions/deploy-pages@v4
         id: deployment-retry
-        if: failure() && steps.deployment.outcome == 'failure'
+        if: steps.deployment.outcome == 'failure'
         with:
           timeout: 900000
           error_count: 15
