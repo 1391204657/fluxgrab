@@ -1,0 +1,4 @@
+# GitHub Pages: deploy static site only (API code is under server/)
+exclude:
+  - server
+  - README.md
