@@ -1,0 +1,42 @@
+services:
+  cobalt-api:
+    image: ghcr.io/imputnet/cobalt:11
+    init: true
+    read_only: true
+    restart: unless-stopped
+    container_name: cobalt-api
+    environment:
+      API_URL: "https://api.fluxgrab.com/"
+    networks: [web]
+
+  license-api:
+    build: ./license_server
+    restart: unless-stopped
+    container_name: license-api
+    environment:
+      LEMONSQUEEZY_API_KEY: ${LEMONSQUEEZY_API_KEY:-}
+      LEMONSQUEEZY_WEBHOOK_SECRET: ${LEMONSQUEEZY_WEBHOOK_SECRET:-}
+    networks: [web]
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    container_name: caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks: [web]
+    depends_on:
+      - cobalt-api
+      - license-api
+
+networks:
+  web:
+
+volumes:
+  caddy_data:
+  caddy_config:
