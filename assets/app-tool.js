@@ -222,12 +222,29 @@
     } catch (e) { return false; }
   }
 
-  function showReady(items) {
+  function showReady(items, preview) {
     track("parse_ok");
     result.hidden = false;
     result.className = "result ready";
+    preview = preview || {};
     var cross = items.some(function (it) { return isCrossOrigin(it.url); });
-    var html = '<h3>' + esc(L("tool.ready.title")) + '</h3><div class="dl-list">';
+    var html = "";
+    if (preview.thumb || preview.title) {
+      html +=
+        '<div class="yt-card preview-card">' +
+          '<div class="yt-thumb">' +
+            (preview.thumb
+              ? '<img src="' + esc(preview.thumb) + '" alt="" onerror="this.style.display=\'none\'"/>'
+              : "") +
+            '<span class="yt-badge">' + esc(L("tool.yt.found")) + '</span>' +
+          '</div>' +
+          '<div class="yt-meta">' +
+            (preview.title ? '<div class="yt-title">' + esc(preview.title) + '</div>' : '') +
+            (preview.source ? '<div class="yt-quals-label">' + esc(preview.source) + '</div>' : '') +
+          '</div>' +
+        '</div>';
+    }
+    html += '<h3>' + esc(L("tool.ready.title")) + '</h3><div class="dl-list">';
     items.forEach(function (it) {
       html += '<button class="dl-item" data-url="' + esc(it.url) + '" data-name="' + esc(it.filename || "") + '">' +
         '<span class="dl-q">' + esc(it.label || L("tool.dl.video")) + '</span>' +
@@ -244,6 +261,73 @@
     });
   }
 
+  function oembedEndpoint(pageUrl) {
+    var host = hostOf(pageUrl);
+    if (host.indexOf("tiktok.com") !== -1) {
+      return "https://www.tiktok.com/oembed?url=" + encodeURIComponent(pageUrl);
+    }
+    if (host.indexOf("vimeo.com") !== -1) {
+      return "https://vimeo.com/api/oembed.json?url=" + encodeURIComponent(pageUrl);
+    }
+    if (host.indexOf("dailymotion.com") !== -1 || host.indexOf("dai.ly") !== -1) {
+      return "https://www.dailymotion.com/services/oembed?url=" + encodeURIComponent(pageUrl);
+    }
+    if (host.indexOf("twitter.com") !== -1 || host.indexOf("x.com") !== -1) {
+      return "https://publish.twitter.com/oembed?url=" + encodeURIComponent(pageUrl);
+    }
+    if (host.indexOf("twitch.tv") !== -1) {
+      return "https://api.twitch.tv/v5/oembed?url=" + encodeURIComponent(pageUrl);
+    }
+    if (host.indexOf("soundcloud.com") !== -1) {
+      return "https://soundcloud.com/oembed?format=json&url=" + encodeURIComponent(pageUrl);
+    }
+    return null;
+  }
+
+  function normalizePreview(data) {
+    if (!data) return null;
+    var thumb = data.thumbnail_url || data.thumbnail_url_with_play_button || data.thumb || "";
+    var title = data.title || data.author_name || "";
+    if (!thumb && !title) return null;
+    return { title: title, thumb: thumb };
+  }
+
+  function fetchPreview(pageUrl, sourceName) {
+    var base = { source: sourceName || "" };
+    function noembed() {
+      return fetch("https://noembed.com/embed?url=" + encodeURIComponent(pageUrl))
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) {
+          if (!d || d.error) return null;
+          return normalizePreview(d);
+        })
+        .catch(function () { return null; });
+    }
+    var direct = oembedEndpoint(pageUrl);
+    var chain = direct
+      ? fetch(direct)
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(normalizePreview)
+          .catch(function () { return null; })
+      : Promise.resolve(null);
+    return chain.then(function (p) {
+      if (p && (p.thumb || p.title)) return Object.assign({}, base, p);
+      return noembed().then(function (n) { return n ? Object.assign({}, base, n) : base; });
+    });
+  }
+
+  function previewFromPicker(picker, preview) {
+    preview = preview || {};
+    if (preview.thumb) return preview;
+    if (!Array.isArray(picker)) return preview;
+    for (var i = 0; i < picker.length; i++) {
+      if (picker[i].thumb) {
+        return Object.assign({}, preview, { thumb: picker[i].thumb });
+      }
+    }
+    return preview;
+  }
+
   function parseOnline(u, name) {
     if (!API) {
       var dl = winDlUrl();
@@ -257,6 +341,7 @@
       return;
     }
     showLoading(name);
+    var previewPromise = fetchPreview(u, name);
     fetch(API, {
       method: "POST",
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
@@ -273,15 +358,23 @@
           showError((d && d.error && (d.error.code || d.error.text)) || "—");
           return;
         }
-        if (d.status === "tunnel" || d.status === "redirect") {
-          showReady([{ label: L("tool.dl.video"), url: d.url, filename: d.filename }]);
-        } else if (d.status === "picker" && Array.isArray(d.picker)) {
-          showReady(d.picker.map(function (p, i) {
-            return { label: (p.type || L("tool.file")) + " " + (i + 1), url: p.url, filename: p.filename };
-          }));
-        } else {
-          showError(L("tool.error.unknownType"));
-        }
+        previewPromise.then(function (preview) {
+          if (d.status === "tunnel" || d.status === "redirect") {
+            showReady([{ label: L("tool.dl.video"), url: d.url, filename: d.filename }], preview);
+          } else if (d.status === "picker" && Array.isArray(d.picker)) {
+            preview = previewFromPicker(d.picker, preview);
+            showReady(d.picker.map(function (p, i) {
+              return {
+                label: (p.type || L("tool.file")) + " " + (i + 1),
+                url: p.url,
+                filename: p.filename,
+                thumb: p.thumb
+              };
+            }), preview);
+          } else {
+            showError(L("tool.error.unknownType"));
+          }
+        });
       })
       .catch(function (e) { showError(e && e.message ? e.message : "network"); });
   }

@@ -390,6 +390,7 @@ body.pay-modal-open { overflow: hidden; }
 .result.err { border-color: #ef4444; }
 .result.err p { color: #fca5a5; margin: 0; }
 
+.result.ready .preview-card { margin-bottom: 18px; }
 .dl-list { display: grid; gap: 10px; }
 .dl-item {
   display: flex; flex-direction: column; gap: 2px; text-align: left;
