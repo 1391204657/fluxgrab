@@ -29,7 +29,10 @@ window.FLUXGRAB_CONFIG = {
     if (cfg.BUY_URL && cfg.BUY_URL !== "#") { a.href = cfg.BUY_URL; }
   });
   document.querySelectorAll("[data-download-win]").forEach(function (a) {
-    if (cfg.DOWNLOAD_WIN_URL && cfg.DOWNLOAD_WIN_URL !== "#") { a.href = cfg.DOWNLOAD_WIN_URL; }
+    if (cfg.DOWNLOAD_WIN_URL && cfg.DOWNLOAD_WIN_URL !== "#") {
+      a.href = cfg.DOWNLOAD_WIN_URL;
+      a.setAttribute("download", "FluxGrab-Windows.zip");
+    }
   });
 
   var y = document.getElementById("year");
