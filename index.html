@@ -4,304 +4,138 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FluxGrab — Download videos from TikTok, X, Instagram &amp; 1,000+ sites</title>
-  <meta name="description" content="FluxGrab is a fast, ad-free downloader for saving videos and audio you own or are licensed to keep — from TikTok, X (Twitter), Instagram and 1,000+ sites. Choose quality up to 4K, extract MP3, on Windows &amp; macOS." />
+  <meta name="description" content="Paste a link to download videos online from TikTok, X, Instagram and more. Free desktop app for YouTube, 4K and 1,000+ sites." />
   <link rel="canonical" href="https://fluxgrab.com/" />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#0b0f1e" />
   <meta property="og:site_name" content="FluxGrab" />
-  <meta property="og:title" content="FluxGrab — Fast, clean video &amp; media downloader" />
-  <meta property="og:description" content="Save the videos and audio you own or are licensed to keep. TikTok, X, Instagram &amp; 1,000+ sites. Up to 4K, MP3, Windows &amp; macOS." />
+  <meta property="og:title" content="FluxGrab — Video downloader" />
+  <meta property="og:description" content="Paste a link. Download from TikTok, X, Instagram and 1,000+ sites." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://fluxgrab.com/" />
   <meta property="og:image" content="https://fluxgrab.com/assets/og.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="FluxGrab — Fast, clean video &amp; media downloader" />
-  <meta name="twitter:description" content="Download videos from TikTok, X, Instagram &amp; 1,000+ sites. Up to 4K, MP3, Windows &amp; macOS." />
-  <meta name="twitter:image" content="https://fluxgrab.com/assets/og.png" />
   <link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="assets/style.css" />
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "FluxGrab",
-    "operatingSystem": "Windows, macOS",
-    "applicationCategory": "MultimediaApplication",
-    "url": "https://fluxgrab.com/",
-    "description": "Fast, ad-free downloader for saving videos and audio you own or are licensed to keep, from TikTok, X, Instagram and 1,000+ sites. Up to 4K and MP3 on Windows and macOS.",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What can I download with FluxGrab?",
-        "acceptedAnswer": { "@type": "Answer", "text": "FluxGrab is a general-purpose tool for saving media you own, created, or have explicit permission or a license to download — for example your own uploads, content released under permissive licenses, or files you're authorized to keep for offline use." }
-      },
-      {
-        "@type": "Question",
-        "name": "Which sites can I download videos from?",
-        "acceptedAnswer": { "@type": "Answer", "text": "FluxGrab works with 1,000+ sites. The free online downloader handles TikTok, X (Twitter), Instagram and other social platforms right in your browser, while the desktop app adds YouTube, high-quality 1080p/4K and many more sources — for media you own or are licensed to download." }
-      },
-      {
-        "@type": "Question",
-        "name": "Is this legal?",
-        "acceptedAnswer": { "@type": "Answer", "text": "The tool itself is legal. You are responsible for how you use it. Please only download content you have the right to, and always respect the terms of service of the sites you use and applicable copyright law." }
-      },
-      {
-        "@type": "Question",
-        "name": "Do I need an account?",
-        "acceptedAnswer": { "@type": "Answer", "text": "No. The free plan works without an account. A Pro license simply unlocks higher quality and batch features on your device." }
-      },
-      {
-        "@type": "Question",
-        "name": "Is Pro really one-time?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. $19.9 once, lifetime license with free updates. No recurring charges." }
-      },
-      {
-        "@type": "Question",
-        "name": "What's the difference between Free and Pro?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Free lets you save up to 720p, a couple of downloads a day, no account needed. Pro unlocks 1080p/4K, unlimited downloads, batch/playlist downloading and MP3 extraction — all running entirely on your own machine." }
-      },
-      {
-        "@type": "Question",
-        "name": "Can I get a refund?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. If FluxGrab doesn't work for you, contact us within the stated window for a refund. See our Refund Policy." }
-      }
-    ]
-  }
-  </script>
 </head>
-<body>
-  <header class="nav">
+<body class="page-home-tool">
+  <header class="nav nav-compact">
     <div class="container nav-inner">
       <a class="brand" href="/">
-        <img class="logo" src="assets/logo.svg" alt="FluxGrab logo" />
+        <img class="logo" src="assets/logo.svg" alt="FluxGrab" />
         <span>Flux<b>Grab</b></span>
       </a>
-      <nav class="nav-links">
+
+      <nav class="nav-links nav-mid">
         <a href="#features" data-i18n="nav.features">Features</a>
-        <a href="#how" data-i18n="nav.how">How it works</a>
         <a href="#pricing" data-i18n="nav.pricing">Pricing</a>
         <a href="#faq" data-i18n="nav.faq">FAQ</a>
       </nav>
+
       <div class="nav-cta">
-        <label class="lang-wrap" for="langSelect">
-          <select id="langSelect" class="lang-select" aria-label="Language"></select>
-        </label>
-        <a class="btn btn-primary" href="#" data-download-win data-i18n="nav.get">Get FluxGrab</a>
+        <div class="lang-icon-wrap">
+          <button type="button" class="lang-icon-btn" id="langBtn" aria-label="Language" aria-haspopup="listbox" aria-expanded="false" title="Language">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </button>
+          <ul id="langMenu" class="lang-menu" role="listbox" aria-label="Language"></ul>
+        </div>
+        <a class="btn btn-ghost btn-sm" href="#" data-download-win data-i18n="nav.win">Windows</a>
+        <a class="btn btn-ghost btn-sm" href="#" aria-disabled="true" data-i18n="nav.mac">macOS</a>
       </div>
     </div>
   </header>
 
   <main>
-    <!-- Hero -->
-    <section class="hero">
+    <section class="tool-hero tool-hero-compact">
       <div class="container">
-        <span class="badge"><span class="dot"></span> <span data-i18n="hero.badge">Works on Windows · macOS coming soon</span></span>
-        <h1><span data-i18n="hero.h1a">Save the videos you love,</span><br /><span class="grad" data-i18n="hero.h1b">in one click.</span></h1>
-        <p class="lead" data-i18n="hero.lead">
-          FluxGrab is a fast, ad-free video downloader for keeping offline copies of media
-          you own or are licensed to download — from TikTok, X (Twitter),
-          Instagram and 1,000+ sites.
-        </p>
-        <div class="hero-actions">
-          <a class="btn btn-primary btn-lg" href="#" data-download-win data-i18n="hero.download">Download for Windows</a>
-        </div>
-        <div class="subnote" data-i18n="hero.subnote">Free plan available · No account required to start · One-time Pro, no subscription</div>
+        <h1><span data-i18n="tool.h1a">Paste a link,</span> <span class="grad" data-i18n="tool.h1b">download instantly.</span></h1>
+        <p class="lead" data-i18n="tool.lead">TikTok, X, Instagram online · YouTube &amp; 4K via desktop app · 1,000+ sites</p>
 
-        <p class="mock-caption" data-i18n="hero.mockCaption">Desktop app preview</p>
-        <!-- Product mock -->
-        <div class="mock" aria-hidden="true">
-          <div class="mock-bar"><i></i><i></i><i></i></div>
-          <div class="mock-input">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
-            Paste a video link…
+        <div class="tool">
+          <div class="tool-input">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
+            <input id="url" type="text" data-i18n-placeholder="tool.placeholder" placeholder="Paste video link…" autocomplete="off" spellcheck="false" />
+            <button id="clearBtn" type="button" aria-label="Clear">×</button>
           </div>
-          <div class="mock-row">
-            <div class="chip"><span class="q">Download 480p</span><span class="s">28 MB · MP4</span></div>
-            <div class="chip"><span class="q">Download 720p</span><span class="s">61 MB · MP4</span></div>
-            <div class="chip pro"><span class="q">1080p · Pro</span><span class="s">142 MB · MP4</span></div>
-            <div class="chip pro"><span class="q">MP3 · Pro</span><span class="s">Audio only</span></div>
-          </div>
+          <button id="goBtn" class="btn btn-primary btn-lg" type="button" data-i18n="tool.go">Download</button>
+        </div>
+        <div id="platformHint" class="platform-hint"></div>
+        <div id="result" class="result" hidden></div>
+        <p class="tool-note" data-i18n="tool.note">For content you own or are licensed to keep. Respect copyright and platform terms.</p>
+        <aside id="vpnAd" class="vpn-ad" hidden></aside>
+
+        <aside class="ad-slot ad-slot-bottom" aria-label="Advertisement">
+          <span class="ad-label">Ad</span>
+          <span class="ad-mock" data-i18n="ad.bottom">728 × 90 banner — sponsor</span>
+        </aside>
+      </div>
+    </section>
+
+    <section id="features" class="section-compact">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow" data-i18n="nav.features">Features</span>
+          <h2 data-i18n="feat.h2">Everything you need</h2>
+        </div>
+        <div class="grid grid-compact">
+          <div class="feature"><h3 data-i18n="feat.f1">Fast &amp; reliable</h3><p data-i18n="feat.f1d">Best stream, merged to clean MP4.</p></div>
+          <div class="feature"><h3 data-i18n="feat.f2">Any quality</h3><p data-i18n="feat.f2d">480p to 4K on Pro.</p></div>
+          <div class="feature"><h3 data-i18n="feat.f3">Private</h3><p data-i18n="feat.f3d">Desktop downloads stay on your PC.</p></div>
         </div>
       </div>
     </section>
 
-    <!-- Features -->
-    <section id="features">
+    <section id="pricing" class="section-compact">
       <div class="container">
         <div class="section-head">
-          <span class="eyebrow">Features</span>
-          <h2>Everything you need, nothing you don't</h2>
-          <p>A clean tool that respects your time — no bundled adware, no pop-ups, no nonsense.</p>
-        </div>
-        <div class="grid">
-          <div class="feature">
-            <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg></div>
-            <h3>Fast &amp; reliable</h3>
-            <p>Grabs the best available stream and merges audio + video automatically into a clean MP4.</p>
-          </div>
-          <div class="feature">
-            <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 20h8"/></svg></div>
-            <h3>Pick any quality</h3>
-            <p>See every resolution with its file size up front — from 480p up to 1080p and 4K on Pro.</p>
-          </div>
-          <div class="feature">
-            <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
-            <h3>Extract audio (MP3)</h3>
-            <p>Save just the soundtrack as high-quality MP3 for podcasts, lectures and music you own.</p>
-          </div>
-          <div class="feature">
-            <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
-            <h3>Batch download <small>(Pro)</small></h3>
-            <p>Queue a whole list of links and let FluxGrab work through them while you do other things.</p>
-          </div>
-          <div class="feature">
-            <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
-            <h3>Cross-platform</h3>
-            <p>Native desktop app for Windows today, with macOS on the way — same clean experience everywhere.</p>
-          </div>
-          <div class="feature">
-            <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-            <h3>Private by design</h3>
-            <p>The desktop app downloads directly on your machine. We don't track your library or sell data.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- How it works -->
-    <section id="how">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">How it works</span>
-          <h2>Three steps to offline</h2>
-          <p>No sign-up, no learning curve.</p>
-        </div>
-        <div class="steps">
-          <div class="step"><div class="n">1</div><h3>Paste a link</h3><p>Copy the address of a video you own or are allowed to download, and paste it in.</p></div>
-          <div class="step"><div class="n">2</div><h3>Choose quality</h3><p>FluxGrab shows every resolution with its size. Tap the one you want.</p></div>
-          <div class="step"><div class="n">3</div><h3>Save &amp; enjoy</h3><p>It downloads and merges into a clean MP4 (or MP3). Watch anywhere, offline.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Pricing -->
-    <section id="pricing">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">Pricing</span>
-          <h2>Start free. Go Pro once.</h2>
-          <p>No subscriptions. Pay a single time for lifetime Pro.</p>
+          <span class="eyebrow" data-i18n="nav.pricing">Pricing</span>
+          <h2 data-i18n="price.h2">Start free. Go Pro once.</h2>
         </div>
         <div class="pricing">
           <div class="plan">
             <h3>Free</h3>
             <div class="price">$0</div>
-            <div class="price-sub">For casual, occasional saving</div>
             <ul>
-              <li><span class="ck">✓</span> Up to 2 downloads per day</li>
-              <li><span class="ck">✓</span> Up to 720p quality</li>
-              <li><span class="ck">✓</span> Windows desktop app</li>
-              <li><span class="ck">✓</span> No account required</li>
+              <li><span class="ck">✓</span> <span data-i18n="price.free1">2 downloads/day · 720p</span></li>
             </ul>
             <a class="btn btn-ghost" href="#" data-download-win data-i18n="pricing.freeBtn">Get started free</a>
           </div>
           <div class="plan pro">
             <span class="tag">LIFETIME</span>
             <h3>Pro</h3>
-            <div class="price">$19.9 <small>/ one-time</small></div>
-            <div class="price-sub">Pay once, yours forever</div>
+            <div class="price">$19.9</div>
             <ul>
-              <li><span class="ck">✓</span> Unlimited downloads</li>
-              <li><span class="ck">✓</span> 1080p, 4K &amp; highest quality</li>
-              <li><span class="ck">✓</span> Batch / playlist downloading</li>
-              <li><span class="ck">✓</span> MP3 audio extraction</li>
-              <li><span class="ck">✓</span> Free updates &amp; priority support</li>
+              <li><span class="ck">✓</span> <span data-i18n="price.pro1">Unlimited · 4K · MP3</span></li>
             </ul>
-            <a class="btn btn-primary" href="#" data-buy-link>Get Pro — $19.9</a>
+            <a class="btn btn-primary" href="#" data-buy-link data-i18n="price.buy">Get Pro — $19.9</a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Download -->
-    <section id="download">
-      <div class="container">
-        <div class="cta-band">
-          <h2 data-i18n="dl.title">Download FluxGrab</h2>
-          <p data-i18n="dl.p">Free to start. Upgrade to Pro anytime from inside the app.</p>
-          <p class="subnote" style="margin-top:12px;margin-bottom:20px" data-i18n="dl.note">Download is free — no license key needed to install. Paste your Pro key inside the app after purchase.</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary btn-lg" href="#" data-download-win data-i18n="dl.win">⬇ Windows (.zip)</a>
-            <a class="btn btn-ghost btn-lg" href="#" aria-disabled="true" data-i18n="dl.mac">macOS — coming soon</a>
-          </div>
-          <div class="subnote" data-i18n="dl.sub">Free plan included · No account required · Upgrade to Pro anytime inside the app.</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section id="faq">
+    <section id="faq" class="section-compact">
       <div class="container">
         <div class="section-head">
           <span class="eyebrow">FAQ</span>
-          <h2>Good to know</h2>
+          <h2 data-i18n="faq.h2">Good to know</h2>
         </div>
         <div class="faq">
-          <details class="qa"><summary>What can I download with FluxGrab?</summary><p>FluxGrab is a general-purpose tool for saving media you own, created, or have explicit permission or a license to download — for example your own uploads, content released under permissive licenses, or files you're authorized to keep for offline use.</p></details>
-          <details class="qa"><summary>Which sites can I download videos from?</summary><p>FluxGrab works with 1,000+ sites. The free online downloader handles TikTok, X (Twitter), Instagram and other social platforms right in your browser, while the desktop app adds YouTube, high-quality 1080p/4K and many more sources — for media you own or are licensed to download.</p></details>
-          <details class="qa"><summary>Is this legal?</summary><p>The tool itself is legal. You are responsible for how you use it. Please only download content you have the right to, and always respect the terms of service of the sites you use and applicable copyright law. See our <a href="terms.html">Terms</a>.</p></details>
-          <details class="qa"><summary>Do I need an account?</summary><p>No. The free plan works without an account. A Pro license simply unlocks higher quality and batch features on your device.</p></details>
-          <details class="qa"><summary>Is Pro really one-time?</summary><p>Yes. $19.9 once, lifetime license with free updates. No recurring charges.</p></details>
-          <details class="qa"><summary>What's the difference between Free and Pro?</summary><p>Free lets you save up to 720p, a couple of downloads a day, no account needed. Pro unlocks 1080p/4K, unlimited downloads, batch/playlist downloading and MP3 extraction — all running entirely on your own machine.</p></details>
-          <details class="qa"><summary>Can I get a refund?</summary><p>Yes — see our <a href="refund.html">Refund Policy</a>. If FluxGrab doesn't work for you, contact us within the stated window for a refund.</p></details>
+          <details class="qa"><summary data-i18n="faq.q1">Is this legal?</summary><p data-i18n="faq.a1">The tool is legal. Only download content you have the right to keep.</p></details>
+          <details class="qa"><summary data-i18n="faq.q2">YouTube / 4K?</summary><p data-i18n="faq.a2">Use the desktop app — free tier 2/day, Pro unlimited.</p></details>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="site">
-    <div class="container">
-      <div class="foot-grid">
-        <div class="col disclaimer">
-          <div class="brand" style="margin-bottom:14px"><img class="logo" src="assets/logo.svg" alt="" /><span>Flux<b>Grab</b></span></div>
-          <p style="font-size:13px;margin:0">FluxGrab is an independent tool for personal, lawful media backup. It is not affiliated with, endorsed by, or sponsored by any third-party video platform. Users are solely responsible for complying with applicable laws and the terms of the services they use.</p>
-        </div>
-        <div class="col">
-          <h4 data-i18n="foot.product">Product</h4>
-          <a href="#features" data-i18n="nav.features">Features</a>
-          <a href="#pricing" data-i18n="nav.pricing">Pricing</a>
-          <a href="#" data-download-win data-i18n="nav.get">Download</a>
-          <a href="app.html" data-i18n="foot.online">Online tool</a>
-        </div>
-        <div class="col">
-          <h4 data-i18n="foot.legal">Legal</h4>
-          <a href="terms.html">Terms of Service</a>
-          <a href="privacy.html">Privacy Policy</a>
-          <a href="refund.html">Refund Policy</a>
-        </div>
-        <div class="col">
-          <h4 data-i18n="foot.support">Support</h4>
-          <a href="mailto:support@fluxgrab.com">support@fluxgrab.com</a>
-        </div>
-      </div>
-      <div class="foot-bottom">
-        <span>© <span id="year">2026</span> FluxGrab. All rights reserved.</span>
-        <span>Made for people who love their offline library.</span>
-      </div>
+    <div class="container foot-bottom" style="border:0;margin:0;padding:24px 0">
+      <span>© <span id="year">2026</span> FluxGrab</span>
+      <span><a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> · <a href="refund.html">Refund</a></span>
     </div>
   </footer>
 
   <script src="assets/i18n.js"></script>
   <script src="assets/app.js"></script>
+  <script src="assets/app-tool.js"></script>
   <script>FluxGrabI18n.init();</script>
 </body>
 </html>

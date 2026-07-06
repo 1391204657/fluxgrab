@@ -20,6 +20,55 @@ window.FluxGrabI18n = (function () {
       "nav.pricing": "Pricing",
       "nav.faq": "FAQ",
       "nav.get": "Get FluxGrab",
+      "nav.win": "Windows",
+      "nav.mac": "macOS",
+      "tool.h1a": "Paste a link,",
+      "tool.h1b": "download instantly.",
+      "tool.lead": "TikTok, X, Instagram online · YouTube & 4K via desktop · 1,000+ sites",
+      "tool.placeholder": "Paste video link…",
+      "tool.go": "Download",
+      "tool.note": "For content you own or are licensed to keep. Respect copyright and platform terms.",
+      "ad.bottom": "728 × 90 banner — sponsor",
+      "feat.h2": "Everything you need",
+      "feat.f1": "Fast & reliable",
+      "feat.f1d": "Best stream, merged to clean MP4.",
+      "feat.f2": "Any quality",
+      "feat.f2d": "480p to 4K on Pro.",
+      "feat.f3": "Private",
+      "feat.f3d": "Desktop downloads stay on your PC.",
+      "price.h2": "Start free. Go Pro once.",
+      "price.free1": "2 downloads/day · 720p",
+      "price.pro1": "Unlimited · 4K · MP3",
+      "price.buy": "Get Pro — $19.9",
+      "faq.h2": "Good to know",
+      "faq.q1": "Is this legal?",
+      "faq.a1": "The tool is legal. Only download content you have the right to keep.",
+      "faq.q2": "YouTube / 4K?",
+      "faq.a2": "Use the desktop app — free tier 2/day, Pro unlimited.",
+      "tool.hint.online": "✓ Online download: {name}",
+      "tool.hint.desktop": "{name} requires the desktop app (faster & more stable)",
+      "tool.hint.invalid": "Please enter a valid video link",
+      "tool.hint.unknown": "This site requires the desktop app",
+      "tool.loading": "Parsing {name}…",
+      "tool.error.parse": "Parse failed: {msg}",
+      "tool.gate.title": "{name} requires the desktop app",
+      "tool.gate.body": "For speed and stability, {name}, adult sites, and 1080p/4K are downloaded via the desktop app. Free: 2/day. Pro: unlimited.",
+      "tool.gate.download": "⬇ Download Windows app",
+      "tool.gate.pricing": "View pricing",
+      "tool.yt.found": "✓ Video found",
+      "tool.yt.desktopQuals": "🖥️ Desktop app:",
+      "tool.yt.free": "Free",
+      "tool.yt.pro": "Pro",
+      "tool.yt.reason": "YouTube HD uses DASH (separate audio/video). FluxGrab merges them locally to lossless 4K. Free: 2/day. Pro: unlimited.",
+      "tool.yt.download": "⬇ Download with app (up to 4K)",
+      "tool.soon.title": "Online parsing coming soon",
+      "tool.soon.body": "Online download for {name} is being deployed. Use the desktop app for now.",
+      "tool.soon.download": "⬇ Use desktop app",
+      "tool.ready.title": "Ready — choose download:",
+      "tool.dl.video": "Download video (720p)",
+      "tool.error.unknownType": "Unknown response type",
+      "tool.error.invalid": "Please enter a valid video link",
+      "tool.file": "file",
       "hero.badge": "Works on Windows · macOS coming soon",
       "hero.h1a": "Save the videos you love,",
       "hero.h1b": "in one click.",
@@ -46,6 +95,55 @@ window.FluxGrabI18n = (function () {
       "nav.pricing": "价格",
       "nav.faq": "常见问题",
       "nav.get": "下载 FluxGrab",
+      "nav.win": "Windows",
+      "nav.mac": "macOS",
+      "tool.h1a": "粘贴链接，",
+      "tool.h1b": "即刻下载。",
+      "tool.lead": "TikTok、X、Instagram 在线下载 · YouTube/4K 用桌面版 · 支持上千站点",
+      "tool.placeholder": "粘贴视频链接…",
+      "tool.go": "下载",
+      "tool.note": "仅下载你拥有或已获授权的内容，请遵守版权与平台条款。",
+      "ad.bottom": "728 × 90 横幅 — 赞助商",
+      "feat.h2": "你需要的一切",
+      "feat.f1": "快速稳定",
+      "feat.f1d": "优选流，合并为干净 MP4。",
+      "feat.f2": "任意清晰度",
+      "feat.f2d": "480p 至 4K（Pro）。",
+      "feat.f3": "隐私本地",
+      "feat.f3d": "桌面版下载留在你的电脑。",
+      "price.h2": "免费开始，一次买断 Pro",
+      "price.free1": "每天 2 次 · 最高 720p",
+      "price.pro1": "无限次 · 4K · MP3",
+      "price.buy": "购买 Pro — $19.9",
+      "faq.h2": "常见问题",
+      "faq.q1": "合法吗？",
+      "faq.a1": "工具本身合法，请只下载你有权保存的内容。",
+      "faq.q2": "YouTube / 4K？",
+      "faq.a2": "请用桌面版 — 免费版每天 2 次，Pro 无限制。",
+      "tool.hint.online": "✓ 支持在线下载：{name}",
+      "tool.hint.desktop": "{name} 需要桌面版下载（更快更稳）",
+      "tool.hint.invalid": "请输入有效的视频链接",
+      "tool.hint.unknown": "此站点需用桌面版下载",
+      "tool.loading": "正在解析 {name}…",
+      "tool.error.parse": "解析失败：{msg}",
+      "tool.gate.title": "{name} 需要用桌面版下载",
+      "tool.gate.body": "为绕过平台限制、保证速度与稳定，{name}、成人站及 1080p/4K 由桌面版本地下载。免费版每天可下载 2 次，专业版无限制。",
+      "tool.gate.download": "⬇ 下载 Windows 桌面版",
+      "tool.gate.pricing": "查看价格",
+      "tool.yt.found": "✓ 已找到视频",
+      "tool.yt.desktopQuals": "🖥️ 桌面版可下载：",
+      "tool.yt.free": "免费版",
+      "tool.yt.pro": "专业版",
+      "tool.yt.reason": "YouTube 高清采用音视频分离(DASH)传输，需在本地用 FluxGrab 完美合成为无损 4K 文件。为保证画质与隐私，请用桌面版下载。免费版每天 2 次，专业版无限制。",
+      "tool.yt.download": "⬇ 用桌面版下载（最高 4K）",
+      "tool.soon.title": "在线解析即将上线",
+      "tool.soon.body": "{name} 的在线下载功能正在部署中。现在你可以先用桌面版下载任意平台的视频。",
+      "tool.soon.download": "⬇ 先用桌面版",
+      "tool.ready.title": "解析成功，选择下载：",
+      "tool.dl.video": "下载视频 (720p)",
+      "tool.error.unknownType": "返回了未知的结果类型",
+      "tool.error.invalid": "请输入有效的视频链接",
+      "tool.file": "文件",
       "hero.badge": "支持 Windows · macOS 即将推出",
       "hero.h1a": "珍藏你喜欢的视频，",
       "hero.h1b": "一键保存。",
@@ -72,6 +170,55 @@ window.FluxGrabI18n = (function () {
       "nav.pricing": "價格",
       "nav.faq": "常見問題",
       "nav.get": "下載 FluxGrab",
+      "nav.win": "Windows",
+      "nav.mac": "macOS",
+      "tool.h1a": "貼上連結，",
+      "tool.h1b": "即刻下載。",
+      "tool.lead": "TikTok、X、Instagram 線上下載 · YouTube/4K 用桌面版 · 支援上千站點",
+      "tool.placeholder": "貼上影片連結…",
+      "tool.go": "下載",
+      "tool.note": "僅下載你擁有或已獲授權的內容，請遵守版權與平台條款。",
+      "ad.bottom": "728 × 90 橫幅 — 贊助商",
+      "feat.h2": "你需要的一切",
+      "feat.f1": "快速穩定",
+      "feat.f1d": "優選串流，合併為乾淨 MP4。",
+      "feat.f2": "任意清晰度",
+      "feat.f2d": "480p 至 4K（Pro）。",
+      "feat.f3": "隱私本地",
+      "feat.f3d": "桌面版下載留在你的電腦。",
+      "price.h2": "免費開始，一次買斷 Pro",
+      "price.free1": "每天 2 次 · 最高 720p",
+      "price.pro1": "無限次 · 4K · MP3",
+      "price.buy": "購買 Pro — $19.9",
+      "faq.h2": "常見問題",
+      "faq.q1": "合法嗎？",
+      "faq.a1": "工具本身合法，請只下載你有權保存的內容。",
+      "faq.q2": "YouTube / 4K？",
+      "faq.a2": "請用桌面版 — 免費版每天 2 次，Pro 無限制。",
+      "tool.hint.online": "✓ 支援線上下載：{name}",
+      "tool.hint.desktop": "{name} 需用桌面版下載（更快更穩）",
+      "tool.hint.invalid": "請輸入有效的影片連結",
+      "tool.hint.unknown": "此站點需用桌面版下載",
+      "tool.loading": "正在解析 {name}…",
+      "tool.error.parse": "解析失敗：{msg}",
+      "tool.gate.title": "{name} 需用桌面版下載",
+      "tool.gate.body": "為繞過平台限制、保證速度與穩定，{name}、成人站及 1080p/4K 由桌面版本地下載。免費版每天可下載 2 次，專業版無限制。",
+      "tool.gate.download": "⬇ 下載 Windows 桌面版",
+      "tool.gate.pricing": "查看價格",
+      "tool.yt.found": "✓ 已找到影片",
+      "tool.yt.desktopQuals": "🖥️ 桌面版可下載：",
+      "tool.yt.free": "免費版",
+      "tool.yt.pro": "專業版",
+      "tool.yt.reason": "YouTube 高畫質採用音視訊分離(DASH)傳輸，需在本地用 FluxGrab 完美合成為無損 4K 檔案。為保證畫質與隱私，請用桌面版下載。免費版每天 2 次，專業版無限制。",
+      "tool.yt.download": "⬇ 用桌面版下載（最高 4K）",
+      "tool.soon.title": "線上解析即將上線",
+      "tool.soon.body": "{name} 的線上下載功能正在部署中。現在你可以先用桌面版下載任意平台的影片。",
+      "tool.soon.download": "⬇ 先用桌面版",
+      "tool.ready.title": "解析成功，選擇下載：",
+      "tool.dl.video": "下載影片 (720p)",
+      "tool.error.unknownType": "傳回了未知的結果類型",
+      "tool.error.invalid": "請輸入有效的影片連結",
+      "tool.file": "檔案",
       "hero.badge": "支援 Windows · macOS 即將推出",
       "hero.h1a": "珍藏你喜歡的影片，",
       "hero.h1b": "一鍵保存。",
@@ -98,6 +245,55 @@ window.FluxGrabI18n = (function () {
       "nav.pricing": "Precios",
       "nav.faq": "FAQ",
       "nav.get": "Obtener FluxGrab",
+      "nav.win": "Windows",
+      "nav.mac": "macOS",
+      "tool.h1a": "Pega un enlace,",
+      "tool.h1b": "descarga al instante.",
+      "tool.lead": "TikTok, X, Instagram online · YouTube y 4K en escritorio · más de 1.000 sitios",
+      "tool.placeholder": "Pega el enlace del video…",
+      "tool.go": "Descargar",
+      "tool.note": "Solo contenido que posees o tienes licencia. Respeta derechos de autor y términos de la plataforma.",
+      "ad.bottom": "728 × 90 banner — patrocinador",
+      "feat.h2": "Todo lo que necesitas",
+      "feat.f1": "Rápido y fiable",
+      "feat.f1d": "Mejor stream, fusionado en MP4 limpio.",
+      "feat.f2": "Cualquier calidad",
+      "feat.f2d": "480p a 4K con Pro.",
+      "feat.f3": "Privado",
+      "feat.f3d": "Las descargas de escritorio quedan en tu PC.",
+      "price.h2": "Empieza gratis. Pro de pago único.",
+      "price.free1": "2 descargas/día · 720p",
+      "price.pro1": "Ilimitado · 4K · MP3",
+      "price.buy": "Obtener Pro — $19.9",
+      "faq.h2": "Bueno saber",
+      "faq.q1": "¿Es legal?",
+      "faq.a1": "La herramienta es legal. Solo descarga contenido que tengas derecho a guardar.",
+      "faq.q2": "¿YouTube / 4K?",
+      "faq.a2": "Usa la app de escritorio — gratis 2/día, Pro ilimitado.",
+      "tool.hint.online": "✓ Descarga online: {name}",
+      "tool.hint.desktop": "{name} requiere la app de escritorio (más rápida y estable)",
+      "tool.hint.invalid": "Introduce un enlace de video válido",
+      "tool.hint.unknown": "Este sitio requiere la app de escritorio",
+      "tool.loading": "Analizando {name}…",
+      "tool.error.parse": "Error al analizar: {msg}",
+      "tool.gate.title": "{name} requiere la app de escritorio",
+      "tool.gate.body": "Para evitar restricciones y garantizar velocidad, {name}, sitios adultos y 1080p/4K se descargan con la app. Gratis: 2/día. Pro: ilimitado.",
+      "tool.gate.download": "⬇ Descargar app Windows",
+      "tool.gate.pricing": "Ver precios",
+      "tool.yt.found": "✓ Video encontrado",
+      "tool.yt.desktopQuals": "🖥️ App de escritorio:",
+      "tool.yt.free": "Gratis",
+      "tool.yt.pro": "Pro",
+      "tool.yt.reason": "YouTube HD usa DASH (audio y video separados). FluxGrab los fusiona en 4K sin pérdida en tu PC. Gratis: 2/día. Pro: ilimitado.",
+      "tool.yt.download": "⬇ Descargar con app (hasta 4K)",
+      "tool.soon.title": "Descarga online próximamente",
+      "tool.soon.body": "La descarga online de {name} se está desplegando. Usa la app de escritorio por ahora.",
+      "tool.soon.download": "⬇ Usar app de escritorio",
+      "tool.ready.title": "Listo — elige descarga:",
+      "tool.dl.video": "Descargar video (720p)",
+      "tool.error.unknownType": "Tipo de respuesta desconocido",
+      "tool.error.invalid": "Introduce un enlace de video válido",
+      "tool.file": "archivo",
       "hero.badge": "Windows · macOS pronto",
       "hero.h1a": "Guarda los videos que amas,",
       "hero.h1b": "en un clic.",
@@ -124,6 +320,55 @@ window.FluxGrabI18n = (function () {
       "nav.pricing": "料金",
       "nav.faq": "FAQ",
       "nav.get": "FluxGrab を入手",
+      "nav.win": "Windows",
+      "nav.mac": "macOS",
+      "tool.h1a": "リンクを貼り付けて、",
+      "tool.h1b": "すぐにダウンロード。",
+      "tool.lead": "TikTok・X・Instagram はオンライン · YouTube/4K はデスクトップ版 · 1,000以上のサイト",
+      "tool.placeholder": "動画リンクを貼り付け…",
+      "tool.go": "ダウンロード",
+      "tool.note": "所有または利用許可されたコンテンツのみ。著作権とプラットフォーム規約を遵守してください。",
+      "ad.bottom": "728 × 90 バナー — スポンサー",
+      "feat.h2": "必要な機能がすべて揃う",
+      "feat.f1": "高速・安定",
+      "feat.f1d": "最適なストリームをクリーンな MP4 に統合。",
+      "feat.f2": "あらゆる画質",
+      "feat.f2d": "480p から 4K（Pro）。",
+      "feat.f3": "プライバシー",
+      "feat.f3d": "デスクトップ版のダウンロードは PC に保存。",
+      "price.h2": "無料で開始、Pro は買い切り",
+      "price.free1": "1日2回 · 720p",
+      "price.pro1": "無制限 · 4K · MP3",
+      "price.buy": "Pro を購入 — $19.9",
+      "faq.h2": "よくある質問",
+      "faq.q1": "合法ですか？",
+      "faq.a1": "ツール自体は合法です。保存する権利があるコンテンツのみダウンロードしてください。",
+      "faq.q2": "YouTube / 4K？",
+      "faq.a2": "デスクトップ版をご利用ください — 無料版は1日2回、Pro は無制限。",
+      "tool.hint.online": "✓ オンライン対応：{name}",
+      "tool.hint.desktop": "{name} はデスクトップ版が必要です（より高速・安定）",
+      "tool.hint.invalid": "有効な動画リンクを入力してください",
+      "tool.hint.unknown": "このサイトはデスクトップ版が必要です",
+      "tool.loading": "{name} を解析中…",
+      "tool.error.parse": "解析失敗：{msg}",
+      "tool.gate.title": "{name} はデスクトップ版が必要です",
+      "tool.gate.body": "制限回避と安定性のため、{name}、アダルトサイト、1080p/4K はデスクトップ版でダウンロード。無料版は1日2回、Pro は無制限。",
+      "tool.gate.download": "⬇ Windows 版をダウンロード",
+      "tool.gate.pricing": "料金を見る",
+      "tool.yt.found": "✓ 動画を検出",
+      "tool.yt.desktopQuals": "🖥️ デスクトップ版でダウンロード：",
+      "tool.yt.free": "無料版",
+      "tool.yt.pro": "Pro",
+      "tool.yt.reason": "YouTube の高画質は DASH（音声・映像分離）です。FluxGrab が PC 上でロスレス 4K に合成します。無料版は1日2回、Pro は無制限。",
+      "tool.yt.download": "⬇ デスクトップ版でダウンロード（最大 4K）",
+      "tool.soon.title": "オンライン解析は近日公開",
+      "tool.soon.body": "{name} のオンラインダウンロードを準備中です。今はデスクトップ版をご利用ください。",
+      "tool.soon.download": "⬇ デスクトップ版を使う",
+      "tool.ready.title": "解析完了 — ダウンロードを選択：",
+      "tool.dl.video": "動画をダウンロード (720p)",
+      "tool.error.unknownType": "不明な応答タイプです",
+      "tool.error.invalid": "有効な動画リンクを入力してください",
+      "tool.file": "ファイル",
       "hero.badge": "Windows 対応 · macOS 近日公開",
       "hero.h1a": "お気に入りの動画を、",
       "hero.h1b": "ワンクリックで保存。",
@@ -150,6 +395,55 @@ window.FluxGrabI18n = (function () {
       "nav.pricing": "Preise",
       "nav.faq": "FAQ",
       "nav.get": "FluxGrab holen",
+      "nav.win": "Windows",
+      "nav.mac": "macOS",
+      "tool.h1a": "Link einfügen,",
+      "tool.h1b": "sofort herunterladen.",
+      "tool.lead": "TikTok, X, Instagram online · YouTube & 4K per Desktop · über 1.000 Seiten",
+      "tool.placeholder": "Video-Link einfügen…",
+      "tool.go": "Herunterladen",
+      "tool.note": "Nur Inhalte, die du besitzt oder lizenziert hast. Urheberrecht und Nutzungsbedingungen beachten.",
+      "ad.bottom": "728 × 90 Banner — Sponsor",
+      "feat.h2": "Alles, was du brauchst",
+      "feat.f1": "Schnell & zuverlässig",
+      "feat.f1d": "Bester Stream, sauber zu MP4 gemerged.",
+      "feat.f2": "Jede Qualität",
+      "feat.f2d": "480p bis 4K mit Pro.",
+      "feat.f3": "Privat",
+      "feat.f3d": "Desktop-Downloads bleiben auf deinem PC.",
+      "price.h2": "Kostenlos starten. Pro einmalig.",
+      "price.free1": "2 Downloads/Tag · 720p",
+      "price.pro1": "Unbegrenzt · 4K · MP3",
+      "price.buy": "Pro holen — $19.9",
+      "faq.h2": "Gut zu wissen",
+      "faq.q1": "Ist das legal?",
+      "faq.a1": "Das Tool ist legal. Lade nur Inhalte herunter, die du behalten darfst.",
+      "faq.q2": "YouTube / 4K?",
+      "faq.a2": "Nutze die Desktop-App — kostenlos 2/Tag, Pro unbegrenzt.",
+      "tool.hint.online": "✓ Online-Download: {name}",
+      "tool.hint.desktop": "{name} erfordert die Desktop-App (schneller & stabiler)",
+      "tool.hint.invalid": "Bitte gültigen Video-Link eingeben",
+      "tool.hint.unknown": "Diese Seite erfordert die Desktop-App",
+      "tool.loading": "Analysiere {name}…",
+      "tool.error.parse": "Analyse fehlgeschlagen: {msg}",
+      "tool.gate.title": "{name} erfordert die Desktop-App",
+      "tool.gate.body": "Für Geschwindigkeit und Stabilität: {name}, Adult-Seiten und 1080p/4K über die Desktop-App. Kostenlos: 2/Tag. Pro: unbegrenzt.",
+      "tool.gate.download": "⬇ Windows-App herunterladen",
+      "tool.gate.pricing": "Preise ansehen",
+      "tool.yt.found": "✓ Video gefunden",
+      "tool.yt.desktopQuals": "🖥️ Desktop-App:",
+      "tool.yt.free": "Kostenlos",
+      "tool.yt.pro": "Pro",
+      "tool.yt.reason": "YouTube HD nutzt DASH (getrennte Audio/Video-Spuren). FluxGrab merged sie lokal zu verlustfreiem 4K. Kostenlos: 2/Tag. Pro: unbegrenzt.",
+      "tool.yt.download": "⬇ Mit Desktop-App laden (bis 4K)",
+      "tool.soon.title": "Online-Analyse kommt bald",
+      "tool.soon.body": "Online-Download für {name} wird bereitgestellt. Nutze vorerst die Desktop-App.",
+      "tool.soon.download": "⬇ Desktop-App nutzen",
+      "tool.ready.title": "Fertig — Download wählen:",
+      "tool.dl.video": "Video herunterladen (720p)",
+      "tool.error.unknownType": "Unbekannter Antworttyp",
+      "tool.error.invalid": "Bitte gültigen Video-Link eingeben",
+      "tool.file": "Datei",
       "hero.badge": "Windows · macOS demnächst",
       "hero.h1a": "Speichere Videos, die du liebst —",
       "hero.h1b": "mit einem Klick.",
@@ -176,6 +470,55 @@ window.FluxGrabI18n = (function () {
       "nav.pricing": "Tarifs",
       "nav.faq": "FAQ",
       "nav.get": "Obtenir FluxGrab",
+      "nav.win": "Windows",
+      "nav.mac": "macOS",
+      "tool.h1a": "Collez un lien,",
+      "tool.h1b": "téléchargez instantanément.",
+      "tool.lead": "TikTok, X, Instagram en ligne · YouTube & 4K via bureau · plus de 1 000 sites",
+      "tool.placeholder": "Collez le lien vidéo…",
+      "tool.go": "Télécharger",
+      "tool.note": "Uniquement le contenu que vous possédez ou êtes autorisé à garder. Respectez le droit d'auteur.",
+      "ad.bottom": "728 × 90 bannière — sponsor",
+      "feat.h2": "Tout ce dont vous avez besoin",
+      "feat.f1": "Rapide & fiable",
+      "feat.f1d": "Meilleur flux, fusionné en MP4 propre.",
+      "feat.f2": "Toute qualité",
+      "feat.f2d": "480p à 4K avec Pro.",
+      "feat.f3": "Privé",
+      "feat.f3d": "Les téléchargements bureau restent sur votre PC.",
+      "price.h2": "Gratuit pour commencer. Pro en une fois.",
+      "price.free1": "2 téléchargements/jour · 720p",
+      "price.pro1": "Illimité · 4K · MP3",
+      "price.buy": "Obtenir Pro — $19.9",
+      "faq.h2": "Bon à savoir",
+      "faq.q1": "Est-ce légal ?",
+      "faq.a1": "L'outil est légal. Ne téléchargez que le contenu que vous avez le droit de garder.",
+      "faq.q2": "YouTube / 4K ?",
+      "faq.a2": "Utilisez l'app bureau — gratuit 2/jour, Pro illimité.",
+      "tool.hint.online": "✓ Téléchargement en ligne : {name}",
+      "tool.hint.desktop": "{name} nécessite l'app bureau (plus rapide et stable)",
+      "tool.hint.invalid": "Entrez un lien vidéo valide",
+      "tool.hint.unknown": "Ce site nécessite l'app bureau",
+      "tool.loading": "Analyse de {name}…",
+      "tool.error.parse": "Échec de l'analyse : {msg}",
+      "tool.gate.title": "{name} nécessite l'app bureau",
+      "tool.gate.body": "Pour la vitesse et la stabilité, {name}, sites adultes et 1080p/4K via l'app bureau. Gratuit : 2/jour. Pro : illimité.",
+      "tool.gate.download": "⬇ Télécharger l'app Windows",
+      "tool.gate.pricing": "Voir les tarifs",
+      "tool.yt.found": "✓ Vidéo trouvée",
+      "tool.yt.desktopQuals": "🖥️ App bureau :",
+      "tool.yt.free": "Gratuit",
+      "tool.yt.pro": "Pro",
+      "tool.yt.reason": "YouTube HD utilise DASH (audio et vidéo séparés). FluxGrab les fusionne en 4K sans perte sur votre PC. Gratuit : 2/jour. Pro : illimité.",
+      "tool.yt.download": "⬇ Télécharger via l'app (jusqu'à 4K)",
+      "tool.soon.title": "Analyse en ligne bientôt",
+      "tool.soon.body": "Le téléchargement en ligne de {name} arrive bientôt. Utilisez l'app bureau pour l'instant.",
+      "tool.soon.download": "⬇ Utiliser l'app bureau",
+      "tool.ready.title": "Prêt — choisissez le téléchargement :",
+      "tool.dl.video": "Télécharger la vidéo (720p)",
+      "tool.error.unknownType": "Type de réponse inconnu",
+      "tool.error.invalid": "Entrez un lien vidéo valide",
+      "tool.file": "fichier",
       "hero.badge": "Windows · macOS bientôt",
       "hero.h1a": "Sauvegardez les vidéos que vous aimez,",
       "hero.h1b": "en un clic.",
@@ -202,6 +545,55 @@ window.FluxGrabI18n = (function () {
       "nav.pricing": "Preços",
       "nav.faq": "FAQ",
       "nav.get": "Baixar FluxGrab",
+      "nav.win": "Windows",
+      "nav.mac": "macOS",
+      "tool.h1a": "Cole um link,",
+      "tool.h1b": "baixe na hora.",
+      "tool.lead": "TikTok, X, Instagram online · YouTube e 4K no desktop · mais de 1.000 sites",
+      "tool.placeholder": "Cole o link do vídeo…",
+      "tool.go": "Baixar",
+      "tool.note": "Apenas conteúdo que você possui ou tem licença. Respeite direitos autorais e termos da plataforma.",
+      "ad.bottom": "728 × 90 banner — patrocinador",
+      "feat.h2": "Tudo que você precisa",
+      "feat.f1": "Rápido e confiável",
+      "feat.f1d": "Melhor stream, mesclado em MP4 limpo.",
+      "feat.f2": "Qualquer qualidade",
+      "feat.f2d": "480p a 4K no Pro.",
+      "feat.f3": "Privado",
+      "feat.f3d": "Downloads desktop ficam no seu PC.",
+      "price.h2": "Comece grátis. Pro pagamento único.",
+      "price.free1": "2 downloads/dia · 720p",
+      "price.pro1": "Ilimitado · 4K · MP3",
+      "price.buy": "Obter Pro — $19.9",
+      "faq.h2": "Bom saber",
+      "faq.q1": "É legal?",
+      "faq.a1": "A ferramenta é legal. Baixe apenas conteúdo que você tem direito de guardar.",
+      "faq.q2": "YouTube / 4K?",
+      "faq.a2": "Use o app desktop — grátis 2/dia, Pro ilimitado.",
+      "tool.hint.online": "✓ Download online: {name}",
+      "tool.hint.desktop": "{name} requer o app desktop (mais rápido e estável)",
+      "tool.hint.invalid": "Digite um link de vídeo válido",
+      "tool.hint.unknown": "Este site requer o app desktop",
+      "tool.loading": "Analisando {name}…",
+      "tool.error.parse": "Falha na análise: {msg}",
+      "tool.gate.title": "{name} requer o app desktop",
+      "tool.gate.body": "Para velocidade e estabilidade, {name}, sites adultos e 1080p/4K via app desktop. Grátis: 2/dia. Pro: ilimitado.",
+      "tool.gate.download": "⬇ Baixar app Windows",
+      "tool.gate.pricing": "Ver preços",
+      "tool.yt.found": "✓ Vídeo encontrado",
+      "tool.yt.desktopQuals": "🖥️ App desktop:",
+      "tool.yt.free": "Grátis",
+      "tool.yt.pro": "Pro",
+      "tool.yt.reason": "YouTube HD usa DASH (áudio e vídeo separados). FluxGrab mescla em 4K sem perda no seu PC. Grátis: 2/dia. Pro: ilimitado.",
+      "tool.yt.download": "⬇ Baixar com app (até 4K)",
+      "tool.soon.title": "Análise online em breve",
+      "tool.soon.body": "Download online de {name} em implantação. Use o app desktop por enquanto.",
+      "tool.soon.download": "⬇ Usar app desktop",
+      "tool.ready.title": "Pronto — escolha o download:",
+      "tool.dl.video": "Baixar vídeo (720p)",
+      "tool.error.unknownType": "Tipo de resposta desconhecido",
+      "tool.error.invalid": "Digite um link de vídeo válido",
+      "tool.file": "arquivo",
       "hero.badge": "Windows · macOS em breve",
       "hero.h1a": "Salve os vídeos que você ama,",
       "hero.h1b": "com um clique.",
@@ -236,9 +628,24 @@ window.FluxGrabI18n = (function () {
     return "en";
   }
 
-  function t(lang, key) {
+  function t(lang, key, vars) {
     var pack = T[lang] || T.en;
-    return pack[key] || T.en[key] || key;
+    var s = pack[key] || T.en[key] || key;
+    if (vars) {
+      Object.keys(vars).forEach(function (k) {
+        s = s.replace(new RegExp("\\{" + k + "\\}", "g"), vars[k]);
+      });
+    }
+    return s;
+  }
+
+  function getLang() {
+    var saved = localStorage.getItem(STORE);
+    return saved && T[saved] ? saved : guessLang();
+  }
+
+  function tf(key, vars) {
+    return t(getLang(), key, vars);
   }
 
   function htmlLang(lang) {
@@ -254,30 +661,70 @@ window.FluxGrabI18n = (function () {
     document.querySelectorAll("[data-i18n]").forEach(function (el) {
       el.textContent = t(lang, el.getAttribute("data-i18n"));
     });
-    var sel = document.getElementById("langSelect");
-    if (sel) sel.value = lang;
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(function (el) {
+      el.placeholder = t(lang, el.getAttribute("data-i18n-placeholder"));
+    });
+    updateActiveLang(lang);
+    document.dispatchEvent(new CustomEvent("fluxgrab:lang", { detail: { lang: lang } }));
+  }
+
+  function updateActiveLang(lang) {
+    document.querySelectorAll(".lang-menu-item").forEach(function (btn) {
+      btn.classList.toggle("active", btn.getAttribute("data-lang") === lang);
+      btn.setAttribute("aria-selected", btn.getAttribute("data-lang") === lang ? "true" : "false");
+    });
+  }
+
+  function closeLangMenu() {
+    var wrap = document.querySelector(".lang-icon-wrap");
+    var btn = document.getElementById("langBtn");
+    if (wrap) wrap.classList.remove("open");
+    if (btn) btn.setAttribute("aria-expanded", "false");
+  }
+
+  function buildLangMenu() {
+    var menu = document.getElementById("langMenu");
+    if (!menu) return;
+    menu.innerHTML = "";
+    Object.keys(LANGS).forEach(function (code) {
+      var li = document.createElement("li");
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "lang-menu-item";
+      btn.setAttribute("data-lang", code);
+      btn.setAttribute("role", "option");
+      btn.textContent = LANGS[code];
+      btn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        apply(code);
+        closeLangMenu();
+      });
+      li.appendChild(btn);
+      menu.appendChild(li);
+    });
   }
 
   function buildSelect() {
-    var sel = document.getElementById("langSelect");
-    if (!sel) return;
-    sel.innerHTML = "";
-    Object.keys(LANGS).forEach(function (code) {
-      var o = document.createElement("option");
-      o.value = code;
-      o.textContent = LANGS[code];
-      sel.appendChild(o);
-    });
-    sel.addEventListener("change", function () {
-      apply(sel.value);
-    });
+    buildLangMenu();
   }
 
   function init() {
     buildSelect();
     var saved = localStorage.getItem(STORE);
     apply(saved && T[saved] ? saved : guessLang());
+
+    var btn = document.getElementById("langBtn");
+    var wrap = btn && btn.closest(".lang-icon-wrap");
+    if (btn && wrap) {
+      btn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var open = !wrap.classList.contains("open");
+        wrap.classList.toggle("open", open);
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      document.addEventListener("click", closeLangMenu);
+    }
   }
 
-  return { init: init, apply: apply, LANGS: LANGS };
+  return { init: init, apply: apply, t: tf, getLang: getLang, LANGS: LANGS };
 })();

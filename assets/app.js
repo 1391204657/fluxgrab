@@ -6,7 +6,7 @@
  *   DOWNLOAD_WIN_URL—— Windows 安装包下载地址（如 GitHub Releases）
  */
 window.FLUXGRAB_CONFIG = {
-  WEB_APP_URL: "app.html",   // 在线下载页（X/TikTok/IG）
+  WEB_APP_URL: "/",
   BUY_URL: "https://fluxgrab.lemonsqueezy.com/checkout/buy/5c4a5f2a-430f-4b3a-a975-119edddab862",
   DOWNLOAD_WIN_URL: "https://github.com/1391204657/fluxgrab/releases/latest/download/FluxGrab-Windows.zip",
 
