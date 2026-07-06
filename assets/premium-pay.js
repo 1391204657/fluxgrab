@@ -5,7 +5,7 @@
 
   function t(key) {
     if (!window.FluxGrabI18n) return key;
-    return FluxGrabI18n.t(FluxGrabI18n.getLang(), key);
+    return FluxGrabI18n.t(key);
   }
 
   function openCheckout(method) {
@@ -60,7 +60,7 @@
       google: ["assets/pay/google-pay.png"],
       alipay: ["assets/pay/alipay.png"],
       wechat: ["assets/pay/wechat-pay.svg"],
-      unionpay: ["assets/pay/unionpay.svg"],
+      unionpay: ["assets/pay/unionpay.png"],
     };
 
     if (icon) {
@@ -94,6 +94,17 @@
   }
 
   function bind() {
+    var paymentBtn = document.getElementById("paymentBtn");
+    if (paymentBtn) {
+      paymentBtn.addEventListener("click", function (e) {
+        var target = document.getElementById("payment");
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    }
+
     document.querySelectorAll(".pay-item[data-pay]").forEach(function (el) {
       function activate() { openPayModal(el.getAttribute("data-pay")); }
       el.addEventListener("click", activate);
@@ -120,10 +131,19 @@
     document.addEventListener("fluxgrab:lang", function () {
       var modal = document.getElementById("payModal");
       if (modal && !modal.hidden) {
-        var active = document.querySelector(".pay-item[data-pay].active-method");
-        if (active) openPayModal(active.getAttribute("data-pay"));
+        var method = modal.getAttribute("data-active-pay");
+        if (method) openPayModal(method);
       }
     });
+
+    if (location.hash === "#payment") {
+      var paySection = document.getElementById("payment");
+      if (paySection) {
+        setTimeout(function () {
+          paySection.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 150);
+      }
+    }
   }
 
   if (document.readyState === "loading") {

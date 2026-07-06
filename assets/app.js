@@ -8,6 +8,7 @@
 window.FLUXGRAB_CONFIG = {
   WEB_APP_URL: "/",
   BUY_URL: "https://fluxgrab.lemonsqueezy.com/checkout/buy/5c4a5f2a-430f-4b3a-a975-119edddab862",
+  PREMIUM_URL: "/premium.html",
   DOWNLOAD_WIN_URL: "https://github.com/1391204657/fluxgrab/releases/latest/download/FluxGrab-Windows.zip",
 
   // 在线解析后端（cobalt 实例）。
@@ -25,8 +26,23 @@ window.FLUXGRAB_CONFIG = {
   document.querySelectorAll("[data-app-link]").forEach(function (a) {
     if (cfg.WEB_APP_URL && cfg.WEB_APP_URL !== "#") { a.href = cfg.WEB_APP_URL; a.target = "_blank"; a.rel = "noopener"; }
   });
+  function premiumPageUrl() {
+    var base = (cfg.PREMIUM_URL || "premium.html").replace(/#.*$/, "");
+    var lang = "";
+    try { lang = localStorage.getItem("fluxgrab_lang") || ""; } catch (e) { /* ignore */ }
+    var q = lang && lang !== "en" ? "?lang=" + encodeURIComponent(lang) : "";
+    return base + q + "#payment";
+  }
+
   document.querySelectorAll("[data-buy-link]").forEach(function (a) {
-    if (cfg.BUY_URL && cfg.BUY_URL !== "#") { a.href = cfg.BUY_URL; }
+    a.href = premiumPageUrl();
+    a.removeAttribute("target");
+  });
+
+  document.addEventListener("fluxgrab:lang", function () {
+    document.querySelectorAll(".refund-shield [data-i18n]").forEach(function (el) {
+      if (window.FluxGrabI18n) el.textContent = FluxGrabI18n.t(el.getAttribute("data-i18n"));
+    });
   });
   document.querySelectorAll("[data-download-win]").forEach(function (a) {
     if (cfg.DOWNLOAD_WIN_URL && cfg.DOWNLOAD_WIN_URL !== "#") {

@@ -167,7 +167,44 @@
     result.innerHTML = '<p>' + esc(L("tool.error.parse", { msg: msg })) + '</p>';
   }
 
+  function normalizeDownloadUrl(fileUrl) {
+    if (!fileUrl) return fileUrl;
+    try {
+      var u = new URL(fileUrl, location.href);
+      if (u.hostname.indexOf("twimg.com") !== -1 && u.searchParams.has("tag")) {
+        u.searchParams.delete("tag");
+        return u.href;
+      }
+    } catch (e) { /* ignore */ }
+    return fileUrl;
+  }
+
+  function isTunnelUrl(fileUrl) {
+    try {
+      var u = new URL(fileUrl, location.href);
+      if (u.pathname.indexOf("/tunnel") !== -1) return true;
+      if (API) {
+        var api = new URL(API, location.href);
+        if (u.origin === api.origin) return true;
+      }
+    } catch (e) { /* ignore */ }
+    return false;
+  }
+
   function triggerDownload(fileUrl, filename) {
+    if (!fileUrl) return;
+    fileUrl = normalizeDownloadUrl(fileUrl);
+    try {
+      var u = new URL(fileUrl, location.href);
+      if (u.origin !== location.origin) {
+        if (isTunnelUrl(fileUrl)) {
+          window.location.href = u.href;
+        } else {
+          window.open(u.href, "_blank", "noopener,noreferrer");
+        }
+        return;
+      }
+    } catch (e) { /* fall through */ }
     var a = document.createElement("a");
     a.href = fileUrl;
     if (filename) a.download = filename;
@@ -178,10 +215,18 @@
     document.body.removeChild(a);
   }
 
+  function isCrossOrigin(fileUrl) {
+    try {
+      var u = new URL(fileUrl, location.href);
+      return u.origin !== location.origin;
+    } catch (e) { return false; }
+  }
+
   function showReady(items) {
     track("parse_ok");
     result.hidden = false;
     result.className = "result ready";
+    var cross = items.some(function (it) { return isCrossOrigin(it.url); });
     var html = '<h3>' + esc(L("tool.ready.title")) + '</h3><div class="dl-list">';
     items.forEach(function (it) {
       html += '<button class="dl-item" data-url="' + esc(it.url) + '" data-name="' + esc(it.filename || "") + '">' +
@@ -190,6 +235,7 @@
         '</button>';
     });
     html += '</div>';
+    if (cross) html += '<p class="yt-reason">' + esc(L("tool.dl.crossOriginHint")) + '</p>';
     result.innerHTML = html;
     result.querySelectorAll(".dl-item").forEach(function (b) {
       b.addEventListener("click", function () {
@@ -214,7 +260,12 @@
     fetch(API, {
       method: "POST",
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
-      body: JSON.stringify({ url: u, videoQuality: "720", filenameStyle: "basic" })
+      body: JSON.stringify({
+        url: u,
+        videoQuality: "720",
+        filenameStyle: "basic",
+        alwaysProxy: true
+      })
     })
       .then(function (r) { return r.json(); })
       .then(function (d) {

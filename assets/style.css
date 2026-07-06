@@ -164,6 +164,15 @@ section { padding: 76px 0; }
 .plan li { display: flex; gap: 10px; align-items: flex-start; color: var(--muted); font-size: 15px; }
 .plan li .ck { color: var(--ok); flex-shrink: 0; margin-top: 3px; }
 .plan .btn { width: 100%; justify-content: center; }
+.buy-with-refund { display: flex; flex-direction: column; gap: 10px; align-items: stretch; }
+.refund-shield {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  color: var(--ok); font-weight: 600; font-size: 14px; text-decoration: none;
+  padding: 8px 12px; border-radius: 10px;
+  background: rgba(52,211,153,.08); border: 1px solid rgba(52,211,153,.28);
+}
+.refund-shield:hover { color: var(--ok); border-color: var(--ok); background: rgba(52,211,153,.12); }
+.refund-shield svg { flex-shrink: 0; }
 
 /* ---------- FAQ ---------- */
 .faq { max-width: 780px; margin: 0 auto; display: grid; gap: 14px; }

@@ -44,6 +44,11 @@
   </url>
   <url>
     <loc>https://fluxgrab.com/guides/download-youtube-videos.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://fluxgrab.com/guides/bilibili-cookies.html</loc>
     <lastmod>2026-07-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
