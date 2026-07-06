@@ -292,29 +292,41 @@
     return { title: title, thumb: thumb };
   }
 
-  function fetchPreview(pageUrl, sourceName) {
-    var base = { source: sourceName || "" };
-    function noembed() {
-      return fetch("https://noembed.com/embed?url=" + encodeURIComponent(pageUrl))
-        .then(function (r) { return r.ok ? r.json() : null; })
-        .then(function (d) {
-          if (!d || d.error) return null;
-          return normalizePreview(d);
-        })
-        .catch(function () { return null; });
+    function noembedJsonp(pageUrl) {
+      return new Promise(function (resolve) {
+        var cb = "_fgNoembed_" + Date.now() + "_" + Math.floor(Math.random() * 1e6);
+        var timer = setTimeout(function () { cleanup(); resolve(null); }, 9000);
+        var script;
+        function cleanup() {
+          clearTimeout(timer);
+          try { delete window[cb]; } catch (e) { window[cb] = undefined; }
+          if (script && script.parentNode) script.parentNode.removeChild(script);
+        }
+        window[cb] = function (data) {
+          cleanup();
+          if (!data || data.error) resolve(null);
+          else resolve(normalizePreview(data));
+        };
+        script = document.createElement("script");
+        script.src = "https://noembed.com/embed?url=" + encodeURIComponent(pageUrl) + "&callback=" + cb;
+        script.onerror = function () { cleanup(); resolve(null); };
+        document.head.appendChild(script);
+      });
     }
-    var direct = oembedEndpoint(pageUrl);
-    var chain = direct
-      ? fetch(direct)
+
+    function fetchPreview(pageUrl, sourceName) {
+      var base = { source: sourceName || "" };
+      return noembedJsonp(pageUrl).then(function (p) {
+        if (p && (p.thumb || p.title)) return Object.assign({}, base, p);
+        var direct = oembedEndpoint(pageUrl);
+        if (!direct) return base;
+        return fetch(direct)
           .then(function (r) { return r.ok ? r.json() : null; })
           .then(normalizePreview)
-          .catch(function () { return null; })
-      : Promise.resolve(null);
-    return chain.then(function (p) {
-      if (p && (p.thumb || p.title)) return Object.assign({}, base, p);
-      return noembed().then(function (n) { return n ? Object.assign({}, base, n) : base; });
-    });
-  }
+          .then(function (d) { return d ? Object.assign({}, base, d) : base; })
+          .catch(function () { return base; });
+      });
+    }
 
   function previewFromPicker(picker, preview) {
     preview = preview || {};
@@ -355,7 +367,10 @@
       .then(function (r) { return r.json(); })
       .then(function (d) {
         if (!d || d.status === "error") {
-          showError((d && d.error && (d.error.code || d.error.text)) || "—");
+          var code = d && d.error && d.error.code;
+          var msg = code || (d && d.error && d.error.text) || "—";
+          if (code === "error.api.fetch.fail") msg = L("tool.error.fetchFail");
+          showError(msg);
           return;
         }
         previewPromise.then(function (preview) {
