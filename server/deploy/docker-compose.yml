@@ -1,0 +1,54 @@
+services:
+  cobalt-api:
+    image: ghcr.io/imputnet/cobalt:11
+    init: true
+    read_only: true
+    restart: unless-stopped
+    container_name: cobalt-api
+    environment:
+      API_URL: "https://api.fluxgrab.com/"
+    networks: [web]
+
+  license-api:
+    build: ../license_server
+    restart: unless-stopped
+    container_name: license-api
+    environment:
+      DATA_DIR: /data
+      ACTIVATION_LIMIT: "3"
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
+      STRIPE_PRODUCT_NAME: "FluxGrab Pro"
+      LEMONSQUEEZY_API_KEY: ${LEMONSQUEEZY_API_KEY:-}
+      LEMONSQUEEZY_WEBHOOK_SECRET: ${LEMONSQUEEZY_WEBHOOK_SECRET:-}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM: ${SMTP_FROM:-FluxGrab <support@fluxgrab.com>}
+    volumes:
+      - license_data:/data
+    networks: [web]
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    container_name: caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks: [web]
+    depends_on:
+      - cobalt-api
+      - license-api
+
+networks:
+  web:
+
+volumes:
+  caddy_data:
+  caddy_config:
+  license_data:
