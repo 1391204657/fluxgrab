@@ -86,14 +86,16 @@
         <span>Flux<b>Grab</b></span>
       </a>
       <nav class="nav-links">
-        <a href="#features">Features</a>
-        <a href="#how">How it works</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#faq">FAQ</a>
+        <a href="#features" data-i18n="nav.features">Features</a>
+        <a href="#how" data-i18n="nav.how">How it works</a>
+        <a href="#pricing" data-i18n="nav.pricing">Pricing</a>
+        <a href="#faq" data-i18n="nav.faq">FAQ</a>
       </nav>
       <div class="nav-cta">
-        <a class="btn btn-ghost" href="app.html">Online downloader</a>
-        <a class="btn btn-primary" href="#" data-download-win>Get FluxGrab</a>
+        <label class="lang-wrap" for="langSelect">
+          <select id="langSelect" class="lang-select" aria-label="Language"></select>
+        </label>
+        <a class="btn btn-primary" href="#" data-download-win data-i18n="nav.get">Get FluxGrab</a>
       </div>
     </div>
   </header>
@@ -102,19 +104,19 @@
     <!-- Hero -->
     <section class="hero">
       <div class="container">
-        <span class="badge"><span class="dot"></span> Works on Windows · macOS coming soon</span>
-        <h1>Save the videos you love,<br /><span class="grad">in one click.</span></h1>
-        <p class="lead">
-          FluxGrab is a fast, ad-free <strong>video downloader</strong> for keeping offline copies of media
-          <strong>you own or are licensed to download</strong> — from TikTok, X&nbsp;(Twitter),
-          Instagram and 1,000+ sites. Paste a link, pick a quality, and it just works.
+        <span class="badge"><span class="dot"></span> <span data-i18n="hero.badge">Works on Windows · macOS coming soon</span></span>
+        <h1><span data-i18n="hero.h1a">Save the videos you love,</span><br /><span class="grad" data-i18n="hero.h1b">in one click.</span></h1>
+        <p class="lead" data-i18n="hero.lead">
+          FluxGrab is a fast, ad-free video downloader for keeping offline copies of media
+          you own or are licensed to download — from TikTok, X (Twitter),
+          Instagram and 1,000+ sites.
         </p>
         <div class="hero-actions">
-          <a class="btn btn-primary btn-lg" href="#" data-download-win>Download for Windows</a>
-          <a class="btn btn-ghost btn-lg" href="app.html">Try it online — 1,000+ sites</a>
+          <a class="btn btn-primary btn-lg" href="#" data-download-win data-i18n="hero.download">Download for Windows</a>
         </div>
-        <div class="subnote">Free plan available · No account required to start · One-time Pro, no subscription</div>
+        <div class="subnote" data-i18n="hero.subnote">Free plan available · No account required to start · One-time Pro, no subscription</div>
 
+        <p class="mock-caption" data-i18n="hero.mockCaption">Desktop app preview</p>
         <!-- Product mock -->
         <div class="mock" aria-hidden="true">
           <div class="mock-bar"><i></i><i></i><i></i></div>
@@ -210,7 +212,7 @@
               <li><span class="ck">✓</span> Windows desktop app</li>
               <li><span class="ck">✓</span> No account required</li>
             </ul>
-            <a class="btn btn-ghost" href="#download">Get started free</a>
+            <a class="btn btn-ghost" href="#" data-download-win data-i18n="pricing.freeBtn">Get started free</a>
           </div>
           <div class="plan pro">
             <span class="tag">LIFETIME</span>
@@ -234,14 +236,14 @@
     <section id="download">
       <div class="container">
         <div class="cta-band">
-          <h2>Download FluxGrab</h2>
-          <p>Free to start. Upgrade to Pro anytime from inside the app.</p>
-          <p class="subnote" style="margin-top:12px;margin-bottom:20px">Download is free — no license key needed to install. Paste your Pro key inside the app after purchase.</p>
+          <h2 data-i18n="dl.title">Download FluxGrab</h2>
+          <p data-i18n="dl.p">Free to start. Upgrade to Pro anytime from inside the app.</p>
+          <p class="subnote" style="margin-top:12px;margin-bottom:20px" data-i18n="dl.note">Download is free — no license key needed to install. Paste your Pro key inside the app after purchase.</p>
           <div class="hero-actions">
-            <a class="btn btn-primary btn-lg" href="#" data-download-win>⬇ Windows (.exe)</a>
-            <a class="btn btn-ghost btn-lg" href="#" aria-disabled="true">macOS — coming soon</a>
+            <a class="btn btn-primary btn-lg" href="#" data-download-win data-i18n="dl.win">⬇ Windows (.zip)</a>
+            <a class="btn btn-ghost btn-lg" href="#" aria-disabled="true" data-i18n="dl.mac">macOS — coming soon</a>
           </div>
-          <div class="subnote">Free plan included · No account required · Upgrade to Pro anytime inside the app.</div>
+          <div class="subnote" data-i18n="dl.sub">Free plan included · No account required · Upgrade to Pro anytime inside the app.</div>
         </div>
       </div>
     </section>
@@ -274,20 +276,20 @@
           <p style="font-size:13px;margin:0">FluxGrab is an independent tool for personal, lawful media backup. It is not affiliated with, endorsed by, or sponsored by any third-party video platform. Users are solely responsible for complying with applicable laws and the terms of the services they use.</p>
         </div>
         <div class="col">
-          <h4>Product</h4>
-          <a href="#features">Features</a>
-          <a href="#pricing">Pricing</a>
-          <a href="#download">Download</a>
-          <a href="app.html">Online downloader</a>
+          <h4 data-i18n="foot.product">Product</h4>
+          <a href="#features" data-i18n="nav.features">Features</a>
+          <a href="#pricing" data-i18n="nav.pricing">Pricing</a>
+          <a href="#" data-download-win data-i18n="nav.get">Download</a>
+          <a href="app.html" data-i18n="foot.online">Online tool</a>
         </div>
         <div class="col">
-          <h4>Legal</h4>
+          <h4 data-i18n="foot.legal">Legal</h4>
           <a href="terms.html">Terms of Service</a>
           <a href="privacy.html">Privacy Policy</a>
           <a href="refund.html">Refund Policy</a>
         </div>
         <div class="col">
-          <h4>Support</h4>
+          <h4 data-i18n="foot.support">Support</h4>
           <a href="mailto:support@fluxgrab.com">support@fluxgrab.com</a>
         </div>
       </div>
@@ -298,6 +300,8 @@
     </div>
   </footer>
 
+  <script src="assets/i18n.js"></script>
   <script src="assets/app.js"></script>
+  <script>FluxGrabI18n.init();</script>
 </body>
 </html>
