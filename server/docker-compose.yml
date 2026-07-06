@@ -1,42 +1,51 @@
-services:
-  cobalt-api:
-    image: ghcr.io/imputnet/cobalt:11
-    init: true
-    read_only: true
-    restart: unless-stopped
-    container_name: cobalt-api
-    environment:
-      API_URL: "https://api.fluxgrab.com/"
-    networks: [web]
-
-  license-api:
-    build: ./license_server
-    restart: unless-stopped
-    container_name: license-api
-    environment:
-      LEMONSQUEEZY_API_KEY: ${LEMONSQUEEZY_API_KEY:-}
-      LEMONSQUEEZY_WEBHOOK_SECRET: ${LEMONSQUEEZY_WEBHOOK_SECRET:-}
-    networks: [web]
-
-  caddy:
-    image: caddy:2
-    restart: unless-stopped
-    container_name: caddy
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - caddy_data:/data
-      - caddy_config:/config
-    networks: [web]
-    depends_on:
-      - cobalt-api
-      - license-api
-
-networks:
-  web:
-
-volumes:
-  caddy_data:
-  caddy_config:
+services:
+  cobalt-api:
+    image: ghcr.io/imputnet/cobalt:11
+    init: true
+    read_only: true
+    restart: unless-stopped
+    container_name: cobalt-api
+    environment:
+      API_URL: "https://api.fluxgrab.com/"
+    networks: [web]
+
+  analytics-api:
+    build: ./analytics_server
+    restart: unless-stopped
+    container_name: analytics-api
+    environment:
+      DATA_DIR: /data
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      FLUXGRAB_SECRET: ${FLUXGRAB_SECRET:-change-me}
+      IP_SALT: ${IP_SALT:-fluxgrab}
+      LEMONSQUEEZY_API_KEY: ${LEMONSQUEEZY_API_KEY:-}
+      LEMONSQUEEZY_WEBHOOK_SECRET: ${LEMONSQUEEZY_WEBHOOK_SECRET:-}
+      CORS_ORIGINS: "https://fluxgrab.com,https://www.fluxgrab.com"
+    volumes:
+      - analytics_data:/data
+    networks: [web]
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    container_name: caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks: [web]
+    depends_on:
+      - cobalt-api
+      - analytics-api
+
+networks:
+  web:
+
+volumes:
+  caddy_data:
+  caddy_config:
+  analytics_data:
+

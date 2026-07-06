@@ -1,11 +1,15 @@
 api.fluxgrab.com {
-	@license path /license/* /webhook/*
-	handle @license {
-		uri strip_prefix /license
-		reverse_proxy license-api:8080
+	handle /v1/events {
+		reverse_proxy analytics-api:8090
+	}
+	handle /admin* {
+		reverse_proxy analytics-api:8090
 	}
 	handle /webhook/* {
-		reverse_proxy license-api:8080
+		reverse_proxy analytics-api:8090
+	}
+	handle /health {
+		reverse_proxy analytics-api:8090
 	}
 	handle {
 		reverse_proxy cobalt-api:9000

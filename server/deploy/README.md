@@ -1,4 +1,6 @@
-# Deploy license server on api.fluxgrab.com
+# Deploy FluxGrab API stack on api.fluxgrab.com
+
+Services: **Cobalt** (online parse) + **Analytics** (stats admin + Lemon webhooks) + **Caddy** (HTTPS).
 
 ## 1. Upload to server
 
@@ -6,22 +8,40 @@ On your DigitalOcean droplet (`/opt/fluxgrab`):
 
 ```bash
 cd /opt/fluxgrab
-# copy deploy/ and license_server/ from this repo
+git pull   # or copy server/ from repo
 ```
 
-## 2. Configure secrets
+Directory layout:
+
+```
+/opt/fluxgrab/
+  deploy/docker-compose.yml
+  deploy/Caddyfile
+  deploy/.env
+  analytics_server/
+  license_server/   # legacy, no longer required in compose
+```
+
+## 2. Configure `.env`
 
 ```bash
 cd /opt/fluxgrab/deploy
 cp .env.example .env
-nano .env   # set STRIPE_WEBHOOK_SECRET=whsec_...
+nano .env
 ```
 
-Optional SMTP so customers receive license keys by email automatically.
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `ADMIN_PASSWORD` | **Yes** | Admin dashboard login password |
+| `FLUXGRAB_SECRET` | Yes | Random 32+ chars for session cookies |
+| `LEMONSQUEEZY_API_KEY` | For refunds | Lemon API key |
+| `LEMONSQUEEZY_WEBHOOK_SECRET` | For webhooks | Same as Lemon dashboard signing secret |
+| `IP_SALT` | Optional | Salt for visitor hashing (privacy) |
 
-## 3. Update stack
+## 3. Start / update stack
 
 ```bash
+cd /opt/fluxgrab/deploy
 docker compose down
 docker compose up -d --build
 ```
@@ -29,54 +49,57 @@ docker compose up -d --build
 Verify:
 
 ```bash
-curl -s https://api.fluxgrab.com/license/health
-# {"ok":true,"service":"fluxgrab-license"}
+curl -s https://api.fluxgrab.com/health
+# {"ok":true,"service":"fluxgrab-analytics"}
 ```
 
-## 4. Lemon Squeezy webhook (refund → revoke license)
+## 4. Admin dashboard
 
-Dashboard → **Settings → Webhooks → +**
+Open: **https://api.fluxgrab.com/admin/**
+
+Log in with `ADMIN_PASSWORD` from `.env`.
+
+Shows: daily pageviews, visitors, download clicks, parse stats, ad clicks, revenue, referrers, orders, feedback.
+
+## 5. Lemon Squeezy webhooks
+
+Dashboard → **Settings → Webhooks** → edit existing webhook:
 
 | Field | Value |
-|---|---|
+|-------|-------|
 | URL | `https://api.fluxgrab.com/webhook/lemon` |
-| Signing secret | random 32+ chars → copy to `.env` as `LEMONSQUEEZY_WEBHOOK_SECRET` |
-| Events | **`order_refunded`** only |
+| Signing secret | same as `LEMONSQUEEZY_WEBHOOK_SECRET` in `.env` |
+| Events | **`order_created`** and **`order_refunded`** |
 
-Also create an API key: **Settings → API → +** → copy to `.env` as `LEMONSQUEEZY_API_KEY`.
+- `order_created` → records payment in admin stats
+- `order_refunded` → records refund + disables license key (full refund)
 
-When a customer gets a **full refund**, the server calls Lemon’s API and sets the license key to **`disabled`**. The desktop app’s next validate/activate will fail; they must buy again.
+After changing events, restart is not required.
+
+## 6. Website analytics
+
+The site sends events to `https://api.fluxgrab.com/v1/events` via `assets/analytics.js` (included on homepage).
+
+Tracked events: `pageview`, `download_win`, `parse_ok`, `parse_fail`, `ad_impression`, `ad_click`, `buy_click`.
+
+Deploy updated website (`git push` on fluxgrab.com repo) for tracking to start.
+
+## 7. Migrate from old `license-api` container
+
+If you previously ran `license-api`, the new stack replaces it:
 
 ```bash
+docker stop license-api 2>/dev/null; docker rm license-api 2>/dev/null
 docker compose up -d --build
 ```
 
-## 5. Stripe webhook (optional)
+Webhook URL stays the same; routing now goes to `analytics-api`.
 
-Dashboard → Developers → Webhooks → Add endpoint
-
-- URL: `https://api.fluxgrab.com/webhook/stripe`
-- Events: `checkout.session.completed`
-- Copy signing secret → `STRIPE_WEBHOOK_SECRET` in `.env` → `docker compose up -d`
-
-## 5. Payment Link settings
-
-Edit FluxGrab Pro Payment Link:
-
-- **After payment** → redirect to `https://fluxgrab.com/thanks.html`
-
-## 6. Chinese payments
-
-Stripe Dashboard → Settings → Payment methods → enable **Alipay**, **WeChat Pay**, **UnionPay**.
-
-Checkout shows them automatically for eligible customers.
-
-## 7. Manual license lookup (no SMTP yet)
+## 8. Backup analytics data
 
 ```bash
-docker exec -it license-api python -c "
-import sqlite3
-for row in sqlite3.connect('/data/licenses.db').execute('SELECT email,license_key,created_at FROM licenses ORDER BY id DESC LIMIT 5'):
-    print(row)
-"
+docker run --rm -v fluxgrab_analytics_data:/data -v $(pwd):/backup alpine \
+  tar czf /backup/analytics-backup.tar.gz -C /data .
 ```
+
+SQLite file: `/data/analytics.db` inside `analytics-api` volume.

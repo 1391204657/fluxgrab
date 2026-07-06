@@ -14,6 +14,10 @@
     return window.FluxGrabI18n ? FluxGrabI18n.t(key, vars) : key;
   }
 
+  function track(ev, meta) {
+    if (window.FluxGrabAnalytics) FluxGrabAnalytics.track(ev, meta || {});
+  }
+
   var API = (cfg.COBALT_API_URL || "").trim();
 
   var urlInput = document.getElementById("url");
@@ -157,6 +161,7 @@
   }
 
   function showError(msg) {
+    track("parse_fail", { msg: msg });
     result.hidden = false;
     result.className = "result err";
     result.innerHTML = '<p>' + esc(L("tool.error.parse", { msg: msg })) + '</p>';
@@ -174,6 +179,7 @@
   }
 
   function showReady(items) {
+    track("parse_ok");
     result.hidden = false;
     result.className = "result ready";
     var html = '<h3>' + esc(L("tool.ready.title")) + '</h3><div class="dl-list">';
@@ -235,7 +241,7 @@
     var c = classify(u);
     lastRun = { u: u, c: c };
     if (c.type === "invalid") { showError(L("tool.error.invalid")); return; }
-    if (c.type === "online") { parseOnline(u, c.name || ""); return; }
+    if (c.type === "online") { track("parse_start", { platform: c.name }); parseOnline(u, c.name || ""); return; }
     if (ytId(u)) { showYouTubePreview(u); return; }
     showDesktopGate(displayName(c));
   }
