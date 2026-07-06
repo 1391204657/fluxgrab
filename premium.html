@@ -48,38 +48,39 @@
       <div class="payment-methods" id="payment">
         <h2 data-i18n="premium.pay.h2">Supported payment methods</h2>
         <p data-i18n="premium.pay.lead">Payments are processed securely by our checkout partner. We never see or store your card or wallet details.</p>
+        <p class="muted small pay-click-hint" data-i18n="premium.pay.clickHint">Click a payment method to pay</p>
         <div class="pay-grid pay-grid-icons">
-          <div class="pay-item">
+          <button type="button" class="pay-item pay-click" data-pay="card">
             <div class="pay-icon-row">
               <img src="assets/pay/visa.svg" alt="Visa" width="48" height="32" />
               <img src="assets/pay/mastercard.svg" alt="Mastercard" width="48" height="32" />
             </div>
             <span data-i18n="premium.pay.visa">Visa / Mastercard</span>
-          </div>
-          <div class="pay-item">
+          </button>
+          <button type="button" class="pay-item pay-click" data-pay="paypal">
             <img src="assets/pay/paypal.svg" alt="PayPal" width="48" height="32" />
             <span data-i18n="premium.pay.paypal">PayPal</span>
-          </div>
-          <div class="pay-item">
+          </button>
+          <button type="button" class="pay-item pay-click" data-pay="apple">
             <img src="assets/pay/apple-pay.svg" alt="Apple Pay" width="48" height="32" />
             <span data-i18n="premium.pay.apple">Apple Pay</span>
-          </div>
-          <div class="pay-item">
-            <img src="assets/pay/google-pay.svg" alt="Google Pay" width="48" height="32" />
+          </button>
+          <button type="button" class="pay-item pay-click" data-pay="google">
+            <img src="assets/pay/google-pay.png" alt="Google Pay" width="40" height="40" class="pay-icon-square" />
             <span data-i18n="premium.pay.google">Google Pay</span>
-          </div>
-          <div class="pay-item">
-            <img src="assets/pay/alipay.svg" alt="Alipay" width="48" height="32" />
+          </button>
+          <button type="button" class="pay-item pay-click" data-pay="alipay">
+            <img src="assets/pay/alipay.png" alt="Alipay" width="40" height="40" class="pay-icon-square" />
             <span data-i18n="premium.pay.alipay">Alipay</span>
-          </div>
-          <div class="pay-item">
+          </button>
+          <button type="button" class="pay-item pay-click" data-pay="wechat">
             <img src="assets/pay/wechat-pay.svg" alt="WeChat Pay" width="48" height="32" />
             <span data-i18n="premium.pay.wechat">WeChat Pay</span>
-          </div>
-          <div class="pay-item">
+          </button>
+          <button type="button" class="pay-item pay-click" data-pay="unionpay">
             <img src="assets/pay/unionpay.svg" alt="UnionPay" width="48" height="32" />
             <span data-i18n="premium.pay.unionpay">UnionPay</span>
-          </div>
+          </button>
         </div>
         <p class="muted small" data-i18n="premium.pay.note">Available methods depend on your country and device — the checkout page shows what you can use.</p>
       </div>
@@ -119,9 +120,26 @@
     </div>
   </footer>
 
+  <div id="payModal" class="pay-modal" hidden>
+    <div class="pay-modal-backdrop" data-pay-close></div>
+    <div class="pay-modal-panel" role="dialog" aria-modal="true" aria-labelledby="payModalTitle">
+      <button type="button" class="pay-modal-close" data-pay-close aria-label="Close">&times;</button>
+      <div id="payModalIcon" class="pay-modal-icon"></div>
+      <h3 id="payModalTitle"></h3>
+      <p id="payModalBody" class="pay-modal-body"></p>
+      <p id="payModalQrHint" class="pay-modal-qr" hidden></p>
+      <button type="button" id="payModalGo" class="btn btn-primary btn-lg pay-modal-btn" data-i18n="premium.pay.modal.btn">Open secure checkout</button>
+      <div id="payModalIframeWrap" class="pay-modal-iframe-wrap" hidden>
+        <iframe id="payCheckoutFrame" title="Secure checkout" loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
   <script src="assets/app.js"></script>
   <script src="assets/lang-nav.js"></script>
   <script src="assets/i18n.js"></script>
+  <script src="assets/premium-pay.js"></script>
   <script src="assets/analytics.js"></script>
   <script>FluxGrabI18n.init();</script>
 </body>
