@@ -103,3 +103,40 @@ docker run --rm -v fluxgrab_analytics_data:/data -v $(pwd):/backup alpine \
 ```
 
 SQLite file: `/data/analytics.db` inside `analytics-api` volume.
+
+## 9. Support email (`support@fluxgrab.com`)
+
+**Receive mail at your inbox (recommended, free):**
+
+1. Add domain **fluxgrab.com** to [Cloudflare](https://dash.cloudflare.com) (move DNS there if needed).
+2. **Email → Email Routing → Get started** → create address `support@fluxgrab.com` → forward to your personal Gmail/Outlook.
+3. Cloudflare adds the required MX records automatically.
+4. Test by sending mail to `support@fluxgrab.com`.
+
+No code changes needed — `mailto:support@fluxgrab.com` links across the site will work.
+
+**Feedback form:** `contact.html` posts to `/v1/events` and appears in **Admin → Recent feedback**.
+
+**Optional instant email alert** when someone submits the form (in addition to admin dashboard):
+
+```env
+FEEDBACK_NOTIFY_EMAIL=you@gmail.com
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=you@gmail.com
+SMTP_PASS=xxxx-xxxx-xxxx-xxxx   # Gmail App Password, not your login password
+SMTP_FROM=support@fluxgrab.com
+```
+
+Then `docker compose up -d --build` in `/opt/fluxgrab/deploy`.
+
+## 10. Traffic source notes
+
+`direct` = browser sent no referrer. This includes:
+
+- Typed URL or bookmarks (cannot be distinguished — browsers do not expose this)
+- In-app browsers (WeChat, Telegram, etc.) — now labeled separately when User-Agent matches
+- Your own visits while testing
+- Privacy extensions stripping referrer
+
+When you share links later, add `?utm_source=wechat` (or `twitter`, `reddit`) to see campaign breakdown in admin referrers.

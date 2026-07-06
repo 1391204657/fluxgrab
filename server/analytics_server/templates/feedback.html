@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>用户反馈 — FluxGrab Admin</title>
+  <link rel="stylesheet" href="/admin/static/admin.css" />
+</head>
+<body>
+  <header class="top">
+    <div>
+      <strong>FluxGrab Admin</strong>
+      <span class="muted">· 用户反馈</span>
+      {% if open_count %}<span class="badge">{{ open_count }} 待处理</span>{% endif %}
+    </div>
+    <div class="top-links">
+      <a href="/admin/">仪表盘</a>
+      <a href="/admin/logout">退出</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="panel">
+      <div class="toolbar">
+        <h2>反馈列表</h2>
+        <div class="filters">
+          <a href="/admin/feedback" class="{% if not status_filter %}active{% endif %}">全部</a>
+          <a href="/admin/feedback?status=new" class="{% if status_filter == 'new' %}active{% endif %}">新反馈</a>
+          <a href="/admin/feedback?status=in_progress" class="{% if status_filter == 'in_progress' %}active{% endif %}">处理中</a>
+          <a href="/admin/feedback?status=resolved" class="{% if status_filter == 'resolved' %}active{% endif %}">已解决</a>
+        </div>
+      </div>
+
+      {% if not items %}
+      <p class="muted">暂无反馈。用户可在 <a href="https://fluxgrab.com/help.html#contact" target="_blank" rel="noopener">help.fluxgrab.com</a> 提交。</p>
+      {% else %}
+      <div class="feedback-list">
+        {% for f in items %}
+        <article class="feedback-card status-{{ f.status }}">
+          <div class="feedback-head">
+            <span class="tag status-tag">{{ f.status }}</span>
+            <span class="muted">{{ f.ts[:16] }}</span>
+            {% if f.email %}
+            <a href="mailto:{{ f.email }}">{{ f.email }}</a>
+            {% else %}
+            <span class="muted">未留邮箱</span>
+            {% endif %}
+            {% if f.path %}<span class="muted">· {{ f.path }}</span>{% endif %}
+          </div>
+          <p class="feedback-msg">{{ f.message }}</p>
+          <form method="post" class="feedback-actions">
+            <input type="hidden" name="id" value="{{ f.id }}" />
+            <input type="hidden" name="status" value="{{ status_filter }}" />
+            <button type="submit" name="action" value="new" class="btn-sm">标为新建</button>
+            <button type="submit" name="action" value="in_progress" class="btn-sm">处理中</button>
+            <button type="submit" name="action" value="resolved" class="btn-sm ok">已解决</button>
+          </form>
+          <form method="post" class="note-form">
+            <input type="hidden" name="id" value="{{ f.id }}" />
+            <input type="hidden" name="status" value="{{ status_filter }}" />
+            <label>内部备注</label>
+            <textarea name="admin_note" rows="2" placeholder="仅管理员可见">{{ f.admin_note or '' }}</textarea>
+            <button type="submit" name="action" value="save_note" class="btn-sm">保存备注</button>
+          </form>
+        </article>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </section>
+  </main>
+</body>
+</html>

@@ -67,6 +67,24 @@
     <priority>0.3</priority>
   </url>
   <url>
+    <loc>https://fluxgrab.com/contact.html</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://fluxgrab.com/help.html</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://fluxgrab.com/premium.html</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://fluxgrab.com/thanks.html</loc>
     <lastmod>2026-07-06</lastmod>
     <changefreq>yearly</changefreq>

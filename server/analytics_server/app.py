@@ -7,8 +7,10 @@ import hashlib
 import hmac
 import json
 import os
+import smtplib
 import urllib.error
 import urllib.request
+from email.message import EmailMessage
 
 from flask import (
     Flask,
@@ -40,6 +42,12 @@ ALLOWED_ORIGINS = {
     ).split(",")
     if o.strip()
 }
+FEEDBACK_NOTIFY_EMAIL = os.environ.get("FEEDBACK_NOTIFY_EMAIL", "").strip()
+SMTP_HOST = os.environ.get("SMTP_HOST", "").strip()
+SMTP_PORT = int(os.environ.get("SMTP_PORT", "587") or "587")
+SMTP_USER = os.environ.get("SMTP_USER", "").strip()
+SMTP_PASS = os.environ.get("SMTP_PASS", "").strip()
+SMTP_FROM = os.environ.get("SMTP_FROM", SMTP_USER or "noreply@fluxgrab.com").strip()
 
 db.init_db()
 
@@ -59,6 +67,28 @@ def _cors(resp: Response) -> Response:
         resp.headers["Access-Control-Allow-Headers"] = "Content-Type"
         resp.headers["Vary"] = "Origin"
     return resp
+
+
+def _notify_feedback_email(email: str, message: str, path: str) -> None:
+    """Optional: email new feedback when SMTP + FEEDBACK_NOTIFY_EMAIL are set."""
+    if not FEEDBACK_NOTIFY_EMAIL or not SMTP_HOST:
+        return
+    try:
+        msg = EmailMessage()
+        msg["Subject"] = "FluxGrab feedback"
+        msg["From"] = SMTP_FROM
+        msg["To"] = FEEDBACK_NOTIFY_EMAIL
+        if email:
+            msg["Reply-To"] = email
+        body = f"From: {email or '(no email)'}\nPage: {path or '/'}\n\n{message}"
+        msg.set_content(body)
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=15) as smtp:
+            smtp.starttls()
+            if SMTP_USER and SMTP_PASS:
+                smtp.login(SMTP_USER, SMTP_PASS)
+            smtp.send_message(msg)
+    except Exception as exc:
+        APP.logger.warning("feedback email failed: %s", exc)
 
 
 def _verify_lemon_sig(raw: bytes) -> bool:
@@ -160,19 +190,24 @@ def ingest_event():
     lang = (data.get("lang") or "")[:32]
     meta = data.get("meta") if isinstance(data.get("meta"), dict) else {}
 
+    ua = request.headers.get("User-Agent", "")[:500]
+
     if event == "feedback":
         message = (meta.get("message") or data.get("message") or "").strip()
         if len(message) < 3:
             return _cors(jsonify({"error": "message too short"})), 400
-        db.insert_feedback(meta.get("email") or data.get("email") or "", message, path)
+        email = meta.get("email") or data.get("email") or ""
+        db.insert_feedback(email, message, path)
         db.insert_event(
             event="feedback",
             path=path,
             referrer=referrer,
             lang=lang,
-            meta={"email": meta.get("email", "")},
+            meta={"email": email},
             visitor=_visitor_id(),
+            user_agent=ua,
         )
+        _notify_feedback_email(email, message, path)
         return _cors(jsonify({"ok": True}))
 
     db.insert_event(
@@ -182,6 +217,7 @@ def ingest_event():
         lang=lang,
         meta=meta,
         visitor=_visitor_id(),
+        user_agent=ua,
     )
     return _cors(jsonify({"ok": True}))
 
@@ -283,6 +319,32 @@ def admin_dashboard():
     for o in stats["recent_orders"]:
         o["amount_fmt"] = _fmt_money(int(o["amount"]), o.get("currency") or "USD")
     return render_template("dashboard.html", s=stats)
+
+
+@APP.route("/admin/feedback", methods=["GET", "POST"])
+def admin_feedback():
+    gate = _admin_required()
+    if gate:
+        return gate
+
+    if request.method == "POST":
+        fid = request.form.get("id", type=int)
+        action = (request.form.get("action") or "").strip()
+        if fid and action in ("new", "in_progress", "resolved"):
+            db.update_feedback(fid, status=action)
+        elif fid and action == "save_note":
+            db.update_feedback(fid, admin_note=(request.form.get("admin_note") or "")[:2000])
+        status_filter = request.form.get("status") or request.args.get("status")
+        return redirect(url_for("admin_feedback", status=status_filter or None))
+
+    status_filter = request.args.get("status")
+    items = db.list_feedback(status=status_filter or None, limit=200)
+    return render_template(
+        "feedback.html",
+        items=items,
+        status_filter=status_filter or "",
+        open_count=db.feedback_open_count(),
+    )
 
 
 if __name__ == "__main__":

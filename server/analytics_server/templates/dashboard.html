@@ -11,8 +11,12 @@
     <div>
       <strong>FluxGrab Admin</strong>
       <span class="muted">· {{ s.day }}</span>
+      {% if s.feedback_open %}<span class="badge">{{ s.feedback_open }} 反馈待处理</span>{% endif %}
     </div>
-    <a href="/admin/logout">退出</a>
+    <div class="top-links">
+      <a href="/admin/feedback">反馈管理</a>
+      <a href="/admin/logout">退出</a>
+    </div>
   </header>
 
   <main class="wrap">
@@ -89,14 +93,22 @@
       </section>
 
       <section class="panel">
-        <h2>用户反馈</h2>
+        <div class="toolbar">
+          <h2>用户反馈</h2>
+          <a href="/admin/feedback">查看全部 →</a>
+        </div>
         <table>
-          <thead><tr><th>时间</th><th>联系</th><th>内容</th></tr></thead>
+          <thead><tr><th>时间</th><th>状态</th><th>联系</th><th>内容</th></tr></thead>
           <tbody>
             {% for f in s.recent_feedback %}
-            <tr><td>{{ f.ts[:16] }}</td><td>{{ f.email or '—' }}</td><td>{{ f.message[:80] }}</td></tr>
+            <tr>
+              <td>{{ f.ts[:16] }}</td>
+              <td><span class="tag">{{ f.status }}</span></td>
+              <td>{% if f.email %}<a href="mailto:{{ f.email }}">{{ f.email }}</a>{% else %}—{% endif %}</td>
+              <td>{{ f.message[:80] }}</td>
+            </tr>
             {% else %}
-            <tr><td colspan="3" class="muted">暂无反馈</td></tr>
+            <tr><td colspan="4" class="muted">暂无反馈 · <a href="https://fluxgrab.com/help.html#contact" target="_blank" rel="noopener">帮助中心</a></td></tr>
             {% endfor %}
           </tbody>
         </table>

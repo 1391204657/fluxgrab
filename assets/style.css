@@ -198,6 +198,63 @@ footer.site { border-top: 1px solid var(--line); padding: 46px 0 60px; color: va
 .legal h2 { font-size: 22px; margin: 34px 0 10px; }
 .legal p, .legal li { color: #c3cae6; }
 .legal a { color: var(--brand); }
+.feedback-form { margin-top: 28px; display: grid; gap: 18px; max-width: 520px; }
+.feedback-form label { display: grid; gap: 8px; font-weight: 600; }
+.feedback-form input, .feedback-form textarea {
+  font: inherit; padding: 12px 14px; border-radius: 10px;
+  border: 1px solid var(--border); background: var(--surface); color: var(--text);
+}
+.feedback-status { margin-top: 8px; }
+.feedback-status.ok { color: #6ee7a0; }
+.feedback-status.err { color: #f87171; }
+.muted { font-weight: 400; color: var(--muted); font-size: 14px; }
+.small { font-size: 13px; }
+
+/* ---------- Premium page ---------- */
+.premium-page { padding-bottom: 48px; }
+.premium-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; padding: 48px 0 24px; }
+.premium-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 32px; box-shadow: 0 24px 60px rgba(0,0,0,.25);
+}
+.premium-card h1 { margin: 12px 0 20px; font-size: 32px; }
+.premium-perks { margin: 0 0 24px; padding: 0; list-style: none; }
+.premium-perks li { padding: 8px 0 8px 28px; position: relative; color: #c3cae6; }
+.premium-perks li::before { content: "✓"; position: absolute; left: 0; color: var(--ok); font-weight: 700; }
+.premium-price { margin-bottom: 20px; }
+.premium-price .amount { font-size: 42px; font-weight: 800; display: block; }
+.premium-price .note { color: var(--muted); font-size: 14px; }
+.premium-local { margin-top: 14px; font-size: 13px; color: var(--muted); }
+.payment-methods { background: var(--card-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; }
+.payment-methods h2 { margin: 0 0 10px; font-size: 20px; }
+.pay-grid { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+.pay-grid span {
+  padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line);
+  background: var(--card); font-size: 13px; color: #c3cae6;
+}
+.premium-faq { padding: 24px 0 40px; }
+.premium-faq h2 { margin-bottom: 16px; }
+
+/* ---------- Help page ---------- */
+.help-page { padding: 40px 24px 60px; max-width: 960px; }
+.help-hero h1 { margin: 0 0 8px; font-size: 36px; }
+.help-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 28px 0 40px; }
+.help-panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; }
+.help-panel h2 { margin: 0 0 14px; font-size: 18px; }
+.help-links { margin: 0; padding: 0; list-style: none; }
+.help-links li { margin: 10px 0; }
+.help-links a { color: var(--brand); }
+.help-links a:hover { text-decoration: underline; }
+.help-contact {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 28px; scroll-margin-top: 80px;
+}
+.help-contact h2 { margin-top: 0; }
+
+@media (max-width: 900px) {
+  .premium-hero { grid-template-columns: 1fr; }
+  .help-grid { grid-template-columns: 1fr; }
+}
 
 /* ---------- Home = tool page ---------- */
 .page-home-tool .tool-hero-compact { padding: 28px 0 48px; text-align: center; }

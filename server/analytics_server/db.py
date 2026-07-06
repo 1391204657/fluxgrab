@@ -58,9 +58,24 @@ def init_db() -> None:
                 ts TEXT NOT NULL,
                 email TEXT,
                 message TEXT NOT NULL,
-                path TEXT
+                path TEXT,
+                status TEXT NOT NULL DEFAULT 'new',
+                admin_note TEXT NOT NULL DEFAULT ''
             );
             """
+        )
+        _migrate_feedback(conn)
+
+
+def _migrate_feedback(conn) -> None:
+    cols = {row[1] for row in conn.execute("PRAGMA table_info(feedback)").fetchall()}
+    if "status" not in cols:
+        conn.execute(
+            "ALTER TABLE feedback ADD COLUMN status TEXT NOT NULL DEFAULT 'new'"
+        )
+    if "admin_note" not in cols:
+        conn.execute(
+            "ALTER TABLE feedback ADD COLUMN admin_note TEXT NOT NULL DEFAULT ''"
         )
 
 
@@ -72,32 +87,53 @@ def today_key() -> str:
     return utc_now().date().isoformat()
 
 
-def parse_source(referrer: str) -> str:
-    if not referrer:
-        return "direct"
-    try:
-        host = (urlparse(referrer).hostname or "").lower()
-    except Exception:
-        return "other"
-    if not host:
-        return "direct"
-    if "google." in host:
-        return "google"
-    if "bing." in host:
-        return "bing"
-    if "baidu." in host:
-        return "baidu"
-    if host in ("t.co",) or "twitter." in host or "x.com" in host:
-        return "twitter"
-    if "facebook." in host or "fb." in host:
-        return "facebook"
-    if "youtube." in host:
-        return "youtube"
-    if "reddit." in host:
-        return "reddit"
-    if "fluxgrab.com" in host:
-        return "fluxgrab"
-    return host
+def parse_source(referrer: str, user_agent: str = "") -> str:
+    if referrer:
+        try:
+            host = (urlparse(referrer).hostname or "").lower()
+        except Exception:
+            return "other"
+        if not host:
+            pass
+        elif "google." in host:
+            return "google"
+        elif "bing." in host:
+            return "bing"
+        elif "baidu." in host:
+            return "baidu"
+        elif host in ("t.co",) or "twitter." in host or "x.com" in host:
+            return "twitter"
+        elif "facebook." in host or "fb." in host:
+            return "facebook"
+        elif "youtube." in host:
+            return "youtube"
+        elif "reddit." in host:
+            return "reddit"
+        elif "fluxgrab.com" in host:
+            return "fluxgrab"
+        else:
+            return host
+
+    ua = (user_agent or "").lower()
+    if "micromessenger" in ua:
+        return "wechat"
+    if "telegram" in ua:
+        return "telegram"
+    if "whatsapp" in ua:
+        return "whatsapp"
+    if "fbav" in ua or "fban" in ua or "fbios" in ua:
+        return "facebook_app"
+    if "twitter" in ua:
+        return "twitter_app"
+    if "linkedin" in ua:
+        return "linkedin"
+    if "discord" in ua:
+        return "discord"
+    if "line/" in ua:
+        return "line"
+    if "qq/" in ua:
+        return "qq"
+    return "direct"
 
 
 def insert_event(
@@ -108,6 +144,7 @@ def insert_event(
     lang: str = "",
     meta: dict | None = None,
     visitor: str = "",
+    user_agent: str = "",
 ) -> None:
     now = utc_now().isoformat()
     day = today_key()
@@ -123,7 +160,7 @@ def insert_event(
                 event,
                 path or "",
                 referrer or "",
-                parse_source(referrer or ""),
+                parse_source(referrer or "", user_agent),
                 lang or "",
                 json.dumps(meta or {}, ensure_ascii=False),
                 visitor or "",
@@ -168,12 +205,71 @@ def mark_order_refunded(order_id: str) -> None:
         )
 
 
-def insert_feedback(email: str, message: str, path: str = "") -> None:
+def insert_feedback(email: str, message: str, path: str = "") -> int:
     with _conn() as conn:
-        conn.execute(
-            "INSERT INTO feedback (ts, email, message, path) VALUES (?, ?, ?, ?)",
+        cur = conn.execute(
+            """
+            INSERT INTO feedback (ts, email, message, path, status, admin_note)
+            VALUES (?, ?, ?, ?, 'new', '')
+            """,
             (utc_now().isoformat(), email or "", message, path or ""),
         )
+        return int(cur.lastrowid)
+
+
+def list_feedback(*, status: str | None = None, limit: int = 100) -> list[dict]:
+    with _conn() as conn:
+        if status:
+            rows = conn.execute(
+                """
+                SELECT id, ts, email, message, path, status, admin_note
+                FROM feedback WHERE status=?
+                ORDER BY id DESC LIMIT ?
+                """,
+                (status, limit),
+            ).fetchall()
+        else:
+            rows = conn.execute(
+                """
+                SELECT id, ts, email, message, path, status, admin_note
+                FROM feedback ORDER BY id DESC LIMIT ?
+                """,
+                (limit,),
+            ).fetchall()
+    return [dict(r) for r in rows]
+
+
+def feedback_open_count() -> int:
+    with _conn() as conn:
+        row = conn.execute(
+            "SELECT COUNT(*) AS c FROM feedback WHERE status != 'resolved'"
+        ).fetchone()
+    return int(row["c"] if row else 0)
+
+
+def update_feedback(
+    feedback_id: int,
+    *,
+    status: str | None = None,
+    admin_note: str | None = None,
+) -> bool:
+    fields: list[str] = []
+    values: list[object] = []
+    if status is not None:
+        fields.append("status=?")
+        values.append(status)
+    if admin_note is not None:
+        fields.append("admin_note=?")
+        values.append(admin_note)
+    if not fields:
+        return False
+    values.append(feedback_id)
+    with _conn() as conn:
+        cur = conn.execute(
+            f"UPDATE feedback SET {', '.join(fields)} WHERE id=?",
+            values,
+        )
+        return cur.rowcount > 0
 
 
 def _count_events(day: str, event: str | None = None) -> int:
@@ -260,7 +356,10 @@ def dashboard_stats() -> dict:
             "SELECT order_id, email, amount, currency, status, created_at, test_mode FROM orders ORDER BY id DESC LIMIT 20"
         ).fetchall()
         recent_feedback = conn.execute(
-            "SELECT ts, email, message, path FROM feedback ORDER BY id DESC LIMIT 15"
+            """
+            SELECT id, ts, email, message, path, status, admin_note
+            FROM feedback ORDER BY id DESC LIMIT 8
+            """
         ).fetchall()
         days = []
         for i in range(6, -1, -1):
@@ -288,5 +387,6 @@ def dashboard_stats() -> dict:
         "recent_events": [dict(r) for r in recent_events],
         "recent_orders": [dict(r) for r in recent_orders],
         "recent_feedback": [dict(r) for r in recent_feedback],
+        "feedback_open": feedback_open_count(),
         "trend": days,
     }
