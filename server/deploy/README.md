@@ -63,6 +63,8 @@ Shows: daily pageviews, visitors, download clicks, parse stats, ad clicks, reven
 
 ## 5. Lemon Squeezy webhooks
 
+**License activation limit (recommended: 3):** In Lemon → your product → **License keys** → set **Activation limit** to `3` so one key works on up to 3 personal PCs (matches the FAQ on premium.html). Set `0` or leave unlimited only if you want no device cap.
+
 Dashboard → **Settings → Webhooks** → edit existing webhook:
 
 | Field | Value |

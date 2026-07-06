@@ -11,7 +11,7 @@
   <header class="nav">
     <div class="container nav-inner">
       <a class="brand" href="index.html"><img class="logo" src="assets/logo.svg" alt="" /><span>Flux<b>Grab</b></span></a>
-      <div class="nav-cta"><a class="btn btn-ghost" href="index.html">← Back to home</a></div>
+      <div class="nav-cta"><a class="btn btn-ghost" href="index.html" data-i18n="nav.backHome">← Back to home</a></div>
     </div>
   </header>
 
@@ -61,6 +61,8 @@
 
   <footer class="site"><div class="container foot-bottom"><span>© <span data-updated>2026</span> FluxGrab.</span><span><a href="terms.html" style="color:var(--brand)">Terms</a> · <a href="refund.html" style="color:var(--brand)">Refunds</a></span></div></footer>
   <script src="assets/app.js"></script>
-  <script>document.querySelectorAll('[data-updated]').forEach(function(e){e.textContent=new Date().getFullYear();});</script>
+  <script src="assets/lang-nav.js"></script>
+  <script src="assets/i18n.js"></script>
+  <script>FluxGrabI18n.init(); document.querySelectorAll('[data-updated]').forEach(function(e){e.textContent=new Date().getFullYear();});</script>
 </body>
 </html>

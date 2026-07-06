@@ -13,8 +13,8 @@
     <div class="container nav-inner">
       <a class="brand" href="index.html"><img class="logo" src="assets/logo.svg" alt="" /><span>Flux<b>Grab</b></span></a>
       <div class="nav-cta">
-        <a class="btn btn-ghost btn-sm" href="premium.html">Get Pro</a>
-        <a class="btn btn-ghost btn-sm" href="index.html">← Home</a>
+        <a class="btn btn-ghost btn-sm" href="premium.html" data-i18n="nav.premium">Get Pro</a>
+        <a class="btn btn-ghost btn-sm" href="index.html" data-i18n="nav.backHome">← Home</a>
       </div>
     </div>
   </header>
@@ -124,6 +124,9 @@
         });
     });
   </script>
+  <script src="assets/lang-nav.js"></script>
+  <script src="assets/i18n.js"></script>
   <script src="assets/analytics.js"></script>
+  <script>FluxGrabI18n.init();</script>
 </body>
 </html>

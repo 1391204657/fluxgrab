@@ -232,6 +232,22 @@ footer.site { border-top: 1px solid var(--line); padding: 46px 0 60px; color: va
   padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line);
   background: var(--card); font-size: 13px; color: #c3cae6;
 }
+.pay-grid-icons { gap: 12px; }
+.pay-item {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 14px 12px; border-radius: 14px; border: 1px solid var(--line);
+  background: var(--card); min-width: 108px; flex: 1 1 120px; max-width: 160px;
+}
+.pay-item img { display: block; border-radius: 6px; height: 32px; width: auto; }
+.pay-item .pay-icon-row { display: flex; gap: 6px; align-items: center; justify-content: center; min-height: 32px; }
+.pay-item span { font-size: 12px; color: #c3cae6; text-align: center; line-height: 1.35; }
+.premium-refund-link {
+  display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px;
+  padding: 10px 14px; border-radius: 12px;
+  background: rgba(52,211,153,.1); border: 1px solid rgba(52,211,153,.35);
+  color: var(--ok); font-weight: 600; font-size: 14px;
+}
+.premium-refund-link:hover { opacity: .9; }
 .premium-faq { padding: 24px 0 40px; }
 .premium-faq h2 { margin-bottom: 16px; }
 
