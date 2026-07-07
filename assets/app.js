@@ -15,7 +15,7 @@ window.FLUXGRAB_CONFIG = {
   COBALT_API_URL: "https://api.fluxgrab.com/",
 
   // VPN 联盟广告位（可选增收）。填了才显示，留空则隐藏。
-  VPN_AFFILIATE_URL: "",                 // e.g. "https://go.nordvpn.net/aff_c?...."
+  VPN_AFFILIATE_URL: "https://go.nordvpn.net/aff_c?offer_id=15&aff_id=152040&aff_sub=fluxgrab",
   VPN_NAME: "NordVPN",                   // 展示名
   VPN_PITCH: "解锁区域限制内容 · 加密你的下载 · 30 天退款", // 一句话卖点
 };
