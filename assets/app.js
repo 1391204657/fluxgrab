@@ -1,31 +1,76 @@
 /*
  * FluxGrab site config.
- * 把下面几个链接换成你自己的真实地址即可上线：
- *   WEB_APP_URL     —— 在线体验版（部署好的解析后端/前端）地址
- *   BUY_URL         —— Lemon Squeezy / Paddle / Gumroad 的结账链接
- *   DOWNLOAD_WIN_URL—— Windows 安装包下载地址（如 GitHub Releases）
  */
 window.FLUXGRAB_CONFIG = {
   WEB_APP_URL: "/",
   BUY_URL: "https://fluxgrab.lemonsqueezy.com/checkout/buy/5c4a5f2a-430f-4b3a-a975-119edddab862",
   PREMIUM_URL: "/premium.html",
   DOWNLOAD_WIN_URL: "https://github.com/1391204657/fluxgrab/releases/latest/download/FluxGrab-Windows.zip",
-
-  // 在线解析后端（cobalt 实例）。
   COBALT_API_URL: "https://api.fluxgrab.com/",
-
-  // VPN 联盟广告位（可选增收）。填了才显示，留空则隐藏。
+  // Fallback if API /v1/ads is unreachable
   VPN_AFFILIATE_URL: "https://go.nordvpn.net/aff_c?offer_id=15&aff_id=152040&aff_sub=fluxgrab",
-  VPN_NAME: "NordVPN",                   // 展示名
-  VPN_PITCH: "解锁区域限制内容 · 加密你的下载 · 30 天退款", // 一句话卖点
+  VPN_NAME: "NordVPN",
 };
 
 (function () {
   var cfg = window.FLUXGRAB_CONFIG || {};
+  var sponsorUrl = "";
+
+  function esc(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function t(key) {
+    return window.FluxGrabI18n ? FluxGrabI18n.t(key) : key;
+  }
+
+  function apiBase() {
+    var api = (cfg.COBALT_API_URL || "").replace(/\/$/, "");
+    return api.indexOf("api.") !== -1 ? api : "";
+  }
+
+  function fetchSponsorUrl() {
+    var base = apiBase();
+    if (!base) return Promise.resolve(cfg.VPN_AFFILIATE_URL || "");
+    return fetch(base + "/v1/ads")
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { return (d && d.vpn_url) || cfg.VPN_AFFILIATE_URL || ""; })
+      .catch(function () { return cfg.VPN_AFFILIATE_URL || ""; });
+  }
+
+  function renderSponsorAd() {
+    var wrap = document.getElementById("sponsorAd");
+    if (!wrap) return;
+    if (!sponsorUrl || sponsorUrl === "#") {
+      wrap.hidden = true;
+      wrap.innerHTML = "";
+      return;
+    }
+    var name = cfg.VPN_NAME || "NordVPN";
+    var pitch = t("ad.vpn.pitch");
+    wrap.innerHTML =
+      '<a class="sponsor-banner" href="' + esc(sponsorUrl) + '" target="_blank" rel="nofollow sponsored noopener" aria-label="' + esc(name + " — " + pitch) + '">' +
+        '<span class="sponsor-ad-label">' + esc(t("ad.label")) + '</span>' +
+        '<img class="sponsor-logo" src="assets/ads/nordvpn.svg" width="96" height="48" alt="" />' +
+        '<span class="sponsor-copy">' +
+          '<strong class="sponsor-title">' + esc(name) + '</strong>' +
+          '<span class="sponsor-pitch">' + esc(pitch) + '</span>' +
+        '</span>' +
+      '</a>';
+    wrap.hidden = false;
+  }
 
   document.querySelectorAll("[data-app-link]").forEach(function (a) {
-    if (cfg.WEB_APP_URL && cfg.WEB_APP_URL !== "#") { a.href = cfg.WEB_APP_URL; a.target = "_blank"; a.rel = "noopener"; }
+    if (cfg.WEB_APP_URL && cfg.WEB_APP_URL !== "#") {
+      a.href = cfg.WEB_APP_URL;
+      a.target = "_blank";
+      a.rel = "noopener";
+    }
   });
+
   function premiumPageUrl() {
     var base = (cfg.PREMIUM_URL || "premium.html").replace(/#.*$/, "");
     var lang = "";
@@ -43,7 +88,9 @@ window.FLUXGRAB_CONFIG = {
     document.querySelectorAll(".refund-shield [data-i18n]").forEach(function (el) {
       if (window.FluxGrabI18n) el.textContent = FluxGrabI18n.t(el.getAttribute("data-i18n"));
     });
+    renderSponsorAd();
   });
+
   document.querySelectorAll("[data-download-win]").forEach(function (a) {
     if (cfg.DOWNLOAD_WIN_URL && cfg.DOWNLOAD_WIN_URL !== "#") {
       a.href = cfg.DOWNLOAD_WIN_URL;
@@ -54,16 +101,8 @@ window.FLUXGRAB_CONFIG = {
   var y = document.getElementById("year");
   if (y) y.textContent = new Date().getFullYear();
 
-  // VPN 联盟广告位：填了 VPN_AFFILIATE_URL 才渲染
-  var ad = document.getElementById("vpnAd");
-  if (ad && cfg.VPN_AFFILIATE_URL && cfg.VPN_AFFILIATE_URL !== "#") {
-    var name = cfg.VPN_NAME || "VPN";
-    var pitch = cfg.VPN_PITCH || "";
-    ad.innerHTML =
-      '<span class="vpn-tag">推荐</span>' +
-      '<div class="vpn-body"><strong>' + name + '</strong>' +
-      (pitch ? '<span>' + pitch + '</span>' : '') + '</div>' +
-      '<a class="btn btn-primary" href="' + cfg.VPN_AFFILIATE_URL + '" target="_blank" rel="nofollow sponsored noopener">了解一下</a>';
-    ad.hidden = false;
-  }
+  fetchSponsorUrl().then(function (url) {
+    sponsorUrl = (url || "").trim();
+    renderSponsorAd();
+  });
 })();

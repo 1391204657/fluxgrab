@@ -5,6 +5,9 @@ api.fluxgrab.com {
 	handle /v1/preview {
 		reverse_proxy analytics-api:8090
 	}
+	handle /v1/ads {
+		reverse_proxy analytics-api:8090
+	}
 	handle /admin* {
 		reverse_proxy analytics-api:8090
 	}

@@ -163,6 +163,21 @@ def health():
     return jsonify({"ok": True, "service": "fluxgrab-analytics"})
 
 
+@APP.route("/v1/ads", methods=["GET", "OPTIONS"])
+def public_ads():
+    """Affiliate URLs served from API (single source of truth on the server)."""
+    if request.method == "OPTIONS":
+        return _cors(Response("", 204))
+    return _cors(
+        jsonify(
+            {
+                "vpn_url": "https://go.nordvpn.net/aff_c?offer_id=15&aff_id=152040&aff_sub=fluxgrab",
+                "vpn_name": "NordVPN",
+            }
+        )
+    )
+
+
 @APP.route("/v1/preview", methods=["GET", "OPTIONS"])
 def link_preview():
     """Server-side oEmbed/noembed fetch for web preview cards (avoids browser CORS)."""
