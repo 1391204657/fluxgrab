@@ -229,17 +229,18 @@
     preview = preview || {};
     var cross = items.some(function (it) { return isCrossOrigin(it.url); });
     var html = "";
-    if (preview.thumb || preview.title) {
+    if (preview.thumb || preview.title || preview.quality || preview.source) {
       html +=
         '<div class="yt-card preview-card">' +
           '<div class="yt-thumb">' +
             (preview.thumb
-              ? '<img src="' + esc(preview.thumb) + '" alt="" onerror="this.style.display=\'none\'"/>'
+              ? '<img src="' + esc(preview.thumb) + '" alt="" referrerpolicy="no-referrer" onerror="this.style.display=\'none\'"/>'
               : "") +
             '<span class="yt-badge">' + esc(L("tool.yt.found")) + '</span>' +
           '</div>' +
           '<div class="yt-meta">' +
             (preview.title ? '<div class="yt-title">' + esc(preview.title) + '</div>' : '') +
+            (preview.quality ? '<div class="yt-quals-label">' + esc(preview.quality) + '</div>' : '') +
             (preview.source ? '<div class="yt-quals-label">' + esc(preview.source) + '</div>' : '') +
           '</div>' +
         '</div>';
@@ -284,49 +285,109 @@
     return null;
   }
 
+  function canonicalPreviewUrl(pageUrl) {
+    try {
+      var u = new URL(pageUrl.trim());
+      var host = u.hostname.toLowerCase().replace(/^www\./, "");
+      if (host === "x.com" || host.indexOf("twitter.com") !== -1) {
+        u.pathname = u.pathname.replace(/\/video\/\d+\/?$/, "");
+        if (host === "x.com") u.hostname = "twitter.com";
+        return u.toString();
+      }
+    } catch (e) { /* ignore */ }
+    return pageUrl;
+  }
+
+  function thumbFromEmbedHtml(html) {
+    if (!html) return "";
+    var m = html.match(/https:\/\/pbs\.twimg\.com\/[^"'\\s]+/);
+    return m ? m[0].replace(/&amp;/g, "&") : "";
+  }
+
+  function jsonpGet(url) {
+    return new Promise(function (resolve) {
+      var cb = "_fgJsonp_" + Date.now() + "_" + Math.floor(Math.random() * 1e6);
+      var timer = setTimeout(function () { cleanup(); resolve(null); }, 9000);
+      var script;
+      function cleanup() {
+        clearTimeout(timer);
+        try { delete window[cb]; } catch (e) { window[cb] = undefined; }
+        if (script && script.parentNode) script.parentNode.removeChild(script);
+      }
+      window[cb] = function (data) {
+        cleanup();
+        resolve(data || null);
+      };
+      script = document.createElement("script");
+      script.src = url + (url.indexOf("?") >= 0 ? "&" : "?") + "callback=" + cb;
+      script.onerror = function () { cleanup(); resolve(null); };
+      document.head.appendChild(script);
+    });
+  }
+
   function normalizePreview(data) {
     if (!data) return null;
     var thumb = data.thumbnail_url || data.thumbnail_url_with_play_button || data.thumb || "";
+    if (!thumb && data.html) thumb = thumbFromEmbedHtml(data.html);
     var title = data.title || data.author_name || "";
     if (!thumb && !title) return null;
     return { title: title, thumb: thumb };
   }
 
-    function noembedJsonp(pageUrl) {
-      return new Promise(function (resolve) {
-        var cb = "_fgNoembed_" + Date.now() + "_" + Math.floor(Math.random() * 1e6);
-        var timer = setTimeout(function () { cleanup(); resolve(null); }, 9000);
-        var script;
-        function cleanup() {
-          clearTimeout(timer);
-          try { delete window[cb]; } catch (e) { window[cb] = undefined; }
-          if (script && script.parentNode) script.parentNode.removeChild(script);
-        }
-        window[cb] = function (data) {
-          cleanup();
-          if (!data || data.error) resolve(null);
-          else resolve(normalizePreview(data));
-        };
-        script = document.createElement("script");
-        script.src = "https://noembed.com/embed?url=" + encodeURIComponent(pageUrl) + "&callback=" + cb;
-        script.onerror = function () { cleanup(); resolve(null); };
-        document.head.appendChild(script);
+  function previewApiBase() {
+    var api = (API || "").replace(/\/$/, "");
+    return api.indexOf("api.") !== -1 ? api : "";
+  }
+
+  function fetchApiPreview(pageUrl) {
+    var base = previewApiBase();
+    if (!base) return Promise.resolve(null);
+    return fetch(base + "/v1/preview?url=" + encodeURIComponent(pageUrl))
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d || d.error) return null;
+        if (d.thumb || d.title) return { title: d.title || "", thumb: d.thumb || "" };
+        return null;
+      })
+      .catch(function () { return null; });
+  }
+
+  function noembedJsonp(pageUrl) {
+    return jsonpGet("https://noembed.com/embed?url=" + encodeURIComponent(pageUrl)).then(function (data) {
+      if (!data || data.error) return null;
+      return normalizePreview(data);
+    });
+  }
+
+  function fetchPreview(pageUrl, sourceName, extras) {
+    var base = Object.assign({ source: sourceName || "" }, extras || {});
+    var canon = canonicalPreviewUrl(pageUrl);
+    var direct = oembedEndpoint(canon);
+
+    function tryDirectJsonp() {
+      if (!direct) return Promise.resolve(null);
+      return jsonpGet(direct).then(function (data) {
+        if (!data || data.error) return null;
+        return normalizePreview(data);
       });
     }
 
-    function fetchPreview(pageUrl, sourceName) {
-      var base = { source: sourceName || "" };
-      return noembedJsonp(pageUrl).then(function (p) {
-        if (p && (p.thumb || p.title)) return Object.assign({}, base, p);
-        var direct = oembedEndpoint(pageUrl);
-        if (!direct) return base;
-        return fetch(direct)
-          .then(function (r) { return r.ok ? r.json() : null; })
-          .then(normalizePreview)
-          .then(function (d) { return d ? Object.assign({}, base, d) : base; })
-          .catch(function () { return base; });
+    return fetchApiPreview(canon).then(function (p) {
+      if (p && (p.thumb || p.title)) return Object.assign({}, base, p);
+      return tryDirectJsonp().then(function (d) {
+        if (d && (d.thumb || d.title)) return Object.assign({}, base, d);
+        return noembedJsonp(canon).then(function (n) {
+          if (n && (n.thumb || n.title)) return Object.assign({}, base, n);
+          if (!direct) return base;
+          return fetch(direct)
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(normalizePreview)
+            .then(function (f) { return f ? Object.assign({}, base, f) : base; })
+            .catch(function () { return base; });
+        });
       });
-    }
+    });
+  }
 
   function previewFromPicker(picker, preview) {
     preview = preview || {};
@@ -353,7 +414,7 @@
       return;
     }
     showLoading(name);
-    var previewPromise = fetchPreview(u, name);
+    var previewPromise = fetchPreview(u, name, { quality: "720p" });
     fetch(API, {
       method: "POST",
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
@@ -374,13 +435,19 @@
           return;
         }
         previewPromise.then(function (preview) {
+          if (!preview.title && d.filename) {
+            preview.title = String(d.filename).replace(/\.[^.]+$/, "");
+          }
           if (d.status === "tunnel" || d.status === "redirect") {
             showReady([{ label: L("tool.dl.video"), url: d.url, filename: d.filename }], preview);
           } else if (d.status === "picker" && Array.isArray(d.picker)) {
             preview = previewFromPicker(d.picker, preview);
             showReady(d.picker.map(function (p, i) {
+              var label = p.type || L("tool.file");
+              if (p.resolution) label += " · " + p.resolution;
+              else if (p.quality) label += " · " + p.quality;
               return {
-                label: (p.type || L("tool.file")) + " " + (i + 1),
+                label: label + " " + (i + 1),
                 url: p.url,
                 filename: p.filename,
                 thumb: p.thumb

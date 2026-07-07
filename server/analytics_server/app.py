@@ -7,8 +7,10 @@ import hashlib
 import hmac
 import json
 import os
+import re
 import smtplib
 import urllib.error
+import urllib.parse
 import urllib.request
 from email.message import EmailMessage
 
@@ -63,7 +65,7 @@ def _cors(resp: Response) -> Response:
     origin = request.headers.get("Origin", "")
     if origin in ALLOWED_ORIGINS:
         resp.headers["Access-Control-Allow-Origin"] = origin
-        resp.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS"
+        resp.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
         resp.headers["Access-Control-Allow-Headers"] = "Content-Type"
         resp.headers["Vary"] = "Origin"
     return resp
@@ -159,6 +161,56 @@ def _fmt_money(cents: int, currency: str = "USD") -> str:
 @APP.route("/health")
 def health():
     return jsonify({"ok": True, "service": "fluxgrab-analytics"})
+
+
+@APP.route("/v1/preview", methods=["GET", "OPTIONS"])
+def link_preview():
+    """Server-side oEmbed/noembed fetch for web preview cards (avoids browser CORS)."""
+    if request.method == "OPTIONS":
+        return _cors(Response("", 204))
+
+    page_url = (request.args.get("url") or "").strip()
+    if not page_url:
+        return _cors(jsonify({"error": "missing url"})), 400
+
+    host = urllib.parse.urlparse(page_url).netloc.lower().replace("www.", "")
+    if host == "x.com" or "twitter.com" in host:
+        page_url = page_url.replace("://x.com", "://twitter.com").split("/video/")[0]
+
+    endpoints = [
+        "https://noembed.com/embed?url="
+        + urllib.parse.quote(page_url, safe=""),
+    ]
+    if host == "x.com" or "twitter.com" in host:
+        endpoints.insert(
+            0,
+            "https://publish.twitter.com/oembed?url="
+            + urllib.parse.quote(page_url, safe=""),
+        )
+
+    title = ""
+    thumb = ""
+    for ep in endpoints:
+        try:
+            req = urllib.request.Request(
+                ep, headers={"User-Agent": "FluxGrab/1.0 (+https://fluxgrab.com)"}
+            )
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+        except Exception:
+            continue
+        if data.get("error"):
+            continue
+        title = title or data.get("title") or data.get("author_name") or ""
+        thumb = thumb or data.get("thumbnail_url") or data.get("thumbnail_url_with_play_button") or ""
+        if not thumb and data.get("html"):
+            m = re.search(r"https://pbs\.twimg\.com/[^\"'\s]+", data["html"])
+            if m:
+                thumb = m.group(0)
+        if thumb or title:
+            break
+
+    return _cors(jsonify({"title": title, "thumb": thumb}))
 
 
 @APP.route("/v1/events", methods=["POST", "OPTIONS"])
