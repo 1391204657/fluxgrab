@@ -54,11 +54,7 @@ window.FLUXGRAB_CONFIG = {
     wrap.innerHTML =
       '<a class="sponsor-banner" href="' + esc(sponsorUrl) + '" target="_blank" rel="nofollow sponsored noopener" aria-label="' + esc(name + " — " + pitch) + '">' +
         '<span class="sponsor-ad-label">' + esc(t("ad.label")) + '</span>' +
-        '<img class="sponsor-logo" src="assets/ads/nordvpn.svg" width="96" height="48" alt="" />' +
-        '<span class="sponsor-copy">' +
-          '<strong class="sponsor-title">' + esc(name) + '</strong>' +
-          '<span class="sponsor-pitch">' + esc(pitch) + '</span>' +
-        '</span>' +
+        '<img class="sponsor-banner-img" src="assets/ads/nordvpn-banner-728x90.jpg" width="728" height="90" alt="' + esc(name) + '" />' +
       '</a>';
     wrap.hidden = false;
   }
