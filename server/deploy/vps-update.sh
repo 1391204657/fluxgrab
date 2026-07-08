@@ -6,7 +6,8 @@ set -euo pipefail
 
 REPO_URL="${REPO_URL:-https://github.com/1391204657/fluxgrab.git}"
 BASE="${BASE:-/opt/fluxgrab}"
-DEPLOY="$BASE/deploy"
+DEPLOY="$BASE/server/deploy"
+LEGACY_DEPLOY="$BASE/deploy"
 ENV_FILE="$DEPLOY/.env"
 
 echo "== FluxGrab VPS update =="
@@ -15,14 +16,11 @@ if [ -d "$BASE/.git" ]; then
   echo "-> git pull in $BASE"
   git -C "$BASE" pull origin main
 elif [ -d "$BASE" ]; then
-  echo "-> no git repo; cloning into $BASE/repo-sync"
+  echo "-> no git repo; syncing from GitHub"
   rm -rf "$BASE/repo-sync"
   git clone --depth 1 "$REPO_URL" "$BASE/repo-sync"
-  mkdir -p "$DEPLOY" "$BASE/analytics_server"
-  cp -f "$BASE/repo-sync/server/deploy/Caddyfile" "$DEPLOY/Caddyfile"
-  cp -f "$BASE/repo-sync/server/deploy/docker-compose.yml" "$DEPLOY/docker-compose.yml"
-  rm -rf "$BASE/analytics_server"
-  cp -a "$BASE/repo-sync/server/analytics_server" "$BASE/analytics_server"
+  mkdir -p "$DEPLOY"
+  cp -f "$BASE/repo-sync/server/deploy/"* "$DEPLOY/" 2>/dev/null || true
   rm -rf "$BASE/repo-sync"
 else
   echo "-> fresh clone to $BASE"
@@ -30,12 +28,24 @@ else
 fi
 
 mkdir -p "$DEPLOY"
+
+# Keep secrets from older layout (/opt/fluxgrab/deploy/.env)
+if [ -f "$LEGACY_DEPLOY/.env" ] && [ ! -f "$ENV_FILE" ]; then
+  echo "-> migrate .env from $LEGACY_DEPLOY"
+  cp "$LEGACY_DEPLOY/.env" "$ENV_FILE"
+fi
 if [ ! -f "$ENV_FILE" ] && [ -f "$DEPLOY/.env.example" ]; then
   cp "$DEPLOY/.env.example" "$ENV_FILE"
 fi
 
+if [ ! -f "$DEPLOY/docker-compose.yml" ]; then
+  echo "ERROR: missing $DEPLOY/docker-compose.yml"
+  echo "Expected repo layout: $BASE/server/deploy/docker-compose.yml"
+  exit 1
+fi
+
 cd "$DEPLOY"
-echo "-> docker compose rebuild"
+echo "-> docker compose rebuild (in $DEPLOY)"
 docker compose down 2>/dev/null || true
 docker compose up -d --build
 
