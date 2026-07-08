@@ -28,6 +28,17 @@
 
   var lastRun = null;
 
+  function setGoBusy(busy) {
+    if (!goBtn) return;
+    goBtn.disabled = !!busy;
+    goBtn.classList.toggle("is-parsing", !!busy);
+    goBtn.setAttribute("aria-busy", busy ? "true" : "false");
+  }
+
+  function finishRun() {
+    setGoBusy(false);
+  }
+
   var ONLINE = [
     { k: ["twitter.com", "x.com", "t.co"], name: "X (Twitter)" },
     { k: ["tiktok.com"], name: "TikTok" },
@@ -118,6 +129,7 @@
       '<a class="btn btn-primary btn-lg" href="' + esc(dl) + '">' + esc(L("tool.gate.download")) + '</a>' +
       '<a class="btn btn-ghost btn-lg" href="#pricing">' + esc(L("tool.gate.pricing")) + '</a>' +
       '</div>';
+    finishRun();
   }
 
   function showLoading(name) {
@@ -149,6 +161,7 @@
           '<a class="btn btn-primary btn-lg" href="' + esc(dl) + '">' + esc(L("tool.yt.download")) + '</a>' +
           '<a class="btn btn-ghost btn-lg" href="#pricing">' + esc(L("tool.gate.pricing")) + '</a>' +
         '</div>';
+      finishRun();
     }
 
     var done = false;
@@ -164,6 +177,7 @@
     result.hidden = false;
     result.className = "result err";
     result.innerHTML = '<p>' + esc(L("tool.error.parse", { msg: msg })) + '</p>';
+    finishRun();
   }
 
   function normalizeDownloadUrl(fileUrl) {
@@ -259,6 +273,7 @@
         triggerDownload(b.getAttribute("data-url"), b.getAttribute("data-name"));
       });
     });
+    finishRun();
   }
 
   function oembedEndpoint(pageUrl) {
@@ -410,6 +425,7 @@
         '<h3>' + esc(L("tool.soon.title")) + '</h3>' +
         '<p>' + esc(L("tool.soon.body", { name: name })) + '</p>' +
         '<div class="gate-actions"><a class="btn btn-primary btn-lg" href="' + esc(dl) + '">' + esc(L("tool.soon.download")) + '</a></div>';
+      finishRun();
       return;
     }
     showLoading(name);
@@ -465,6 +481,7 @@
     if (!u) { urlInput.focus(); return; }
     var c = classify(u);
     lastRun = { u: u, c: c };
+    setGoBusy(true);
     if (c.type === "invalid") { showError(L("tool.error.invalid")); return; }
     if (c.type === "online") { track("parse_start", { platform: c.name }); parseOnline(u, c.name || ""); return; }
     if (ytId(u)) { showYouTubePreview(u); return; }
@@ -476,6 +493,7 @@
     if (!lastRun || result.hidden) return;
     var u = lastRun.u;
     var c = lastRun.c;
+    setGoBusy(true);
     if (c.type === "online") { parseOnline(u, c.name || ""); return; }
     if (ytId(u)) { showYouTubePreview(u); return; }
     if (c.type === "invalid") { showError(L("tool.error.invalid")); return; }
@@ -484,6 +502,12 @@
 
   urlInput.addEventListener("input", setHint);
   urlInput.addEventListener("keydown", function (e) { if (e.key === "Enter") run(); });
+  urlInput.addEventListener("paste", function () {
+    setTimeout(function () {
+      setHint();
+      run();
+    }, 50);
+  });
   clearBtn.addEventListener("pointerdown", function (e) {
     e.preventDefault();
     urlInput.value = "";
