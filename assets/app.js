@@ -3,6 +3,7 @@
  */
 window.FLUXGRAB_CONFIG = {
   WEB_APP_URL: "/",
+  PAYMENT_LINK_URL: "https://buy.stripe.com/6oU9AUb9Z1DRd0U5dv0x201",
   CHECKOUT_API: "https://api.fluxgrab.com/v1/checkout/session",
   PREMIUM_URL: "/premium.html",
   DOWNLOAD_WIN_URL: "https://github.com/1391204657/fluxgrab/releases/latest/download/FluxGrab-Windows.zip",

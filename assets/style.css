@@ -256,6 +256,12 @@ footer.site { border-top: 1px solid var(--line); padding: 46px 0 60px; color: va
 .pay-item img { display: block; border-radius: 6px; height: 32px; width: auto; }
 .pay-item .pay-icon-row { display: flex; gap: 6px; align-items: center; justify-content: center; min-height: 32px; }
 .pay-item span { font-size: 12px; color: #c3cae6; text-align: center; line-height: 1.35; }
+.pay-item[data-pay-pending] { opacity: 0.72; cursor: not-allowed; }
+.pay-item[data-pay-pending]:hover { border-color: #2a3358; box-shadow: none; transform: none; }
+.pay-pending-badge {
+  display: block; margin-top: 4px; font-size: 10px; font-weight: 600;
+  color: #f0b429; letter-spacing: 0.02em;
+}
 .premium-refund-link {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   color: var(--ok); font-weight: 600; font-size: 14px;
