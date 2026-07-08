@@ -1,46 +1,64 @@
-/* Premium page — payment method picker + checkout modal */
+/* Premium page — payment method picker + Stripe Checkout */
 (function () {
   var cfg = window.FLUXGRAB_CONFIG || {};
-  var buyUrl = cfg.BUY_URL || "";
+  var checkoutApi = cfg.CHECKOUT_API || "https://api.fluxgrab.com/v1/checkout/session";
 
   function t(key) {
     if (!window.FluxGrabI18n) return key;
     return FluxGrabI18n.t(key);
   }
 
-  function openCheckout(method) {
-    if (!buyUrl || buyUrl === "#") return;
-    var panel = document.querySelector(".pay-modal-panel");
-    var wallet = method === "alipay" || method === "wechat";
-    if (panel) panel.classList.toggle("pay-modal-wide", wallet);
+  function currentLang() {
+    if (window.FluxGrabI18n && FluxGrabI18n.lang) return FluxGrabI18n.lang();
+    return "en";
+  }
 
-    var frame = document.getElementById("payCheckoutFrame");
-    var wrap = document.getElementById("payModalIframeWrap");
-    if (wallet && frame && wrap) {
-      frame.src = buyUrl;
-      wrap.hidden = false;
-      wrap.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      return;
+  function openCheckout() {
+    var btn = document.getElementById("payModalGo");
+    var prevLabel = btn ? btn.textContent : "";
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = t("premium.pay.modal.loading") || "Opening checkout…";
     }
-    if (window.LemonSqueezy && window.LemonSqueezy.Url && LemonSqueezy.Url.Open) {
-      LemonSqueezy.Url.Open(buyUrl);
-      return;
-    }
-    if (frame && wrap) {
-      frame.src = buyUrl;
-      wrap.hidden = false;
-      return;
-    }
-    window.open(buyUrl, "_blank", "noopener,noreferrer");
+
+    fetch(checkoutApi, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ lang: currentLang() }),
+    })
+      .then(function (res) {
+        return res.json().then(function (data) {
+          return { ok: res.ok, data: data };
+        });
+      })
+      .then(function (res) {
+        if (res.ok && res.data && res.data.url) {
+          window.location.href = res.data.url;
+          return;
+        }
+        var msg =
+          (res.data && res.data.error) ||
+          t("premium.pay.modal.error") ||
+          "Checkout is temporarily unavailable. Email support@fluxgrab.com.";
+        alert(msg);
+      })
+      .catch(function () {
+        alert(
+          t("premium.pay.modal.error") ||
+            "Checkout is temporarily unavailable. Email support@fluxgrab.com."
+        );
+      })
+      .finally(function () {
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = prevLabel || t("premium.pay.modal.btn");
+        }
+      });
   }
 
   function closeModal() {
     var modal = document.getElementById("payModal");
-    var frame = document.getElementById("payCheckoutFrame");
-    var wrap = document.getElementById("payModalIframeWrap");
     if (modal) modal.hidden = true;
-    if (frame) frame.src = "about:blank";
-    if (wrap) wrap.hidden = true;
     document.body.classList.remove("pay-modal-open");
   }
 
@@ -106,19 +124,23 @@
     }
 
     document.querySelectorAll(".pay-item[data-pay]").forEach(function (el) {
-      function activate() { openPayModal(el.getAttribute("data-pay")); }
+      function activate() {
+        openPayModal(el.getAttribute("data-pay"));
+      }
       el.addEventListener("click", activate);
       el.addEventListener("keydown", function (e) {
-        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); activate(); }
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          activate();
+        }
       });
     });
 
     var go = document.getElementById("payModalGo");
-    if (go) go.addEventListener("click", function () {
-      var modal = document.getElementById("payModal");
-      var method = modal && modal.getAttribute("data-active-pay");
-      openCheckout(method);
-    });
+    if (go)
+      go.addEventListener("click", function () {
+        openCheckout();
+      });
 
     document.querySelectorAll("[data-pay-close]").forEach(function (el) {
       el.addEventListener("click", closeModal);

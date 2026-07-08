@@ -20,6 +20,16 @@ services:
       IP_SALT: ${IP_SALT:-fluxgrab}
       LEMONSQUEEZY_API_KEY: ${LEMONSQUEEZY_API_KEY:-}
       LEMONSQUEEZY_WEBHOOK_SECRET: ${LEMONSQUEEZY_WEBHOOK_SECRET:-}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
+      STRIPE_PRICE_ID: ${STRIPE_PRICE_ID:-}
+      SITE_URL: ${SITE_URL:-https://fluxgrab.com}
+      ACTIVATION_LIMIT: ${ACTIVATION_LIMIT:-3}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM: ${SMTP_FROM:-support@fluxgrab.com}
       CORS_ORIGINS: "https://fluxgrab.com,https://www.fluxgrab.com"
     volumes:
       - analytics_data:/data

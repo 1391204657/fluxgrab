@@ -61,22 +61,29 @@ Log in with `ADMIN_PASSWORD` from `.env`.
 
 Shows: daily pageviews, visitors, download clicks, parse stats, ad clicks, revenue, referrers, orders, feedback.
 
-## 5. Lemon Squeezy webhooks
+## 5. Stripe (FluxGrab Pro checkout)
 
-**License activation limit (recommended: 3):** In Lemon → your product → **License keys** → set **Activation limit** to `3` so one key works on up to 3 personal PCs (matches the FAQ on premium.html). Set `0` or leave unlimited only if you want no device cap.
+1. Create a **one-time** product in [Stripe Dashboard](https://dashboard.stripe.com/products) (e.g. FluxGrab Pro, $9.99).
+2. Copy the **Price ID** (`price_...`) into `.env` as `STRIPE_PRICE_ID`.
+3. **Developers → API keys** → copy **Secret key** → `STRIPE_SECRET_KEY`.
+4. **Developers → Webhooks** → Add endpoint:
+   - URL: `https://api.fluxgrab.com/webhook/stripe`
+   - Events: `checkout.session.completed`, `charge.refunded`
+   - Copy signing secret → `STRIPE_WEBHOOK_SECRET`
+5. Set SMTP vars in `.env` so buyers receive license keys by email (`support@fluxgrab.com` as From).
+6. Rebuild: `docker compose up -d --build`
 
-Dashboard → **Settings → Webhooks** → edit existing webhook:
+`ACTIVATION_LIMIT=3` caps each key to 3 PCs (desktop app calls `/v1/licenses/activate`).
+
+### Legacy Lemon webhooks (optional)
+
+If you still have Lemon orders, keep the Lemon webhook configured:
 
 | Field | Value |
 |-------|-------|
 | URL | `https://api.fluxgrab.com/webhook/lemon` |
 | Signing secret | same as `LEMONSQUEEZY_WEBHOOK_SECRET` in `.env` |
 | Events | **`order_created`** and **`order_refunded`** |
-
-- `order_created` → records payment in admin stats
-- `order_refunded` → records refund + disables license key (full refund)
-
-After changing events, restart is not required.
 
 ## 6. Website analytics
 

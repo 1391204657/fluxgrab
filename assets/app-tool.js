@@ -3,7 +3,7 @@
  *
  * 策略（混合模式）：
  *   - X(Twitter) / TikTok / Instagram 等：调用自建的 cobalt 兼容后端在线解析下载。
- *   - YouTube / 成人站 / 需要更高清晰度：引导使用桌面版（免费版每天 2 次）。
+ *   - YouTube / 高清晰度 / 部分平台：引导使用桌面版（免费版每天 2 次）。
  *
  * 后端地址在 assets/app.js 的 FLUXGRAB_CONFIG.COBALT_API_URL 里配置。
  */
@@ -46,7 +46,6 @@
   ];
   var DESKTOP = [
     { k: ["youtube.com", "youtu.be"], name: "YouTube" },
-    { k: ["pornhub.com", "xvideos.com", "xhamster.com", "redtube.com", "youporn.com", "spankbang.com"], generic: true },
     { k: ["bilibili.com", "b23.tv"], name: "Bilibili" }
   ];
 

@@ -3,7 +3,7 @@
  */
 window.FLUXGRAB_CONFIG = {
   WEB_APP_URL: "/",
-  BUY_URL: "https://fluxgrab.lemonsqueezy.com/checkout/buy/5c4a5f2a-430f-4b3a-a975-119edddab862",
+  CHECKOUT_API: "https://api.fluxgrab.com/v1/checkout/session",
   PREMIUM_URL: "/premium.html",
   DOWNLOAD_WIN_URL: "https://github.com/1391204657/fluxgrab/releases/latest/download/FluxGrab-Windows.zip",
   COBALT_API_URL: "https://api.fluxgrab.com/",

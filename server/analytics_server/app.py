@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""FluxGrab analytics API, admin dashboard, and Lemon webhooks."""
+"""FluxGrab analytics API, admin dashboard, Stripe licenses, and Lemon webhooks."""
 
 from __future__ import annotations
 
@@ -27,6 +27,7 @@ from flask import (
 )
 
 import db
+import licenses
 
 APP = Flask(__name__)
 APP.secret_key = os.environ.get("FLUXGRAB_SECRET", "change-me-in-production")
@@ -52,6 +53,7 @@ SMTP_PASS = os.environ.get("SMTP_PASS", "").strip()
 SMTP_FROM = os.environ.get("SMTP_FROM", SMTP_USER or "noreply@fluxgrab.com").strip()
 
 db.init_db()
+licenses.init_license_tables()
 
 
 def _visitor_id() -> str:
@@ -287,6 +289,54 @@ def ingest_event():
         user_agent=ua,
     )
     return _cors(jsonify({"ok": True}))
+
+
+@APP.route("/v1/checkout/session", methods=["POST", "OPTIONS"])
+def checkout_session():
+    if request.method == "OPTIONS":
+        return _cors(Response("", 204))
+    data = request.get_json(silent=True) or {}
+    lang = (data.get("lang") or "")[:16]
+    try:
+        session_data = licenses.create_checkout_session(lang=lang)
+    except RuntimeError as exc:
+        APP.logger.exception("checkout session failed")
+        return _cors(jsonify({"error": str(exc)})), 503
+    url = session_data.get("url") or ""
+    if not url:
+        return _cors(jsonify({"error": "No checkout URL"})), 502
+    return _cors(jsonify({"url": url, "id": session_data.get("id")}))
+
+
+@APP.route("/v1/licenses/activate", methods=["POST"])
+def license_activate():
+    data = request.get_json(silent=True) or {}
+    body, code = licenses.activate_license(
+        data.get("license_key") or data.get("licenseKey") or "",
+        data.get("instance_name") or data.get("instanceName") or "",
+    )
+    return jsonify(body), code
+
+
+@APP.route("/v1/licenses/validate", methods=["POST"])
+def license_validate():
+    data = request.get_json(silent=True) or {}
+    body = licenses.validate_license(
+        data.get("license_key") or data.get("licenseKey") or "",
+        data.get("instance_id") or data.get("instanceId") or "",
+    )
+    return jsonify(body)
+
+
+@APP.route("/webhook/stripe", methods=["POST"])
+def stripe_webhook():
+    raw = request.get_data()
+    sig = request.headers.get("Stripe-Signature", "")
+    event = licenses.verify_stripe_signature(raw, sig)
+    if not event:
+        return jsonify({"error": "Invalid signature"}), 400
+    result = licenses.handle_stripe_event(event, APP.logger)
+    return jsonify(result)
 
 
 @APP.route("/webhook/lemon", methods=["POST"])

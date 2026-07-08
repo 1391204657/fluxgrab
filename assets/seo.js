@@ -15,44 +15,44 @@ window.FluxGrabSEO = (function () {
 
   var HOME_META = {
     en: {
-      title: "FluxGrab — Download videos from TikTok, X, Instagram & 1,000+ sites",
+      title: "FluxGrab — Personal media backup for Windows",
       description:
-        "Paste a link to download videos online from TikTok, X, Instagram and more. Free desktop app for YouTube, 4K and 1,000+ sites.",
+        "Desktop software to keep offline copies of media you own or are licensed to keep. TikTok, X, Instagram online; YouTube & 4K via the Windows app.",
     },
     zh: {
-      title: "FluxGrab — TikTok、X、Instagram 等视频下载工具",
+      title: "FluxGrab — Windows 个人媒体离线备份软件",
       description:
-        "粘贴链接即可在线下载 TikTok、X、Instagram 等视频。桌面版支持 YouTube、4K 及上千个网站，免费可用。",
+        "桌面软件，用于备份你拥有或已获授权的内容。TikTok、X、Instagram 在线解析；YouTube、4K 请用 Windows 版。",
     },
     "zh-TW": {
-      title: "FluxGrab — TikTok、X、Instagram 等影片下載工具",
+      title: "FluxGrab — Windows 個人媒體離線備份軟體",
       description:
-        "貼上連結即可線上下載 TikTok、X、Instagram 等影片。桌面版支援 YouTube、4K 及上千個網站。",
+        "桌面軟體，用於備份你擁有或已獲授權的內容。TikTok、X、Instagram 線上解析；YouTube、4K 請用 Windows 版。",
     },
     es: {
-      title: "FluxGrab — Descargar videos de TikTok, X, Instagram y más",
+      title: "FluxGrab — Copia de seguridad de medios para Windows",
       description:
-        "Pega un enlace para descargar videos de TikTok, X, Instagram y más. App de escritorio gratis para YouTube y 4K.",
+        "Software de escritorio para copias offline de contenido que posees o tienes licencia. TikTok, X, Instagram online; YouTube y 4K en la app.",
     },
     ja: {
-      title: "FluxGrab — TikTok・X・Instagram 動画ダウンロード",
+      title: "FluxGrab — Windows 向け個人メディアバックアップ",
       description:
-        "リンクを貼るだけで TikTok、X、Instagram などの動画をダウンロード。YouTube・4K 対応の無料デスクトップアプリ。",
+        "所有または利用許諾のあるメディアをオフライン保存するデスクトップソフト。TikTok・X・Instagram はオンライン、YouTube・4K は Windows 版。",
     },
     de: {
-      title: "FluxGrab — Videos von TikTok, X, Instagram & mehr laden",
+      title: "FluxGrab — Persönliche Mediensicherung für Windows",
       description:
-        "Link einfügen und Videos von TikTok, X, Instagram u. a. herunterladen. Kostenlose Desktop-App für YouTube und 4K.",
+        "Desktop-Software für Offline-Kopien von Medien, die du besitzt oder lizenziert hast. TikTok, X, Instagram online; YouTube & 4K per App.",
     },
     fr: {
-      title: "FluxGrab — Télécharger des vidéos TikTok, X, Instagram et plus",
+      title: "FluxGrab — Sauvegarde média personnelle pour Windows",
       description:
-        "Collez un lien pour télécharger des vidéos TikTok, X, Instagram et plus. Application gratuite pour YouTube et 4K.",
+        "Logiciel de bureau pour copies hors ligne de contenus que vous possédez ou êtes autorisé à garder. TikTok, X, Instagram en ligne; YouTube & 4K via l'app.",
     },
     pt: {
-      title: "FluxGrab — Baixar vídeos do TikTok, X, Instagram e mais",
+      title: "FluxGrab — Backup de mídia pessoal para Windows",
       description:
-        "Cole um link para baixar vídeos do TikTok, X, Instagram e mais. App gratuito para YouTube e 4K.",
+        "Software desktop para cópias offline de mídia que você possui ou tem licença. TikTok, X, Instagram online; YouTube e 4K no app Windows.",
     },
   };
 
