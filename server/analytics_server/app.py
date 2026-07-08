@@ -308,23 +308,34 @@ def checkout_session():
     return _cors(jsonify({"url": url, "id": session_data.get("id")}))
 
 
+def _license_post_fields() -> tuple[str, str, str]:
+    """Desktop app sends application/x-www-form-urlencoded; curl/tests may use JSON."""
+    data = request.get_json(silent=True) or {}
+
+    def pick(*names: str) -> str:
+        for name in names:
+            val = data.get(name) or request.form.get(name)
+            if val:
+                return str(val)
+        return ""
+
+    key = pick("license_key", "licenseKey")
+    instance = pick("instance_name", "instanceName", "instance_id", "instanceId")
+    mode = pick("mode")  # reserved
+    return key, instance, mode
+
+
 @APP.route("/v1/licenses/activate", methods=["POST"])
 def license_activate():
-    data = request.get_json(silent=True) or {}
-    body, code = licenses.activate_license(
-        data.get("license_key") or data.get("licenseKey") or "",
-        data.get("instance_name") or data.get("instanceName") or "",
-    )
+    key, instance, _ = _license_post_fields()
+    body, code = licenses.activate_license(key, instance)
     return jsonify(body), code
 
 
 @APP.route("/v1/licenses/validate", methods=["POST"])
 def license_validate():
-    data = request.get_json(silent=True) or {}
-    body = licenses.validate_license(
-        data.get("license_key") or data.get("licenseKey") or "",
-        data.get("instance_id") or data.get("instanceId") or "",
-    )
+    key, instance, _ = _license_post_fields()
+    body = licenses.validate_license(key, instance)
     return jsonify(body)
 
 
