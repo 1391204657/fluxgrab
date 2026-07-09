@@ -297,8 +297,9 @@ def checkout_session():
         return _cors(Response("", 204))
     data = request.get_json(silent=True) or {}
     lang = (data.get("lang") or "")[:16]
+    method = (data.get("method") or "")[:24]
     try:
-        session_data = licenses.create_checkout_session(lang=lang)
+        session_data = licenses.create_checkout_session(lang=lang, method=method)
     except RuntimeError as exc:
         APP.logger.exception("checkout session failed")
         return _cors(jsonify({"error": str(exc)})), 503

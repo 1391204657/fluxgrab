@@ -1,18 +1,35 @@
-api.fluxgrab.com {
-	handle /v1/events {
-		reverse_proxy analytics-api:8090
-	}
-	handle /admin* {
-		reverse_proxy analytics-api:8090
-	}
-	handle /webhook/* {
-		reverse_proxy analytics-api:8090
-	}
-	handle /health {
-		reverse_proxy analytics-api:8090
-	}
-	handle {
-		reverse_proxy cobalt-api:9000
-	}
-}
-
+api.fluxgrab.com {
+
+	handle /v1/events {
+
+		reverse_proxy analytics-api:8090
+
+	}
+
+	handle /admin* {
+
+		reverse_proxy analytics-api:8090
+
+	}
+
+	handle /webhook/* {
+
+		reverse_proxy analytics-api:8090
+
+	}
+
+	handle /health {
+
+		reverse_proxy analytics-api:8090
+
+	}
+
+	handle {
+
+		reverse_proxy cobalt-api:9000
+
+	}
+
+}
+
+

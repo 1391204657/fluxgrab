@@ -217,7 +217,7 @@ def _stripe_request(method: str, path: str, data: dict | None = None) -> dict:
         raise RuntimeError(f"Stripe API {exc.code}: {detail}") from exc
 
 
-def create_checkout_session(lang: str = "") -> dict:
+def create_checkout_session(lang: str = "", method: str = "") -> dict:
     if not STRIPE_PRICE_ID:
         raise RuntimeError("STRIPE_PRICE_ID not set")
     lang_q = f"?lang={urllib.parse.quote(lang)}" if lang and lang != "en" else ""
@@ -234,6 +234,17 @@ def create_checkout_session(lang: str = "") -> dict:
         "customer_creation": "always",
         "metadata[product]": "fluxgrab-pro",
     }
+    method = (method or "").strip().lower()
+    if method == "wechat":
+        payload["payment_method_types[0]"] = "wechat_pay"
+        payload["payment_method_options[wechat_pay][client]"] = "web"
+    elif method == "alipay":
+        payload["payment_method_types[0]"] = "alipay"
+    elif method == "card":
+        payload["payment_method_types[0]"] = "card"
+    elif method == "paypal":
+        payload["payment_method_types[0]"] = "paypal"
+    # else: omit payment_method_types — Stripe Dashboard dynamic methods (CTA button)
     return _stripe_request("POST", "/checkout/sessions", payload)
 
 
