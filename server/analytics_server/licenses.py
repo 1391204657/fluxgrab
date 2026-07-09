@@ -219,6 +219,22 @@ def _stripe_request(method: str, path: str, data: dict | None = None) -> dict:
         raise RuntimeError(f"Stripe API {exc.code}: {detail}") from exc
 
 
+def _checkout_custom_text(lang: str) -> dict[str, str]:
+    """Stripe hosted checkout cannot rename the email label; explain via submit message."""
+    texts = {
+        "en": "Email required — your Pro license key is sent to this address after payment.",
+        "zh": "邮箱必填：用于接收 Pro 激活码，付款成功后将自动发送到该邮箱。",
+        "zh-TW": "信箱必填：用於接收 Pro 啟用碼，付款成功後將自動寄送。",
+        "es": "Correo obligatorio: recibirás la clave Pro en este email tras el pago.",
+        "ja": "メール必須：お支払い後、Pro ライセンスキーをこのアドレスに送信します。",
+        "de": "E-Mail erforderlich — Ihr Pro-Lizenzschlüssel wird nach der Zahlung an diese Adresse gesendet.",
+        "fr": "E-mail obligatoire — votre clé Pro sera envoyée à cette adresse après paiement.",
+        "pt": "E-mail obrigatório — a chave Pro será enviada para este endereço após o pagamento.",
+    }
+    key = lang if lang in texts else "en"
+    return {"custom_text[submit][message]": texts[key]}
+
+
 def create_checkout_session(lang: str = "", method: str = "") -> dict:
     if not STRIPE_PRICE_ID:
         raise RuntimeError("STRIPE_PRICE_ID not set")
@@ -237,12 +253,13 @@ def create_checkout_session(lang: str = "", method: str = "") -> dict:
         "adaptive_pricing[enabled]": "true",
         "line_items[0][quantity]": "1",
     }
+    payload.update(_checkout_custom_text(lang))
+    if lang in ("zh", "zh-TW", "zh-CN"):
+        payload["locale"] = "zh" if lang != "zh-TW" else "zh-TW"
     # WeChat Pay settles in CNY — use a CNY line item so the checkout page shows ¥ before the QR step.
     if method == "wechat":
         payload["payment_method_types[0]"] = "wechat_pay"
         payload["payment_method_options[wechat_pay][client]"] = "web"
-        if lang in ("zh", "zh-TW", "zh-CN"):
-            payload["locale"] = "zh"
         if STRIPE_PRICE_ID_CNY:
             payload["line_items[0][price]"] = STRIPE_PRICE_ID_CNY
         else:
@@ -251,7 +268,7 @@ def create_checkout_session(lang: str = "", method: str = "") -> dict:
             payload["line_items[0][price_data][unit_amount]"] = amount
             payload["line_items[0][price_data][product_data][name]"] = "FluxGrab Pro"
             payload["line_items[0][price_data][product_data][description]"] = (
-                "Lifetime license · USD $19.90 one-time"
+                "Lifetime license · USD $19.90 · License key emailed after payment"
             )
     else:
         payload["line_items[0][price]"] = STRIPE_PRICE_ID

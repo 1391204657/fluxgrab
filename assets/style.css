@@ -272,6 +272,17 @@ footer.site { border-top: 1px solid var(--line); padding: 46px 0 60px; color: va
 .pay-item.pay-click:active { transform: translateY(1px); }
 .pay-icon-square { width: 40px; height: 40px; object-fit: contain; border-radius: 8px; }
 .pay-click-hint { margin: 0 0 12px; text-align: center; }
+.pay-email-note {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(99, 102, 241, 0.35);
+  background: rgba(99, 102, 241, 0.08);
+  color: #c7d2fe;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: left;
+}
 .pay-item img { display: block; border-radius: 6px; height: 32px; width: auto; }
 .pay-item .pay-icon-row { display: flex; gap: 6px; align-items: center; justify-content: center; min-height: 32px; }
 .pay-item span { font-size: 12px; color: #c3cae6; text-align: center; line-height: 1.35; }
