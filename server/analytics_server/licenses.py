@@ -24,6 +24,8 @@ ACTIVATION_LIMIT = int(os.environ.get("ACTIVATION_LIMIT", "3"))
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "").strip()
 STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "").strip()
 STRIPE_PRICE_ID = os.environ.get("STRIPE_PRICE_ID", "").strip()
+STRIPE_PRICE_ID_CNY = os.environ.get("STRIPE_PRICE_ID_CNY", "").strip()
+STRIPE_WECHAT_CNY_AMOUNT = os.environ.get("STRIPE_WECHAT_CNY_AMOUNT", "13800").strip()
 SITE_URL = os.environ.get("SITE_URL", "https://fluxgrab.com").strip().rstrip("/")
 
 SMTP_HOST = os.environ.get("SMTP_HOST", "").strip()
@@ -223,28 +225,43 @@ def create_checkout_session(lang: str = "", method: str = "") -> dict:
     lang_q = f"?lang={urllib.parse.quote(lang)}" if lang and lang != "en" else ""
     success = f"{SITE_URL}/thanks.html{lang_q}"
     cancel = f"{SITE_URL}/premium.html{lang_q}#payment"
+    method = (method or "").strip().lower()
     payload = {
         "mode": "payment",
         "success_url": success,
         "cancel_url": cancel,
-        "line_items[0][price]": STRIPE_PRICE_ID,
-        "line_items[0][quantity]": "1",
         "allow_promotion_codes": "true",
         "billing_address_collection": "auto",
         "customer_creation": "always",
         "metadata[product]": "fluxgrab-pro",
+        "adaptive_pricing[enabled]": "true",
+        "line_items[0][quantity]": "1",
     }
-    method = (method or "").strip().lower()
+    # WeChat Pay settles in CNY — use a CNY line item so the checkout page shows ¥ before the QR step.
     if method == "wechat":
         payload["payment_method_types[0]"] = "wechat_pay"
         payload["payment_method_options[wechat_pay][client]"] = "web"
-    elif method == "alipay":
-        payload["payment_method_types[0]"] = "alipay"
-    elif method == "card":
-        payload["payment_method_types[0]"] = "card"
-    elif method == "paypal":
-        payload["payment_method_types[0]"] = "paypal"
-    # else: omit payment_method_types — Stripe Dashboard dynamic methods (CTA button)
+        if lang in ("zh", "zh-TW", "zh-CN"):
+            payload["locale"] = "zh"
+        if STRIPE_PRICE_ID_CNY:
+            payload["line_items[0][price]"] = STRIPE_PRICE_ID_CNY
+        else:
+            amount = STRIPE_WECHAT_CNY_AMOUNT or "13800"
+            payload["line_items[0][price_data][currency]"] = "cny"
+            payload["line_items[0][price_data][unit_amount]"] = amount
+            payload["line_items[0][price_data][product_data][name]"] = "FluxGrab Pro"
+            payload["line_items[0][price_data][product_data][description]"] = (
+                "Lifetime license · USD $19.90 one-time"
+            )
+    else:
+        payload["line_items[0][price]"] = STRIPE_PRICE_ID
+        if method == "alipay":
+            payload["payment_method_types[0]"] = "alipay"
+        elif method == "card":
+            payload["payment_method_types[0]"] = "card"
+        elif method == "paypal":
+            payload["payment_method_types[0]"] = "paypal"
+        # else: omit payment_method_types — Stripe Dashboard dynamic methods (CTA button)
     return _stripe_request("POST", "/checkout/sessions", payload)
 
 
