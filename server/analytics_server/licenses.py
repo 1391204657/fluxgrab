@@ -256,10 +256,13 @@ def create_checkout_session(lang: str = "", method: str = "") -> dict:
     payload.update(_checkout_custom_text(lang))
     if lang in ("zh", "zh-TW", "zh-CN"):
         payload["locale"] = "zh" if lang != "zh-TW" else "zh-TW"
-    # WeChat Pay settles in CNY — use a CNY line item so the checkout page shows ¥ before the QR step.
-    if method == "wechat":
-        payload["payment_method_types[0]"] = "wechat_pay"
-        payload["payment_method_options[wechat_pay][client]"] = "web"
+    # WeChat / Alipay settle in CNY — use a CNY line item so checkout shows ¥ before pay.
+    if method in ("wechat", "alipay"):
+        if method == "wechat":
+            payload["payment_method_types[0]"] = "wechat_pay"
+            payload["payment_method_options[wechat_pay][client]"] = "web"
+        else:
+            payload["payment_method_types[0]"] = "alipay"
         if STRIPE_PRICE_ID_CNY:
             payload["line_items[0][price]"] = STRIPE_PRICE_ID_CNY
         else:
@@ -272,9 +275,7 @@ def create_checkout_session(lang: str = "", method: str = "") -> dict:
             )
     else:
         payload["line_items[0][price]"] = STRIPE_PRICE_ID
-        if method == "alipay":
-            payload["payment_method_types[0]"] = "alipay"
-        elif method == "card":
+        if method == "card":
             payload["payment_method_types[0]"] = "card"
         elif method == "paypal":
             payload["payment_method_types[0]"] = "paypal"
