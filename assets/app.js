@@ -16,6 +16,7 @@ window.FLUXGRAB_CONFIG = {
 (function () {
   var cfg = window.FLUXGRAB_CONFIG || {};
   var sponsorUrl = "";
+  var vpnBannerCfg = null;
 
   function esc(s) {
     return String(s)
@@ -26,6 +27,10 @@ window.FLUXGRAB_CONFIG = {
 
   function t(key) {
     return window.FluxGrabI18n ? FluxGrabI18n.t(key) : key;
+  }
+
+  function currentLang() {
+    return window.FluxGrabI18n ? FluxGrabI18n.getLang() : "en";
   }
 
   function apiBase() {
@@ -50,12 +55,19 @@ window.FLUXGRAB_CONFIG = {
       wrap.innerHTML = "";
       return;
     }
+    var banner = window.FluxGrabVpnAd
+      ? FluxGrabVpnAd.resolveBanner(vpnBannerCfg, currentLang())
+      : { src: "" };
+    if (!banner.src) {
+      wrap.hidden = true;
+      wrap.innerHTML = "";
+      return;
+    }
     var name = cfg.VPN_NAME || "NordVPN";
-    var pitch = t("ad.vpn.pitch");
     wrap.innerHTML =
-      '<a class="sponsor-banner" href="' + esc(sponsorUrl) + '" target="_blank" rel="nofollow sponsored noopener" aria-label="' + esc(name + " — " + pitch) + '">' +
+      '<a class="sponsor-banner" href="' + esc(sponsorUrl) + '" target="_blank" rel="nofollow sponsored noopener" aria-label="' + esc(name) + '">' +
         '<span class="sponsor-ad-label">' + esc(t("ad.label")) + '</span>' +
-        '<img class="sponsor-banner-img" src="assets/ads/nordvpn-banner-728x90.jpg" width="728" height="90" alt="' + esc(name) + '" />' +
+        '<img class="sponsor-banner-img" src="' + esc(banner.src) + '" width="728" height="90" alt="' + esc(name) + '" />' +
       '</a>';
     wrap.hidden = false;
   }
@@ -100,6 +112,11 @@ window.FLUXGRAB_CONFIG = {
 
   fetchSponsorUrl().then(function (url) {
     sponsorUrl = (url || "").trim();
-    renderSponsorAd();
+    var bannerLoad = window.FluxGrabVpnAd
+      ? FluxGrabVpnAd.loadConfig("assets/ads/vpn-banners.json").then(function (data) {
+          vpnBannerCfg = data;
+        })
+      : Promise.resolve();
+    return bannerLoad.then(renderSponsorAd);
   });
 })();

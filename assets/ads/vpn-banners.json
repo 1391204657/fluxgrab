@@ -1,0 +1,21 @@
+{
+  "offer_id": 15,
+  "affiliate_id": 152040,
+  "default_src": "assets/ads/nordvpn/nordvpn-728-en.jpg",
+  "banners": {
+    "en": { "src": "assets/ads/nordvpn/nordvpn-728-en.jpg" },
+    "zh": { "src": "assets/ads/nordvpn/nordvpn-728-zh.jpg" },
+    "zh-TW": { "src": "assets/ads/nordvpn/nordvpn-728-zh-TW.jpg" },
+    "es": { "src": "assets/ads/nordvpn/nordvpn-728-es.jpg" },
+    "ja": { "src": "assets/ads/nordvpn/nordvpn-728-ja.jpg" },
+    "de": { "src": "assets/ads/nordvpn/nordvpn-728-de.jpg" },
+    "fr": { "src": "assets/ads/nordvpn/nordvpn-728-fr.jpg" },
+    "pt": { "src": "assets/ads/nordvpn/nordvpn-728-pt-br.jpg" },
+    "fi": { "src": "assets/ads/nordvpn/nordvpn-728-fi.jpg" },
+    "it": { "src": "assets/ads/nordvpn/nordvpn-728-it.jpg" },
+    "ko": { "src": "assets/ads/nordvpn/nordvpn-728-ko.jpg" },
+    "nl": { "src": "assets/ads/nordvpn/nordvpn-728-nl.jpg" },
+    "no": { "src": "assets/ads/nordvpn/nordvpn-728-no.jpg" },
+    "sv": { "src": "assets/ads/nordvpn/nordvpn-728-sv.jpg" }
+  }
+}

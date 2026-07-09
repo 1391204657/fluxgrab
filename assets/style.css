@@ -390,6 +390,29 @@ body.pay-modal-open { overflow: hidden; }
 .sponsor-banner-img {
   display: block; width: 100%; height: auto; aspect-ratio: 728 / 90;
 }
+.sponsor-banner-inner {
+  display: flex; align-items: center; gap: 14px;
+  min-height: 90px; padding: 12px 16px 12px 52px;
+  background: linear-gradient(105deg, #1a365d 0%, #2b6cb0 48%, #3a6fe8 100%);
+}
+.sponsor-logo {
+  width: 42px; height: 42px; flex-shrink: 0; border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.22);
+}
+.sponsor-copy { flex: 1 1 auto; min-width: 0; text-align: left; color: #fff; }
+.sponsor-copy strong {
+  display: block; font-size: clamp(14px, 1.6vw, 17px); line-height: 1.25;
+  margin-bottom: 3px; font-weight: 700;
+}
+.sponsor-copy span {
+  display: block; font-size: clamp(11px, 1.2vw, 13px);
+  color: rgba(255,255,255,.84); line-height: 1.35;
+}
+.sponsor-cta {
+  flex: 0 0 auto; padding: 7px 13px; border-radius: 999px;
+  background: #fff; color: #1a365d; font-size: clamp(11px, 1.2vw, 13px);
+  font-weight: 700; white-space: nowrap;
+}
 
 .section-compact { padding: 56px 0; border-top: 1px solid var(--line); }
 .section-compact .section-head { margin-bottom: 28px; }
