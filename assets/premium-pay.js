@@ -35,7 +35,7 @@
     if (btn) btn.classList.add("is-loading");
     fetch(checkoutApi, {
       method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ lang: currentLang(), method: method || "auto" }),
     })
       .then(function (r) {
@@ -50,7 +50,8 @@
         }
         throw new Error((res.data && res.data.error) || "checkout");
       })
-      .catch(function () {
+      .catch(function (err) {
+        console.error("checkout session failed", err);
         window.location.href = paymentLink;
       })
       .finally(function () {
