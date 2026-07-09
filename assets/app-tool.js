@@ -65,6 +65,12 @@
     catch (e) { return ""; }
   }
 
+  /** Exact host or subdomain match — avoids "t.co" matching inside "pinterest.com". */
+  function hostMatches(host, pattern) {
+    if (!host || !pattern) return false;
+    return host === pattern || host.endsWith("." + pattern);
+  }
+
   function ytId(u) {
     var m = u.match(/(?:youtu\.be\/|[?&]v=|\/shorts\/|\/embed\/|\/live\/)([\w-]{11})/);
     return m ? m[1] : "";
@@ -74,12 +80,12 @@
     var host = hostOf(u);
     if (!host) return { type: "invalid" };
     for (var i = 0; i < ONLINE.length; i++) {
-      if (ONLINE[i].k.some(function (x) { return host.indexOf(x) !== -1; })) {
+      if (ONLINE[i].k.some(function (x) { return hostMatches(host, x); })) {
         return { type: "online", name: ONLINE[i].name };
       }
     }
     for (var j = 0; j < DESKTOP.length; j++) {
-      if (DESKTOP[j].k.some(function (x) { return host.indexOf(x) !== -1; })) {
+      if (DESKTOP[j].k.some(function (x) { return hostMatches(host, x); })) {
         return { type: "desktop", name: DESKTOP[j].name || "", generic: !!DESKTOP[j].generic };
       }
     }
@@ -445,7 +451,9 @@
         if (!d || d.status === "error") {
           var code = d && d.error && d.error.code;
           var msg = code || (d && d.error && d.error.text) || "—";
-          if (code === "error.api.fetch.fail") msg = L("tool.error.fetchFail");
+          if (code === "error.api.fetch.fail" || code === "error.api.fetch.empty") {
+            msg = L("tool.error.fetchFail");
+          }
           showError(msg);
           return;
         }
