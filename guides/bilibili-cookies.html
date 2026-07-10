@@ -21,14 +21,14 @@
       <nav class="breadcrumb"><a href="/">Home</a> / <a href="./">Guides</a> / <span data-i18n="guide.cookie.crumb">Cookies</span></nav>
       <h1 data-i18n="guide.cookie.h1">Import cookies.txt (Bilibili &amp; login sites)</h1>
       <p class="updated"><span data-i18n="guide.cookie.updated">Updated</span> July 2026</p>
-      <p data-i18n="guide.cookie.lead">Some sites (especially Bilibili) block automated downloads until you prove you are logged in. FluxGrab reads a standard <code>cookies.txt</code> file placed next to the desktop app.</p>
+      <p data-i18n="guide.cookie.lead">Some sites (Bilibili, Douyin, Xigua, iQIYI, Instagram) block automated downloads until you provide browser cookies. FluxGrab reads a standard <code>cookies.txt</code> next to the app or in <code>%LOCALAPPDATA%\FluxGrab\</code>.</p>
 
       <h2 data-i18n="guide.cookie.h2.steps">Steps (Windows desktop)</h2>
       <ol>
-        <li data-i18n="guide.cookie.s1">Open Chrome or Edge and log in to the site (e.g. <strong>bilibili.com</strong>).</li>
+        <li data-i18n="guide.cookie.s1">Open Chrome or Edge and log in to the site (e.g. <strong>bilibili.com</strong>, <strong>douyin.com</strong>, <strong>ixigua.com</strong>, <strong>iqiyi.com</strong>).</li>
         <li data-i18n="guide.cookie.s2">Install a trusted export extension such as <strong>Get cookies.txt LOCALLY</strong> from the Chrome Web Store.</li>
         <li data-i18n="guide.cookie.s3">While on the site, export cookies as <strong>cookies.txt</strong> (Netscape format).</li>
-        <li data-i18n="guide.cookie.s4">Move <code>cookies.txt</code> into the same folder as <strong>FluxGrab.exe</strong> (not inside subfolders).</li>
+        <li data-i18n="guide.cookie.s4">Put <code>cookies.txt</code> in the same folder as <strong>FluxGrab.exe</strong>, or in <code>%LOCALAPPDATA%\FluxGrab\</code> (survives app updates).</li>
         <li data-i18n="guide.cookie.s5">Restart FluxGrab and paste the video link again.</li>
       </ol>
 
@@ -36,7 +36,8 @@
       <ul>
         <li data-i18n="guide.cookie.t1">Cookies expire — if downloads fail again, export a fresh file.</li>
         <li data-i18n="guide.cookie.t2">Only use cookies from accounts you own. Do not share your cookies.txt.</li>
-        <li data-i18n="guide.cookie.t3">The web version cannot use cookies.txt — use the <a href="/" data-download-win>Windows desktop app</a> for Bilibili.</li>
+        <li data-i18n="guide.cookie.t3">The web version cannot use cookies.txt — use the <a href="/" data-download-win>Windows desktop app</a> for China platforms.</li>
+        <li>Kuaishou and Baidu Haokan are <strong>not supported</strong> yet (no yt-dlp extractor).</li>
       </ul>
 
       <h2 data-i18n="guide.cookie.h2.still">Still stuck?</h2>
