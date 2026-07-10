@@ -2,8 +2,9 @@
  * FluxGrab 在线下载页逻辑。
  *
  * 策略（混合模式）：
- *   - X(Twitter) / TikTok / Instagram 等：调用自建的 cobalt 兼容后端在线解析下载。
- *   - YouTube / 高清晰度 / 部分平台：引导使用桌面版（免费版每天 2 次）。
+ *   - X(Twitter) / TikTok / Instagram 等：调用自建 Cobalt 在线解析。
+ *   - 抖音 / B 站 / 西瓜 / 快手等：走 /v1/media/parse（服务器端解析，用户无需 Cookie）。
+ *   - YouTube / 高清晰度：引导使用桌面版。
  *
  * 后端地址在 assets/app.js 的 FLUXGRAB_CONFIG.COBALT_API_URL 里配置。
  */
@@ -19,6 +20,10 @@
   }
 
   var API = (cfg.COBALT_API_URL || "").trim();
+  var MEDIA_API = (cfg.MEDIA_PARSE_URL || "").trim();
+  if (!MEDIA_API && API) {
+    MEDIA_API = API.replace(/\/?$/, "") + "/v1/media/parse";
+  }
 
   var urlInput = document.getElementById("url");
   var clearBtn = document.getElementById("clearBtn");
@@ -55,9 +60,17 @@
     { k: ["snapchat.com"], name: "Snapchat" },
     { k: ["pinterest.com", "pin.it"], name: "Pinterest" }
   ];
+  /** CN platforms: server-side parse (no user cookies). */
+  var CN_ONLINE = [
+    { k: ["douyin.com", "iesdouyin.com", "v.douyin.com"], name: "Douyin" },
+    { k: ["bilibili.com", "b23.tv"], name: "Bilibili" },
+    { k: ["ixigua.com", "toutiao.com"], name: "Xigua" },
+    { k: ["kuaishou.com", "chenzhongtech.com"], name: "Kuaishou" },
+    { k: ["iqiyi.com", "iq.com"], name: "iQIYI" },
+    { k: ["haokan.baidu.com"], name: "Haokan" }
+  ];
   var DESKTOP = [
-    { k: ["youtube.com", "youtu.be"], name: "YouTube" },
-    { k: ["bilibili.com", "b23.tv"], name: "Bilibili" }
+    { k: ["youtube.com", "youtu.be"], name: "YouTube" }
   ];
 
   function hostOf(u) {
@@ -79,6 +92,11 @@
   function classify(u) {
     var host = hostOf(u);
     if (!host) return { type: "invalid" };
+    for (var i = 0; i < CN_ONLINE.length; i++) {
+      if (CN_ONLINE[i].k.some(function (x) { return hostMatches(host, x); })) {
+        return { type: "cn", name: CN_ONLINE[i].name };
+      }
+    }
     for (var i = 0; i < ONLINE.length; i++) {
       if (ONLINE[i].k.some(function (x) { return hostMatches(host, x); })) {
         return { type: "online", name: ONLINE[i].name };
@@ -97,7 +115,7 @@
     clearBtn.style.display = v ? "grid" : "none";
     if (!v) { hint.textContent = ""; hint.className = "platform-hint"; return; }
     var c = classify(v);
-    if (c.type === "online") {
+    if (c.type === "online" || c.type === "cn") {
       hint.textContent = L("tool.hint.online", { name: c.name });
       hint.className = "platform-hint ok";
     } else if (c.type === "desktop") {
@@ -421,6 +439,42 @@
     return preview;
   }
 
+  function handleParseResponse(d, previewPromise) {
+    if (!d || d.status === "error") {
+      var code = d && d.error && d.error.code;
+      var msg = (d && d.error && d.error.text) || code || "—";
+      if (code === "error.api.fetch.fail" || code === "error.api.fetch.empty") {
+        msg = L("tool.error.fetchFail");
+      }
+      showError(msg);
+      return;
+    }
+    previewPromise.then(function (preview) {
+      if (!preview.title && (d.title || d.filename)) {
+        preview.title = d.title || String(d.filename).replace(/\.[^.]+$/, "");
+      }
+      if (!preview.thumb && d.thumbnail) preview.thumb = d.thumbnail;
+      if (d.status === "tunnel" || d.status === "redirect") {
+        showReady([{ label: L("tool.dl.video"), url: d.url, filename: d.filename }], preview);
+      } else if (d.status === "picker" && Array.isArray(d.picker)) {
+        preview = previewFromPicker(d.picker, preview);
+        showReady(d.picker.map(function (p, i) {
+          var label = p.type || L("tool.file");
+          if (p.resolution) label += " · " + p.resolution;
+          else if (p.quality) label += " · " + p.quality;
+          return {
+            label: label + " " + (i + 1),
+            url: p.url,
+            filename: p.filename,
+            thumb: p.thumb
+          };
+        }), preview);
+      } else {
+        showError(L("tool.error.unknownType"));
+      }
+    });
+  }
+
   function parseOnline(u, name) {
     if (!API) {
       var dl = winDlUrl();
@@ -447,41 +501,43 @@
       })
     })
       .then(function (r) { return r.json(); })
+      .then(function (d) { handleParseResponse(d, previewPromise); })
+      .catch(function (e) { showError(e && e.message ? e.message : "network"); });
+  }
+
+  function parseCn(u, name) {
+    if (!MEDIA_API) {
+      showDesktopGate(name || "China");
+      return;
+    }
+    showLoading(name);
+    var previewPromise = fetchPreview(u, name, { quality: "720p" }).catch(function () {
+      return { title: "", thumb: "" };
+    });
+    fetch(MEDIA_API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({ url: u })
+    })
+      .then(function (r) { return r.json(); })
       .then(function (d) {
         if (!d || d.status === "error") {
+          // Bilibili often needs remux (DASH) — desktop handles that locally.
+          if (name === "Bilibili" || name === "iQIYI" || name === "Haokan") {
+            showDesktopGate(name);
+            return;
+          }
           var code = d && d.error && d.error.code;
-          var msg = code || (d && d.error && d.error.text) || "—";
+          var msg = (d && d.error && d.error.text) || code || L("tool.error.fetchFail");
           if (code === "error.api.fetch.fail" || code === "error.api.fetch.empty") {
             msg = L("tool.error.fetchFail");
           }
           showError(msg);
           return;
         }
-        previewPromise.then(function (preview) {
-          if (!preview.title && d.filename) {
-            preview.title = String(d.filename).replace(/\.[^.]+$/, "");
-          }
-          if (d.status === "tunnel" || d.status === "redirect") {
-            showReady([{ label: L("tool.dl.video"), url: d.url, filename: d.filename }], preview);
-          } else if (d.status === "picker" && Array.isArray(d.picker)) {
-            preview = previewFromPicker(d.picker, preview);
-            showReady(d.picker.map(function (p, i) {
-              var label = p.type || L("tool.file");
-              if (p.resolution) label += " · " + p.resolution;
-              else if (p.quality) label += " · " + p.quality;
-              return {
-                label: label + " " + (i + 1),
-                url: p.url,
-                filename: p.filename,
-                thumb: p.thumb
-              };
-            }), preview);
-          } else {
-            showError(L("tool.error.unknownType"));
-          }
-        });
+        handleParseResponse(d, previewPromise);
       })
-      .catch(function (e) { showError(e && e.message ? e.message : "network"); });
+      .catch(function () { showDesktopGate(name || ""); });
   }
 
   function run() {
@@ -491,6 +547,7 @@
     lastRun = { u: u, c: c };
     setGoBusy(true);
     if (c.type === "invalid") { showError(L("tool.error.invalid")); return; }
+    if (c.type === "cn") { track("parse_start", { platform: c.name }); parseCn(u, c.name || ""); return; }
     if (c.type === "online") { track("parse_start", { platform: c.name }); parseOnline(u, c.name || ""); return; }
     if (ytId(u)) { showYouTubePreview(u); return; }
     showDesktopGate(displayName(c));
@@ -502,6 +559,7 @@
     var u = lastRun.u;
     var c = lastRun.c;
     setGoBusy(true);
+    if (c.type === "cn") { parseCn(u, c.name || ""); return; }
     if (c.type === "online") { parseOnline(u, c.name || ""); return; }
     if (ytId(u)) { showYouTubePreview(u); return; }
     if (c.type === "invalid") { showError(L("tool.error.invalid")); return; }

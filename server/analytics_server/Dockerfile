@@ -6,4 +6,5 @@ COPY . .
 ENV DATA_DIR=/data
 RUN mkdir -p /data
 EXPOSE 8090
-CMD ["gunicorn", "-b", "0.0.0.0:8090", "-w", "2", "--timeout", "120", "app:APP"]
+# Longer timeout: /v1/media/parse may call yt-dlp / Cobalt.
+CMD ["gunicorn", "-b", "0.0.0.0:8090", "-w", "2", "--timeout", "180", "app:APP"]

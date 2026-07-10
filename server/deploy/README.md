@@ -1,6 +1,20 @@
 # Deploy FluxGrab API stack on api.fluxgrab.com
 
-Services: **Cobalt** (online parse) + **Analytics** (stats admin + Lemon webhooks) + **Caddy** (HTTPS).
+Services: **Cobalt** (online parse) + **Analytics** (stats, Stripe, `/v1/media/parse` for CN platforms) + **Caddy** (HTTPS).
+
+## China platforms (Douyin / Bilibili / …)
+
+`POST https://api.fluxgrab.com/v1/media/parse` with `{"url":"..."}` returns Cobalt-compatible JSON (`status` + direct `url`). Runs on the existing analytics container (yt-dlp + optional Cobalt fallback). No extra VPS cost.
+
+Optional server cookies (improves Douyin/Bilibili success rate):
+
+```bash
+docker exec -it analytics-api mkdir -p /data/cookies
+# copy a Netscape cookies.txt from your browser export:
+docker cp cookies.txt analytics-api:/data/cookies/cookies.txt
+```
+
+Website and desktop app call this endpoint for CN hosts; other sites still use Cobalt / local yt-dlp.
 
 ## 1. Upload to server
 

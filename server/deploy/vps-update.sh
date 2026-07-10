@@ -1,5 +1,5 @@
 #!/bin/bash
-# FluxGrab VPS — pull latest API routes (/v1/ads, /v1/preview) and rebuild analytics.
+# FluxGrab VPS — pull latest API routes (/v1/ads, /v1/preview, /v1/media/parse) and rebuild.
 # Run on the Linux server (DigitalOcean Web Console), NOT on Windows PowerShell:
 #   curl -fsSL https://raw.githubusercontent.com/1391204657/fluxgrab/main/server/deploy/vps-update.sh | bash
 set -euo pipefail
@@ -21,6 +21,12 @@ elif [ -d "$BASE" ]; then
   git clone --depth 1 "$REPO_URL" "$BASE/repo-sync"
   mkdir -p "$DEPLOY"
   cp -f "$BASE/repo-sync/server/deploy/"* "$DEPLOY/" 2>/dev/null || true
+  # Keep analytics_server in sync when not a full git checkout
+  if [ -d "$BASE/repo-sync/server/analytics_server" ]; then
+    rm -rf "$BASE/server/analytics_server"
+    mkdir -p "$BASE/server"
+    cp -a "$BASE/repo-sync/server/analytics_server" "$BASE/server/"
+  fi
   rm -rf "$BASE/repo-sync"
 else
   echo "-> fresh clone to $BASE"
@@ -50,10 +56,15 @@ docker compose down 2>/dev/null || true
 docker compose up -d --build
 
 echo "-> wait"
-sleep 5
+sleep 8
 echo ""
 echo "health:"
 curl -fsSL "https://api.fluxgrab.com/health" || curl -fsSL "http://127.0.0.1/health" || true
+echo ""
+echo "media parse route:"
+curl -fsSL -X POST "https://api.fluxgrab.com/v1/media/parse" \
+  -H "Content-Type: application/json" -H "Accept: application/json" \
+  -d '{"url":"https://www.bilibili.com/video/BV1xx411c7mD"}' | head -c 400 || true
 echo ""
 echo "ads:"
 curl -fsSL "https://api.fluxgrab.com/v1/ads" || true

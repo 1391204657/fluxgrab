@@ -28,6 +28,7 @@ from flask import (
 
 import db
 import licenses
+import media_parse
 
 APP = Flask(__name__)
 APP.secret_key = os.environ.get("FLUXGRAB_SECRET", "change-me-in-production")
@@ -70,6 +71,7 @@ def _cors(resp: Response) -> Response:
         resp.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
         resp.headers["Access-Control-Allow-Headers"] = "Content-Type, Accept"
         resp.headers["Vary"] = "Origin"
+    # Desktop / curl have no Origin — still allow JSON responses.
     return resp
 
 
@@ -163,6 +165,29 @@ def _fmt_money(cents: int, currency: str = "USD") -> str:
 @APP.route("/health")
 def health():
     return jsonify({"ok": True, "service": "fluxgrab-analytics"})
+
+
+@APP.route("/v1/media/parse", methods=["POST", "OPTIONS"])
+def media_parse_endpoint():
+    """Server-side parse for CN platforms (Douyin/Bilibili/…). Cobalt-compatible JSON."""
+    if request.method == "OPTIONS":
+        return _cors(Response("", 204))
+
+    data = request.get_json(silent=True) or {}
+    url = (data.get("url") or request.args.get("url") or "").strip()
+    if not url:
+        return _cors(
+            jsonify(
+                {
+                    "status": "error",
+                    "error": {"code": "error.api.invalid_body", "text": "missing url"},
+                }
+            )
+        ), 400
+
+    result = media_parse.parse_media(url)
+    code = 200 if result.get("status") != "error" else 400
+    return _cors(jsonify(result)), code
 
 
 @APP.route("/v1/ads", methods=["GET", "OPTIONS"])

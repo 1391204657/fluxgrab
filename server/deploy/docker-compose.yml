@@ -33,9 +33,15 @@ services:
       SMTP_PASS: ${SMTP_PASS:-}
       SMTP_FROM: ${SMTP_FROM:-support@fluxgrab.com}
       CORS_ORIGINS: "https://fluxgrab.com,https://www.fluxgrab.com"
+      COBALT_INTERNAL_URL: "http://cobalt-api:9000/"
+      MEDIA_COOKIES_DIR: /data/cookies
+      # Optional self-hosted hybrid API (Evil0ctal). Empty = disabled.
+      MEDIA_HYBRID_URL: ${MEDIA_HYBRID_URL:-}
     volumes:
       - analytics_data:/data
     networks: [web]
+    depends_on:
+      - cobalt-api
 
   caddy:
     image: caddy:2

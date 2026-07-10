@@ -8,6 +8,7 @@ window.FLUXGRAB_CONFIG = {
   PREMIUM_URL: "/premium.html",
   DOWNLOAD_WIN_URL: "https://github.com/1391204657/fluxgrab/releases/latest/download/FluxGrab-Windows.zip",
   COBALT_API_URL: "https://api.fluxgrab.com/",
+  MEDIA_PARSE_URL: "https://api.fluxgrab.com/v1/media/parse",
   // Fallback if API /v1/ads is unreachable
   VPN_AFFILIATE_URL: "https://go.nordvpn.net/aff_c?offer_id=15&aff_id=152040&aff_sub=fluxgrab",
   VPN_NAME: "NordVPN",
