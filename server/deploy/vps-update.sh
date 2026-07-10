@@ -61,10 +61,12 @@ echo ""
 echo "health:"
 curl -fsSL "https://api.fluxgrab.com/health" || curl -fsSL "http://127.0.0.1/health" || true
 echo ""
-echo "media parse route:"
-curl -fsSL -X POST "https://api.fluxgrab.com/v1/media/parse" \
+echo "media parse route (400 = parse failed, route is OK if JSON returned):"
+# Do not use curl -f: parse failures intentionally return HTTP 400 with JSON body.
+curl -sS -X POST "https://api.fluxgrab.com/v1/media/parse" \
   -H "Content-Type: application/json" -H "Accept: application/json" \
-  -d '{"url":"https://www.bilibili.com/video/BV1xx411c7mD"}' | head -c 400 || true
+  -d '{"url":"https://www.bilibili.com/video/BV1xx411c7mD"}' | head -c 500 || true
+echo ""
 echo ""
 echo "ads:"
 curl -fsSL "https://api.fluxgrab.com/v1/ads" || true
