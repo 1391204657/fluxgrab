@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Help &amp; Support — FluxGrab</title>
+  <meta name="description" content="FluxGrab documentation, FAQs, and contact form for bug reports and feature requests." />
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <header class="nav nav-compact">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html"><img class="logo" src="assets/logo.svg" alt="" /><span>Flux<b>Grab</b></span></a>
+      <div class="nav-cta">
+        <a class="btn btn-ghost btn-sm" href="premium.html" data-i18n="nav.premium">Get Pro</a>
+        <a class="btn btn-ghost btn-sm" href="index.html" data-i18n="nav.backHome">← Home</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="help-page container">
+    <div class="help-hero">
+      <h1 data-i18n="help.title">Documentation &amp; support</h1>
+      <p class="muted" data-i18n="help.lead">Guides, common questions, and a way to reach us.</p>
+    </div>
+
+    <div class="help-grid">
+      <section class="help-panel">
+        <h2 data-i18n="help.start.h2">Getting started</h2>
+        <ul class="help-links">
+          <li><a href="index.html#download" data-i18n="help.start.l1">Download the desktop app (Windows)</a></li>
+          <li><a href="guides/download-tiktok-videos.html" data-i18n="help.start.l2">How to download TikTok videos</a></li>
+          <li><a href="guides/download-youtube-videos.html" data-i18n="help.start.l3">How to download YouTube videos</a></li>
+          <li><a href="guides/" data-i18n="help.start.l4">All guides</a></li>
+        </ul>
+      </section>
+
+      <section class="help-panel" id="refund">
+        <h2 data-i18n="help.bill.h2">Pro &amp; billing</h2>
+        <ul class="help-links">
+          <li><a href="premium.html" data-i18n="help.bill.l1">Buy Pro — pricing &amp; payment methods</a></li>
+          <li><a href="premium.html#payment" data-i18n="help.bill.l2">Alipay, PayPal, cards &amp; local currency</a></li>
+          <li><a href="refund.html" data-i18n="help.bill.l3">Refund policy (30 days)</a></li>
+          <li><a href="#contact" data-i18n="help.bill.l5">Apply for a refund</a></li>
+          <li><a href="thanks.html" data-i18n="help.bill.l4">After purchase — license email</a></li>
+        </ul>
+      </section>
+
+      <section class="help-panel">
+        <h2 data-i18n="help.cookie.h2">Cookies &amp; Bilibili</h2>
+        <ul class="help-links">
+          <li><a href="guides/bilibili-cookies.html" data-i18n="help.cookie.l1">How to import cookies.txt (fix 412 errors)</a></li>
+        </ul>
+      </section>
+
+      <section class="help-panel">
+        <h2 data-i18n="help.top.h2">Popular topics</h2>
+        <ul class="help-links">
+          <li><a href="index.html#faq" data-i18n="help.top.l1">Is FluxGrab free?</a></li>
+          <li><a href="youtube-downloader.html" data-i18n="help.top.l2">YouTube downloader</a></li>
+          <li><a href="tiktok-downloader.html" data-i18n="help.top.l3">TikTok downloader</a></li>
+          <li><a href="terms.html" data-i18n="help.top.l4">Terms of service</a></li>
+          <li><a href="privacy.html" data-i18n="help.top.l5">Privacy policy</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <section class="help-contact" id="contact">
+      <h2 data-i18n="help.contact.h2">Contact us</h2>
+      <p data-i18n="help.contact.p1">Bug report, feature idea, or billing question — we read every message.</p>
+      <p class="muted small" data-i18n="help.contact.refundHint">For refund requests within 30 days, include your order ID and checkout email in the message below.</p>
+      <p><strong data-i18n="help.contact.email">Email:</strong> <a href="mailto:support@fluxgrab.com">support@fluxgrab.com</a></p>
+
+      <form id="feedbackForm" class="feedback-form">
+        <label>
+          <span data-i18n="help.form.email">Your email</span>
+          <span class="muted" data-i18n="help.form.emailHint">(optional, so we can reply)</span>
+          <input type="email" name="email" autocomplete="email" data-i18n-placeholder="help.form.emailPh" placeholder="you@example.com" />
+        </label>
+        <label>
+          <span data-i18n="help.form.message">Message</span>
+          <span class="muted" data-i18n="help.form.messageHint">(required)</span>
+          <textarea name="message" rows="6" required minlength="3" data-i18n-placeholder="help.form.messagePh" placeholder="Describe your issue or suggestion…"></textarea>
+        </label>
+        <button type="submit" class="btn btn-primary" data-i18n="help.form.submit">Send feedback</button>
+        <p id="feedbackStatus" class="feedback-status" hidden></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site">
+    <div class="container foot-bottom">
+      <span>© <span id="year">2026</span> FluxGrab</span>
+      <span><a href="premium.html" data-i18n="foot.pro">Pro</a> · <a href="terms.html" data-i18n="foot.terms">Terms</a> · <a href="privacy.html" data-i18n="foot.privacy">Privacy</a></span>
+    </div>
+  </footer>
+
+  <script src="assets/lang-nav.js"></script>
+  <script src="assets/i18n.js"></script>
+  <script src="assets/help-form.js"></script>
+  <script src="assets/analytics.js"></script>
+  <script>FluxGrabI18n.init();</script>
+</body>
+</html>

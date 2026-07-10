@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="refund.title">Refund Policy — FluxGrab</title>
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html"><img class="logo" src="assets/logo.svg" alt="" /><span>Flux<b>Grab</b></span></a>
+      <div class="nav-cta"><a class="btn btn-ghost" href="index.html" data-i18n="nav.backHome">← Back to home</a></div>
+    </div>
+  </header>
+
+  <main class="container">
+    <article class="legal">
+      <h1 data-i18n="refund.h1">Refund Policy</h1>
+      <p class="updated"><span data-i18n="refund.updated">Last updated:</span> <span data-updated>2026</span></p>
+
+      <p data-i18n="refund.intro">We want you to be happy with FluxGrab. Because a free plan is available for you to try the core experience before purchasing, please evaluate it first. That said, we offer the following refund terms for Pro purchases.</p>
+
+      <h2 data-i18n="refund.h2.guarantee">30-day money-back guarantee</h2>
+      <p data-i18n="refund.p1">If FluxGrab Pro doesn't work for you, you may request a full refund within 30 days of your purchase. Just email us with your order ID.</p>
+
+      <h2 data-i18n="refund.h2.after">After a refund</h2>
+      <p data-i18n="refund.p2">When a refund is approved, your Pro license key is disabled automatically. You will return to the free plan limits. To use Pro again, please purchase a new license.</p>
+
+      <h2 data-i18n="refund.h2.how">How to request a refund</h2>
+      <p data-i18n-html="refund.p3">Send an email to <a href="mailto:support@fluxgrab.com">support@fluxgrab.com</a> from the address used at checkout, including your order ID and a short note about the issue. We'll process eligible refunds to your original payment method, typically within 5–10 business days.</p>
+
+      <h2 data-i18n="refund.h2.exceptions">Exceptions</h2>
+      <ul>
+        <li data-i18n="refund.exc1">Requests made after the 30-day window may be declined.</li>
+        <li data-i18n="refund.exc2">We may decline refunds in cases of clear abuse (for example, repeated purchase-and-refund cycles).</li>
+      </ul>
+
+      <p data-i18n="refund.legal">This policy does not limit any statutory rights you may have under applicable consumer protection laws.</p>
+
+      <h2 data-i18n="refund.h2.contact">Contact</h2>
+      <p data-i18n-html="refund.p4">Questions? Email <a href="mailto:support@fluxgrab.com">support@fluxgrab.com</a>.</p>
+    </article>
+  </main>
+
+  <footer class="site"><div class="container foot-bottom"><span>© <span data-updated>2026</span> FluxGrab.</span><span><a href="terms.html" style="color:var(--brand)" data-i18n="foot.terms">Terms</a> · <a href="privacy.html" style="color:var(--brand)" data-i18n="foot.privacy">Privacy</a></span></div></footer>
+  <script src="assets/app.js"></script>
+  <script src="assets/lang-nav.js"></script>
+  <script src="assets/i18n.js"></script>
+  <script>FluxGrabI18n.init(); document.querySelectorAll('[data-updated]').forEach(function(e){e.textContent=new Date().getFullYear();});</script>
+</body>
+</html>

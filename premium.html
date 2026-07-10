@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FluxGrab Pro — Lifetime License</title>
+  <meta name="description" content="One-time purchase for unlimited 4K downloads, MP3 export, and lifetime updates. Secure checkout via Stripe — cards, PayPal, and more." />
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="page-premium">
+  <header class="nav nav-compact">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html"><img class="logo" src="assets/logo.svg" alt="" /><span>Flux<b>Grab</b></span></a>
+      <div class="nav-cta">
+        <a class="btn btn-ghost btn-sm" href="help.html" data-i18n="nav.help">Help</a>
+        <a class="btn btn-ghost btn-sm" href="index.html" data-i18n="nav.backHome">← Home</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="premium-page">
+    <section class="premium-hero container">
+      <div class="premium-card">
+        <span class="tag" data-i18n="premium.tag">LIFETIME</span>
+        <h1 data-i18n="premium.h1">Get your lifetime license</h1>
+        <ul class="premium-perks">
+          <li data-i18n="premium.perk1">Unlimited downloads</li>
+          <li data-i18n="premium.perk2">Up to 4K quality &amp; MP3 export</li>
+          <li data-i18n="premium.perk3">Use on your personal Windows PCs</li>
+          <li data-i18n="premium.perk4">All future updates included</li>
+          <li data-i18n="premium.perk5">Priority support</li>
+        </ul>
+        <div class="premium-price">
+          <span class="amount">$19.9</span>
+          <span class="amount-cny" data-i18n="premium.priceCny">WeChat Pay ≈ ¥138 CNY</span>
+          <span class="note" data-i18n="premium.priceNote">one-time · no subscription</span>
+        </div>
+        <div class="premium-actions">
+          <a class="btn btn-ghost btn-lg premium-refund-link" href="refund.html">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span data-i18n="premium.refund">30-day money-back guarantee</span>
+          </a>
+          <a class="btn btn-primary btn-lg" href="#" id="paymentBtn" data-i18n="premium.cta">Proceed to payment</a>
+        </div>
+        <p class="premium-local" data-i18n="premium.local">Checkout shows price in your local currency (USD, CNY, EUR, etc.) when available.</p>
+      </div>
+
+      <div class="payment-methods" id="payment">
+        <h2 data-i18n="premium.pay.h2">Supported payment methods</h2>
+        <p data-i18n="premium.pay.lead">Payments are processed securely by our checkout partner. We never see or store your card or wallet details.</p>
+        <p class="muted small pay-click-hint" data-i18n="premium.pay.clickHint">Click a method below or use Proceed to payment — you will complete checkout on Stripe.</p>
+        <p class="pay-email-note" data-i18n="premium.pay.emailNote">Email required on checkout — your Pro license key is sent there after payment (all payment methods).</p>
+        <div class="pay-grid pay-grid-icons">
+          <button type="button" class="pay-item pay-click" data-pay="card">
+            <div class="pay-icon-row">
+              <img src="assets/pay/visa.svg" alt="Visa" width="48" height="32" />
+              <img src="assets/pay/mastercard.svg" alt="Mastercard" width="48" height="32" />
+            </div>
+            <span data-i18n="premium.pay.visa">Visa / Mastercard</span>
+          </button>
+          <button type="button" class="pay-item pay-click" data-pay="paypal">
+            <img src="assets/pay/paypal.svg" alt="PayPal" width="48" height="32" />
+            <span data-i18n="premium.pay.paypal">PayPal</span>
+          </button>
+          <button type="button" class="pay-item pay-click" data-pay="apple">
+            <img src="assets/pay/apple-pay.svg" alt="Apple Pay" width="48" height="32" />
+            <span data-i18n="premium.pay.apple">Apple Pay</span>
+          </button>
+          <button type="button" class="pay-item pay-click" data-pay="google">
+            <img src="assets/pay/google-pay.png" alt="Google Pay" width="40" height="40" class="pay-icon-square" />
+            <span data-i18n="premium.pay.google">Google Pay</span>
+          </button>
+          <button type="button" class="pay-item pay-click" data-pay="alipay">
+            <img src="assets/pay/alipay.png" alt="Alipay" width="40" height="40" class="pay-icon-square" />
+            <span data-i18n="premium.pay.alipay">Alipay</span>
+          </button>
+          <button type="button" class="pay-item pay-click" data-pay="wechat">
+            <img src="assets/pay/wechat-pay.svg" alt="WeChat Pay" width="48" height="32" />
+            <span data-i18n="premium.pay.wechat">WeChat Pay</span>
+          </button>
+          <button type="button" class="pay-item pay-click" data-pay="unionpay">
+            <img src="assets/pay/unionpay.png" alt="UnionPay" width="48" height="32" class="pay-icon-square" />
+            <span data-i18n="premium.pay.unionpay">UnionPay</span>
+          </button>
+        </div>
+        <p class="muted small" data-i18n="premium.pay.note">Checkout is powered by Stripe. WeChat Pay and Alipay show CNY on the Stripe page when available.</p>
+      </div>
+    </section>
+
+    <section class="container premium-faq">
+      <h2 data-i18n="premium.faq.h2">Frequently asked questions</h2>
+      <div class="faq">
+        <details class="qa" open>
+          <summary data-i18n="premium.faq.q1">How does payment work?</summary>
+          <p data-i18n-html="premium.faq.a1">Click <strong>Proceed to payment</strong> to open Stripe secure checkout ($19.90 USD). You can pay with credit/debit cards, PayPal, Apple Pay, or Google Pay when shown. Alipay and WeChat Pay will be added after Stripe enables them for our account.</p>
+        </details>
+        <details class="qa">
+          <summary data-i18n="premium.faq.q2">Can I use my license on multiple devices?</summary>
+          <p data-i18n-html="premium.faq.a2">Yes — for <strong>your own</strong> Windows PCs. One license key allows up to <strong>3 simultaneous activations</strong> (e.g. desktop + laptop + spare PC). Each activation is tied to one computer. If you replace a machine or reach the limit, email <a href="mailto:support@fluxgrab.com">support@fluxgrab.com</a> and we can reset activations.</p>
+        </details>
+        <details class="qa">
+          <summary data-i18n="premium.faq.q3">Are updates included?</summary>
+          <p data-i18n-html="premium.faq.a3">Yes — lifetime access, all versions, no expiration date.</p>
+        </details>
+        <details class="qa">
+          <summary data-i18n="premium.faq.q4">What if I need a refund?</summary>
+          <p data-i18n-html="premium.faq.a4">We offer a <strong>30-day money-back guarantee</strong>. See our <a href="refund.html">refund policy</a> or email <a href="mailto:support@fluxgrab.com">support@fluxgrab.com</a>.</p>
+        </details>
+        <details class="qa">
+          <summary data-i18n="premium.faq.q5">More questions?</summary>
+          <p data-i18n-html="premium.faq.a5">Visit the <a href="help.html">help center</a> or <a href="help.html#contact">send us feedback</a>.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site">
+    <div class="container foot-bottom">
+      <span>© <span id="year">2026</span> FluxGrab</span>
+      <span><a href="terms.html" data-i18n="foot.terms">Terms</a> · <a href="privacy.html" data-i18n="foot.privacy">Privacy</a> · <a href="help.html" data-i18n="nav.help">Help</a></span>
+    </div>
+  </footer>
+
+  <script src="assets/app.js"></script>
+  <script src="assets/lang-nav.js"></script>
+  <script src="assets/i18n.js"></script>
+  <script src="assets/premium-pay.js"></script>
+  <script src="assets/analytics.js"></script>
+  <script>FluxGrabI18n.init();</script>
+</body>
+</html>

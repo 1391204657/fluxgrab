@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="48" viewBox="0 0 96 48" role="img" aria-label="NordVPN">
+  <defs>
+    <linearGradient id="nord" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5b8cff"/>
+      <stop offset="100%" stop-color="#3a6fe8"/>
+    </linearGradient>
+  </defs>
+  <rect width="96" height="48" rx="10" fill="url(#nord)"/>
+  <path fill="#fff" d="M48 10c-6.2 0-11.2 4.2-11.2 9.4 0 3.1 1.8 5.8 4.6 7.4L48 34l6.6-7.2c2.8-1.6 4.6-4.3 4.6-7.4C59.2 14.2 54.2 10 48 10z"/>
+  <text x="48" y="43" text-anchor="middle" fill="#fff" font-family="Segoe UI, Arial, sans-serif" font-size="9" font-weight="700" letter-spacing=".04em">NORDVPN</text>
+</svg>
